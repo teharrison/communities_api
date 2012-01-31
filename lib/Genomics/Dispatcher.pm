@@ -10,6 +10,7 @@ use Data::Dumper;
 use LWP::UserAgent;
 use HTTP::Request;
 use File::Temp;
+use Digest::MD5 qw(md5_hex);
 
 use Genomics;
 use GenomicsUtils;
@@ -37,14 +38,17 @@ print $isoFh $isolateSeqs;
 close $isoFh;
 my $mgJson=$self->getMgSeqs($params);
 my $mgSeqs=$json->decode($mgJson);
-my $mgSeqId=1;
+my %mgSeqMD5s;
 
 # format $mgSeqs as fasta
 my $mgTemplate='/tmp/'.$params->{'mgId'}.'.XXXXXX';
 my $mgFh=new File::Temp (TEMPLATE=>$mgTemplate,SUFFIX=>'.faa');
 foreach my $seq (@{$mgSeqs->{$params->{'protFamName'}}})
 {
-	print $mgFh ">MG$mgSeqId\n$seq\n";
+	my $mgSeqMD5=md5_hex($seq);
+	++$mgSeqMD5s{$mgSeqMD5};
+	my $mgSeqId='MD5_'.$mgSeqMD5.'_'.$mgSeqMD5s{$mgSeqMD5};
+	print $mgFh ">$mgSeqId\n$seq\n";
 	++$mgSeqId;
 }
 close $mgFh;
@@ -54,10 +58,14 @@ close $uclustFh;
 # run uclust
 my $uclustProc=`/usr2/people/kkeller/kbase/comm/cogget/uclust1.1.579q_i86linux64 --quiet --amino --libonly --id 0.70 --input $mgFh --lib $isoFh --uc $uclustFh`;
 
-my $uclustOut=`cat $uclustFh`;
+my $uclustOut=$uclustFh;
 
 my $isolateTree=$self->getTree($params);
 
+$params->{'qiimeUclustFile'}=$uclustFh;
+my $parsedQiimeUclust=$self->parseQiimeUclust($params);
+
+return $parsedQiimeUclust;
 return $uclustOut;
 return $isolateSeqs.
 	"\n==\n".
@@ -216,5 +224,127 @@ sub addWarning($) {
     return();
 }
 
+
+# Given a domain family name, return newick tree with locus ids translated to MD5
+#
+# Still need:
+# 0. format as JSON object for REST API (http://en.wikipedia.org/wiki/Representational_state_transfer)
+# 1. translate locusIds to MD5
+# 2. remove unauthorized loci
+# 3. taxonomyIds in header
+# 4. abundance calculations?
+
+sub parseQiimeUclust {
+
+	my $self=shift;
+	my $params=shift;
+
+    my $json = new JSON;
+    my $protFamName = $params->{'protFamName'};
+
+    unless (defined $protFamName) {
+		fail("No protFamName provided");
+    }
+
+    # protFamName formats (type: name)
+    # COG: COG1
+    # PFAM: PF00001
+    # TIGRFAMs: TIGR00001
+    # 16S: 16S, 23S: 23S, 5S: 5S
+    # Adhoc: Adhoc10006076.1
+    # GENE3D: 2h7iA00, 2hbwA01, 2hbwA02
+    # PIRSF: PIRSF000006
+    # SMART: SM00004
+    # SSF: SSFmodel0053616
+    # species: Set1, BacterialTree, Bork, FastTreeCombined, GuideTree, MOSpeciesTree
+
+    $protFamName = formatProtFamName ($protFamName);
+
+    my $tree_query = qq{ SELECT newick FROM Tree where name = '$protFamName' };
+    my $newick = queryScalar($tree_query);
+#    Browser::DB::dbDisconnect();
+    fail("Database error while finding tree for $protFamName") if !defined $newick;
+#    print STDERR "Loaded tree\n" if $debug;
+
+    
+    #
+    # KEITH, START HERE
+    #
+
+    # remove region info from leaf_ids
+    $newick =~ s/\((\d+\_\d+)\_\d+\_\d+/\($1/g;
+    $newick =~ s/\,(\d+\_\d+)\_\d+\_\d+/\,$1/g;
+
+    my @metagenomes = qw (4442582.3 4447970.3 4447971.3);  # DEBUG
+
+    # Read QIIME-UCLUST output
+    #
+    my $qiime_uclust = {};
+    my %leaf_Ids = ();
+    
+    foreach my $mg_Id (@metagenomes) {
+
+	# DEBUG
+#	$protFamName = 'COG0056';
+#	my $uclust_out = "/usr2/people/kkeller/kbase/comm/decorateTrees/4443707.3_4443705.3_COG0056.uc";
+	my $uclust_out = $params->{'qiimeUclustFile'};
+
+	open (QIIME_UCLUST_OUT, $uclust_out);
+	while (my $line = <QIIME_UCLUST_OUT>) {
+	    chomp $line;
+	    next if ($line !~ /^H/);
+	    my ($Type, $ClusterNr, $SeqLength, $PctId, $Strand, $QueryStart, $SeedStart, $Alignment, $QueryLabel, $TargetLabel) = split (/\t/, $line);
+	    
+	    $leaf_Ids{$TargetLabel} = 1;
+	    ++$qiime_uclust->{$mg_Id}->{$TargetLabel}->{cnt};
+
+	    $qiime_uclust->{$mg_Id}->{$TargetLabel}->{hits}->{$QueryLabel}->{SeqLength} = $SeqLength;
+	    $qiime_uclust->{$mg_Id}->{$TargetLabel}->{hits}->{$QueryLabel}->{PctId} = $PctId;
+	    $qiime_uclust->{$mg_Id}->{$TargetLabel}->{hits}->{$QueryLabel}->{QueryStart} = $QueryStart;
+	    $qiime_uclust->{$mg_Id}->{$TargetLabel}->{hits}->{$QueryLabel}->{SeedStart} = $SeedStart;
+	    $qiime_uclust->{$mg_Id}->{$TargetLabel}->{hits}->{$QueryLabel}->{Alignment} = $Alignment;
+	}
+	close (QIIME_UCLUST);
+    }
+
+
+    # DEBUG
+#    print "Content-type: text/plain\n\n";
+    #print "'$tree_query'\n";
+    #print $newick."\n";
+
+
+    my %tax_header = ();
+    my @sorted_leaf_Ids = sort keys %leaf_Ids;
+    foreach my $leaf_Id (@sorted_leaf_Ids) {
+		$tax_header{$leaf_Id} = "IDONTHAVEATAXIDYET";
+    }
+
+    my %alignments = ();
+    foreach my $mg_Id (@metagenomes) {
+		$alignments{'mgId-'.$mg_Id} = +{};
+		foreach my $leaf_Id (@sorted_leaf_Ids) {
+		    $alignments{'mgId-'.$mg_Id}->{'leafId-'.$leaf_Id}->{cnt} = $qiime_uclust->{$mg_Id}->{$leaf_Id}->{cnt};
+		    foreach my $QueryLabel (keys %{$qiime_uclust->{$mg_Id}->{$leaf_Id}->{hits}}) {
+				#$alignments{'mgId-'.$mg_Id}->{'leafId-'.$leaf_Id}->{$QueryLabel}->{mg_seq} = $mg_seqs{$QueryLabel};
+				$alignments{'mgId-'.$mg_Id}->{'leafId-'.$leaf_Id}->{$QueryLabel}->{mg_seq} = 'NEED_MG_SEQ!';
+				$alignments{'mgId-'.$mg_Id}->{'leafId-'.$leaf_Id}->{$QueryLabel}->{SeqLength} = $qiime_uclust->{$mg_Id}->{$leaf_Id}->{hits}->{$QueryLabel}->{SeqLength};
+				$alignments{'mgId-'.$mg_Id}->{'leafId-'.$leaf_Id}->{$QueryLabel}->{PctId} = $qiime_uclust->{$mg_Id}->{$leaf_Id}->{hits}->{$QueryLabel}->{PctId};
+				$alignments{'mgId-'.$mg_Id}->{'leafId-'.$leaf_Id}->{$QueryLabel}->{QueryStart} = $qiime_uclust->{$mg_Id}->{$leaf_Id}->{hits}->{$QueryLabel}->{QueryStart};
+				$alignments{'mgId-'.$mg_Id}->{'leafId-'.$leaf_Id}->{$QueryLabel}->{SeedStart} = $qiime_uclust->{$mg_Id}->{$leaf_Id}->{hits}->{$QueryLabel}->{SeedStart};
+				$alignments{'mgId-'.$mg_Id}->{'leafId-'.$leaf_Id}->{$QueryLabel}->{Alignment} = $qiime_uclust->{$mg_Id}->{$leaf_Id}->{hits}->{$QueryLabel}->{Alignment};
+	    	}
+		}
+    }
+
+    my $data = { 'metagenomes' => \@metagenomes,
+                 'protFamName' => $protFamName,
+                 'leaf_taxonomy' => \%tax_header,
+                 'alignments' => \%alignments,
+	         'newick' => $newick 
+	       }; 
+    return $json->encode ($data);
+
+}
 
 1;
