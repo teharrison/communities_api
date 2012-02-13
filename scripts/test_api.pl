@@ -21,6 +21,7 @@ my $force   = 0  ;
 my $resource = 'project';
 my $id       = '';
 my $url      = '';
+my $object   = 0 ;
 my @params;
 my %query;
 
@@ -32,7 +33,8 @@ GetOptions (
 	    'resource=s'   => \$resource,
 	    'url=s'        => \$url,
 	    'query=s'      => \%query,
-	    'param=s@'      => \@params,
+	    'param=s@'     => \@params,
+	    'object'       => \$object,
     );
 
 
@@ -42,7 +44,7 @@ GetOptions (
 my $json = JSON->new->allow_nonref;
 
 my $ua = LWP::UserAgent->new;
-$ua->agent("MGRAST/0.1 ");
+$ua->agent("KBASE/0.1 ");
 
 
 print Dumper @params ;
@@ -59,7 +61,14 @@ if( keys %query){
   $data = $c->query($resource , \%query , \@params) ;
 }
 else{
-  $data = $c->request($resource , $id , '' , \@params) ;
+  if ($object){
+    
+    if($resource eq 'Project'){ $data = $c->project($id) }
+
+  }
+  else{
+    $data = $c->request($resource , $id , '' , \@params);
+  }
 }
 
 unless($data){
