@@ -1,0 +1,21 @@
+
+export( 
+.kbGetServer,
+.kbSetServer,
+.kbGetAuth,
+.kbSetAuth,
+.kbCallRaw,
+.kbTestParams,
+.kbServers,
+.kbNamespaces,
+.Last.lib,
+kbListAll,
+kbAnnotationLookup,
+kbSearchMetagenomes,
+kbGet,
+.shew,
+.shh,
+.hold )
+
+
+import( RJSONIO, RCurl, matlab, ecodist, Cairo, gplots )

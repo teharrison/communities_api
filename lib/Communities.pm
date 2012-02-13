@@ -1,4 +1,4 @@
-package kbase::Communities ;
+package Communities ;
 
 use strict;
 use warnings;
@@ -16,7 +16,7 @@ my $json = JSON->new->allow_nonref;
 
 my $c = {
 	 base_url  => "http://api.metagenomics.anl.gov" ,
-	 method    => 'GET' ,
+	 method    => '' ,
 	 json      => $json ,
 	 auth      => '' ,
 	};
@@ -49,7 +49,7 @@ sub request {
 
   # build request
   my $request = $c->base_url . "/$resource";
-  print Dumper $params ;
+  #print Dumper $params ;
   # build parameter string
   my $param = '' ;
   if ($params and ref $params and scalar @$params){
@@ -76,12 +76,12 @@ sub request {
   }
   
   # get data
-  print  "curl --silent --compressed $request $param\n";
+  #print  "curl --silent --compressed $request $param\n";
   my $content = `curl --silent --compressed $request $param` ;
 
   # build perl data structure
 
-  print Dumper $content ;
+  #print Dumper $content ;
 
   my $data = 0 ;
   if ($content =~ /ERROR/) {
