@@ -52,7 +52,7 @@ deploy-libs:
 	rsync -arv rpc-server/lib/. $(TARGET)/lib/.
 
 deploy-services:
-	$(TPAGE) $(TPAGE_ARGS) service/start_service.tt > $(TARGET)/services/$(SERVICE)/start_service
+	$(TPAGE) $(TPAGE_ARGS) rpc-server/service/start_service.tt > $(TARGET)/services/$(SERVICE)/start_service
 	chmod +x $(TARGET)/services/$(SERVICE)/start_service
-	$(TPAGE) $(TPAGE_ARGS) service/stop_service.tt > $(TARGET)/services/$(SERVICE)/stop_service
+	$(TPAGE) $(TPAGE_ARGS) rpc-server/service/stop_service.tt > $(TARGET)/services/$(SERVICE)/stop_service
 	chmod +x $(TARGET)/services/$(SERVICE)/stop_service
