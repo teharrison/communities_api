@@ -55,9 +55,7 @@ deploy-libs:
 	rsync -arv rpc-server/lib/. $(TARGET)/lib/.
 
 deploy-R:
-	for P in $(RPACKAGES); do \
-		R CMD INSTALL R/dependances/$(P); \
-	done; \
+	R CMD INSTALL R/dependances/*.tar.gz
 	R CMD INSTALL R/KbaseKit.tar
 
 deploy-services:
