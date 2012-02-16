@@ -40,4 +40,17 @@ This function gets a communities metagenome for a given metagenome id.
 */
 	funcdef get_metagenome_by_id(ComMetagenomeID metagenome_id) returns(mapping<string,string>);
 
+/*
+This is a project id for a communities project.
+*/
+
+	typedef string ComProjectID;
+
+/*
+This function gets a communities project given a project id.
+*/
+
+	funcdef get_project_by_id(ComProjectID project_id) returns(mapping<string, string>);
+
+
 };
