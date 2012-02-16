@@ -192,7 +192,7 @@ sub get_metagenome_by_id
     my($return);
     
     #BEGIN get_metagenome_by_id
-	$return = "blah";
+	$return = "GoodbyeWorld";
     #END get_metagenome_by_id
     
     return($return);
@@ -247,6 +247,7 @@ sub get_project_by_id
     my($return);
     
     #BEGIN get_project_by_id
+	$return = $self->{c}->project($project_id);
     #END get_project_by_id
     
     return($return);
