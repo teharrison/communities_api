@@ -30,7 +30,7 @@ bin: $(BIN_PERL)
 $(BIN_DIR)/%: scripts/%.pl 
 	$(TOOLS_DIR)/wrap_perl '$$KB_TOP/modules/$(CURRENT_DIR)/$<' $@
 
-deploy: deploy-dir deploy-scripts deploy-libs deploy-services
+deploy: deploy-dir deploy-scripts deploy-libs deploy-R deploy-services
 
 deploy-dir:
 	if [ ! -d $(SERVICE_DIR) ] ; then mkdir $(SERVICE_DIR) ; fi
@@ -50,6 +50,9 @@ deploy-scripts:
 deploy-libs:
 	rsync -arv lib/. $(TARGET)/lib/.
 	rsync -arv rpc-server/lib/. $(TARGET)/lib/.
+
+deploy-R:
+	echo "R CMD INSTALL blah"
 
 deploy-services:
 	$(TPAGE) $(TPAGE_ARGS) rpc-server/service/start_service.tt > $(TARGET)/services/$(SERVICE)/start_service
