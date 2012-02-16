@@ -12,6 +12,7 @@ This module provides an interface to communities study data.
 =cut
 
 #BEGIN_HEADER
+use Communites;
 #END_HEADER
 
 sub new
@@ -19,7 +20,9 @@ sub new
     my($class) = @_;
     my $self = {
     };
-    #BEGIN_CONSTRUCTOR
+    #BEGIN_CONSTRUCTOR	
+	my $c = Communities->new ;
+	$self->{c} = $c;
     #END_CONSTRUCTOR
 
     bless $self, $class;
@@ -79,6 +82,7 @@ sub get_samply_by_id
     my($return);
     
     #BEGIN get_samply_by_id
+	$return = $self->{c}->sample($sample_id);
     #END get_samply_by_id
     
     return($return);
@@ -133,6 +137,7 @@ sub get_library_by_id
     my($return);
     
     #BEGIN get_library_by_id
+	$return = $self->{c}->library($lib_id);
     #END get_library_by_id
     
     return($return);
@@ -187,6 +192,7 @@ sub get_metagenome_by_id
     my($return);
     
     #BEGIN get_metagenome_by_id
+	$return = "blah";
     #END get_metagenome_by_id
     
     return($return);
