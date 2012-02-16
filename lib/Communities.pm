@@ -6,16 +6,18 @@ use warnings;
 use JSON;
 use Data::Dumper;
 
-
+use Communities::Project ;
+use Communities::Sample ;
+use Communities::Library ;
 
 sub new{
-my $class = @_ ;
+my ($class) = @_ ;
 
 # initialize JASON OO-interface
 my $json = JSON->new->allow_nonref;
 
 my $c = {
-	 base_url  => "http://api.metagenomics.anl.gov" ,
+	 base_url  => "http://communities.api.kbase.us" ,
 	 method    => '' ,
 	 json      => $json ,
 	 auth      => '' ,
@@ -107,7 +109,27 @@ sub project {
     my $data =  $c->request('project' , $id) ;
     if ($data){
       print Dumper $data  ;
-      return Project->new($data) ;
+      return Communities::Project->new($data) ;
+    }
+    
+    
+  }
+  elsif($q and ref $q){}
+  else{
+    return $c->request('project') ;
+  }
+  
+  return 0 ;
+}
+
+sub sample {
+  my ($c , $id , $q) = @_;
+  
+  if ($id){
+    my $data =  $c->request('Sample' , $id) ;
+    if ($data){
+      print Dumper $data  ;
+      return Communities::Sample->new($data) ;
     }
     
     
@@ -121,16 +143,27 @@ sub project {
 }
 
 
+sub library {
+  my ($c , $id , $q) = @_;
+  
+  if ($id){
+    my $data =  $c->request('Library' , $id) ;
+    if ($data){
+      print Dumper $data  ;
+      return Communities::Library->new($data) ;
+    }
+    
+    
+  }
+  elsif($q and ref $q){}
+  else{
+    return $c->request('Libary') ;
+  }
+  
+  return 0 ;
+}
+
 # json helper function 
 sub TO_JSON { return { %{ shift() } }; }
-
-
-
-package Project ;
-
-sub new {
-  my ($class , $data) = @_;
-  return bless $data ;
-}
 
 1;
