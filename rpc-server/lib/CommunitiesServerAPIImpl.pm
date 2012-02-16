@@ -12,7 +12,7 @@ This module provides an interface to communities study data.
 =cut
 
 #BEGIN_HEADER
-use Communites;
+use Communities;
 #END_HEADER
 
 sub new
