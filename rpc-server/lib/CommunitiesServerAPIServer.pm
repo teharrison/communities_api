@@ -18,6 +18,7 @@ sub _build_valid_methods
         'get_samply_by_id' => 1,
         'get_library_by_id' => 1,
         'get_metagenome_by_id' => 1,
+        'get_project_by_id' => 1,
     };
     return $methods;
 }

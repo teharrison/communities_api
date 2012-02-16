@@ -115,4 +115,33 @@ sub get_metagenome_by_id
 
 
 
+=head2 $result = get_project_by_id(project_id)
+
+This function gets a communities project given a project id.
+
+=cut
+
+sub get_project_by_id
+{
+    my($self, @args) = @_;
+
+    @args == 1 or die "Invalid argument count (expecting 1)";
+    my $result = $self->{client}->call($self->{url}, {
+	method => "CommunitiesServerAPI.get_project_by_id",
+	params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    die "Error invoking get_project_by_id: " . $result->error_message;
+	} else {
+	    return $result->result;
+	}
+    } else {
+	die "Error invoking get_project_by_id: " . $self->{client}->status_line;
+    }
+}
+
+
+
+
 1;

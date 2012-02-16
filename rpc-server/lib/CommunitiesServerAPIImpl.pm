@@ -20,7 +20,7 @@ sub new
     my($class) = @_;
     my $self = {
     };
-    #BEGIN_CONSTRUCTOR	
+    #BEGIN_CONSTRUCTOR
 	my $c = Communities->new ;
 	$self->{c} = $c;
     #END_CONSTRUCTOR
@@ -202,6 +202,60 @@ sub get_metagenome_by_id
 
 
 
+=head2 get_project_by_id
+
+  $return = $obj->get_project_by_id($project_id)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$project_id is a ComProjectID
+$return is a reference to a hash where the key is a string and the value is a string
+ComProjectID is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$project_id is a ComProjectID
+$return is a reference to a hash where the key is a string and the value is a string
+ComProjectID is a string
+
+
+=end text
+
+
+
+=item Description
+
+This function gets a communities project given a project id.
+
+=back
+
+=cut
+
+sub get_project_by_id
+{
+    my($self, $ctx, $project_id) = @_;
+    
+    my($return);
+    
+    #BEGIN get_project_by_id
+    #END get_project_by_id
+    
+    return($return);
+    
+}
+
+
+
+
 =head1 TYPES
 
 
@@ -277,6 +331,37 @@ a string
 =item Description
 
 This is an id of a communities metagenome.
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a string
+</pre>
+
+=end html
+
+=begin text
+
+a string
+
+=end text
+
+=back
+
+
+
+=head2 ComProjectID
+
+=over 4
+
+
+
+=item Description
+
+This is a project id for a communities project.
 
 
 =item Definition
