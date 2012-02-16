@@ -88,7 +88,9 @@ open (LMD , ">".$destination."/library.metadata") or die "Can't open $destinatio
 
 foreach my $record (@$data){
   
-  my $mg = $c->request('metagenome' , "mgm".$record->{id} , '' , \@params) ;
+  my $mid = ( $record->{id} =~ /^mgm/ ) ? $record->{id} : "mgm".$record->{id} ;
+
+  my $mg = $c->request('metagenome' , $mid , '' , \@params) ;
 
 
 

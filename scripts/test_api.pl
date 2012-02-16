@@ -40,7 +40,7 @@ GetOptions (
 
 
 
-# initialize JASON OO-interface
+# initialize JSON OO-interface
 my $json = JSON->new->allow_nonref;
 
 my $ua = LWP::UserAgent->new;
@@ -64,6 +64,8 @@ else{
   if ($object){
     
     if($resource eq 'Project'){ $data = $c->project($id) }
+    elsif($resource eq 'Libarry'){ $data = $c->library($id) }
+    elsif($resource eq 'Sample'){ $data = $c->sample($id) }
 
   }
   else{
