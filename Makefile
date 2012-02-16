@@ -15,6 +15,9 @@ SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 TPAGE = $(DEPLOY_RUNTIME)/bin/tpage
 TPAGE_ARGS = --define kb_top=$(TARGET) --define kb_runtime=$(DEPLOY_RUNTIME) --define kb_service_name=$(SERVICE)
 
+RPACKAGES = Cairo_1.5-1.tar.gz ecodist_1.2.5.tar.gz RJSONIO_0.98-1.tar.gz matlab_0.8.9.tar.gz gdata_2.8.2.tar.gz gtools_2.6.2.tar.gz bitops_1.0-4.1.tar.gz caTools_1.12.tar.gz gplots_2.10.1.tar.gz
+
+
 all: bin server
 
 what:
@@ -52,7 +55,10 @@ deploy-libs:
 	rsync -arv rpc-server/lib/. $(TARGET)/lib/.
 
 deploy-R:
-	echo "R CMD INSTALL blah"
+	for P in $(RPACKAGES); do \
+		R CMD INSTALL R/dependances/$(P); \
+	done; \
+	R CMD INSTALL R/KbaseKit.tar
 
 deploy-services:
 	$(TPAGE) $(TPAGE_ARGS) rpc-server/service/start_service.tt > $(TARGET)/services/$(SERVICE)/start_service
