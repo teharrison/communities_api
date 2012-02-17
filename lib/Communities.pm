@@ -18,7 +18,7 @@ my $json = JSON->new->allow_nonref;
 
 my $c = {
 	 base_url  => "http://communities.api.kbase.us" ,
-	 method    => '' ,
+	 method    => '' , # only getter , need to get set when using HTTP methods and not curl
 	 json      => $json ,
 	 auth      => '' ,
 	};
@@ -84,13 +84,20 @@ sub request {
   # build perl data structure
 
   #print Dumper $content ;
-
+  
   my $data = 0 ;
   if ($content =~ /ERROR/) {
     print STDERR "ERROR:\t" , $content , "\n";
   }
   else{
-    $data  = $c->json->decode( $content );
+    eval
+      {
+	$data  = $c->json->decode( $content );
+      };
+    if ($@) {
+      warn "Unable to decode string: $@\n";
+      $data = {} ; 
+    }
   }
   return $data ;
 }
