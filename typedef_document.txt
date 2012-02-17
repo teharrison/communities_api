@@ -1,0 +1,53 @@
+typedef structure { string id ; string about , int version , string created , string url , string type , string name , int public , list<string> analyzed ; string pi ; string description ; string funding_source ; mapping<string , string> metadata ; list<strings> samples  }  Project 
+
+typedef struct { list<string> projects ; string about} ProjectList
+
+funcdef Project project(string id)
+funcdef ProjectList project()
+
+
+# created should be mapped to a data type
+# public is boolean 
+# public is a reserved word in java
+# how to represent mapping with different type values
+# url can be a type too
+
+typedef structure { string id ; string about ; int version ; string created ; sring url ; string metagenome ; list<string> libraries ; map<string , string> metadata } Sample
+typedef struct { list<string> samples ; string about} SampleList
+
+funcdef Sample sampe(string id)
+funcdef SampleList sample()
+
+
+# typedef string url , want strong type for checking
+# typedef string sequence (protein / DNA)
+# type can be one of list of enumerated values (e.g. attribute type =   "OTU table" , "Pathway table" , "Function table",  "Ortholog table" , "Gene table" , "Metabolite table" , "Taxon table")
+# type datetime date , missing (ISO 8601 format)
+# how to specify a tuples , triples
+
+
+# Trying to define biom exchange format , (third party format)
+
+typedef <int,int> Shape
+typedef <int,int,float> Cell
+typedef sruct { string id , list<mapping<string, *> > metadata } Description 
+typedef string MetagenomeId
+
+typedef structure { string id ,
+string format,				# The name and version of the current biom format
+url format_url,        	   	 	# A string with a static URL providing format details
+enumerate type,        	 	# Table type (a controlled vocabulary)
+string generated_by,       	  	#  Package and revision that built the table
+string date, 			    	# Date the table was built (ISO 8601 format)
+list<Description> rows        	# An ORDERED list of obj describing the rows
+list<Description> columns   	# An ORDERED list of obj  describing the columns
+enumerate matrix_type     	# Type of matrix data representation (a controlled vocabulary).  Acceptable values:  "sparse" : only non-zero values are specified ; "dense" : every element must be specified
+enumerate matrix_element_type 	 # Value type in matrix (a controlled vocabulary)  Acceptable values:  "int" : integer ;  "float" : floating point ;  "str" : string
+shape shape,			   	# the number of rows and number of columns in data
+list<Cell> data                 	# counts of observations by sample if matrix_type is "sparse", [[row, column, value], [row, column, value],    ...]
+                      		  	  	# if matrix_type is "dense",  [[value, value, value, ...],    [value, value, value, ...],  ...]
+
+} Biom
+
+
+funcdef Biom matrix(list<MetagenomeId> ids)

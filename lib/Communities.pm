@@ -136,7 +136,7 @@ sub sample {
   }
   elsif($q and ref $q){}
   else{
-    return $c->request('sample') ;
+    return $c->request('Sample') ;
   }
   
   return 0 ;

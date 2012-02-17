@@ -64,7 +64,7 @@ else{
   if ($object){
     
     if($resource eq 'Project'){ $data = $c->project($id) }
-    elsif($resource eq 'Libarry'){ $data = $c->library($id) }
+    elsif($resource eq 'Libary'){ $data = $c->library($id) }
     elsif($resource eq 'Sample'){ $data = $c->sample($id) }
 
   }
