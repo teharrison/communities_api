@@ -357,7 +357,6 @@ foreach my $item (@$return) {
 	last;
 }
 
-#$test_value = "{ annotation : '16S rRNA' }";
 #foreach my $key (keys(%$return)) {
 #  print "Return for KEY $key = $return->{$key}\n";
 #}
@@ -373,7 +372,7 @@ foreach my $item (@$return) {
 #
 $return = $object->project();
 is(ref($return), 'HASH', "project - null input parameters returns a hash");
-isnt(scalar (keys %$return), 0, "project - null input parameters returns a non-empty hash");
+is(scalar (keys %$return), 2, "project - null input parameters returns a non-empty hash");
 is ($return->{'about'}, 'metagenomics project', 'project - key about is metagenomics');
 is (ref($return->{'projects'}), 'ARRAY', 'project - key projects is an ARRAY');
 
@@ -403,7 +402,7 @@ is ($test,$one_project_id,"Is the ID that came back the same as the one requeste
 #
 $return = $object->sample();
 is(ref($return), 'HASH', "sample - null input parameters returns a hash");
-isnt(scalar (keys %$return), 0, "sample - null input parameters returns a non-empty hash");
+is(scalar (keys %$return), 2, "sample - null input parameters returns a non-empty hash");
 is ($return->{'about'}, 'sample', 'sample - key about is sample');
 is (ref($return->{'samples'}), 'ARRAY', 'sample - key samples is an ARRAY');
 
@@ -436,11 +435,14 @@ is ($test,$one_sample_id,"Is the ID that came back the same as the one requested
 
 $return = $object->library();
 is(ref($return), 'HASH', "library - null input parameters returns a hash");
-is(scalar (keys %$return), 0, "library - null input parameters returns a non-empty hash");
-is ($return->{'about'}, 'library', 'library - key about is library');
-is (ref($return->{'libraries'}), 'ARRAY', 'library - key libraries is an ARRAY');
+is(scalar (keys %$return), 2, "library - null input parameters returns a non-empty hash");
+is ($return->{'about'}, 'metagenomics library', 'library - key about is metagenomics library');
+is (ref($return->{'librarys'}), 'ARRAY', 'library - key librarys is an ARRAY');
+foreach my $key (keys(%$return)) {
+  print "Return for KEY $key = $return->{$key}\n";
+}
 
-$list = $return->{'libraries'};
+$list = $return->{'librarys'};
 isnt(scalar @$list, 0, 'library - ARRAY is not empty');
 
 my $one_library_id = '';
