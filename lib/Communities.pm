@@ -70,7 +70,7 @@ sub request {
     
     my $content = `curl --silent --head $request $param` ;
     
-    return 0 if ($content =~/HTTP\/1\.1 404 Not Found/) ;
+    return 0 if ($content =~/HTTP\/1\.1 404 Not Found | error / ) ;
   }
   elsif($query){
     # add query url if ID is not present
@@ -83,7 +83,7 @@ sub request {
 
   # build perl data structure
 
-  #print Dumper $content ;
+  print Dumper $content ;
   
   my $data = 0 ;
   if ($content =~ /ERROR/) {
