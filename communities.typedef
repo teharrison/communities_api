@@ -1,9 +1,9 @@
 /*
 
-RESTful Communities object and resource API
+RESTful Metagenomics RAST object and resource API
 
 */
-module CommunitiesAPI : CommunitiesAPI {
+module MG_RAST : MG_RAST {
 	typedef structure {
 /*
 This parameter value can be chosen from the following (the first being default):
@@ -51,51 +51,51 @@ This parameter value can be chosen from the following (the first being default):
 	typedef structure {
 /*
 	identifier of the data generator
-/*
+*/
 		string generated_by;
 /*
 	type of the data encoding matrix (dense or sparse)
-/*
+*/
 		string matrix_type;
 /*
 	time the output data was generated
-/*
+*/
 		string date;
 /*
 	the matrix values
-/*
+*/
 		list<list<float>> data;
 /*
 	list of row descriptions
-/*
+*/
 		list<mapping<string, string>> rows;
 /*
 	data type of the elements in the return matrix
-/*
+*/
 		string matrix_element_type;
 /*
 	url to the format specification
-/*
+*/
 		string format_url;
 /*
 	format specification name
-/*
+*/
 		string format;
 /*
 	list of column descriptions
-/*
+*/
 		list<mapping<string, string>> columns;
 /*
 	unique object identifier
-/*
+*/
 		string id;
 /*
 	type of the data in the return table (taxon, function or gene)
-/*
+*/
 		string type;
 /*
 	list of the dimension sizes of the return matrix
-/*
+*/
 		list<int> shape;
 	} AbundanceprofileInstance;
 	typedef structure {
@@ -124,43 +124,43 @@ zero based index of the first data object to be returned
 	typedef structure {
 /*
 	version of the object
-/*
+*/
 		int version;
 /*
 	reference to the project object
-/*
+*/
 		string project;
 /*
 	human readable identifier
-/*
+*/
 		string name;
 /*
 	a list of references to the related sequence sets
-/*
+*/
 		list<string> sequencesets;
 /*
 	reference to the related metagenome object
-/*
+*/
 		string metagenome;
 /*
 	time the object was first created
-/*
+*/
 		string created;
 /*
 	resource location of this object instance
-/*
+*/
 		string url;
 /*
 	unique object identifier
-/*
+*/
 		string id;
 /*
 	reference to the related sample object
-/*
+*/
 		string sample;
 /*
 	key value pairs describing metadata
-/*
+*/
 		mapping<string, string> metadata;
 	} LibraryQuery;
 	typedef structure {
@@ -179,43 +179,43 @@ unique object identifier
 	typedef structure {
 /*
 	version of the object
-/*
+*/
 		int version;
 /*
 	reference to the project object
-/*
+*/
 		string project;
 /*
 	human readable identifier
-/*
+*/
 		string name;
 /*
 	a list of references to the related sequence sets
-/*
+*/
 		list<string> sequencesets;
 /*
 	reference to the related metagenome object
-/*
+*/
 		string metagenome;
 /*
 	time the object was first created
-/*
+*/
 		string created;
 /*
 	resource location of this object instance
-/*
+*/
 		string url;
 /*
 	unique object identifier
-/*
+*/
 		string id;
 /*
 	reference to the related sample object
-/*
+*/
 		string sample;
 /*
 	key value pairs describing metadata
-/*
+*/
 		mapping<string, string> metadata;
 	} LibraryInstance;
 	typedef structure {
@@ -246,47 +246,47 @@ zero based index of the first data object to be returned
 	typedef structure {
 /*
 	sequence file size in bytes
-/*
+*/
 		int file_size;
 /*
 	version of the object
-/*
+*/
 		int version;
 /*
 	human readable identifier
-/*
+*/
 		string name;
 /*
 	reference to the related library object
-/*
+*/
 		string library;
 /*
 	sequencing type
-/*
+*/
 		string sequence_type;
 /*
 	time the object was first created
-/*
+*/
 		string created;
 /*
 	resource location of this object instance
-/*
+*/
 		string url;
 /*
 	reference to the primary project object
-/*
+*/
 		string primary_project;
 /*
 	unique object identifier
-/*
+*/
 		string id;
 /*
 	reference to the related sample object
-/*
+*/
 		string sample;
 /*
 	key value pairs describing metadata
-/*
+*/
 		mapping<string, string> metadata;
 	} MetagenomeQuery;
 	typedef structure {
@@ -305,47 +305,47 @@ unique object identifier
 	typedef structure {
 /*
 	sequence file size in bytes
-/*
+*/
 		int file_size;
 /*
 	version of the object
-/*
+*/
 		int version;
 /*
 	human readable identifier
-/*
+*/
 		string name;
 /*
 	reference to the related library object
-/*
+*/
 		string library;
 /*
 	sequencing type
-/*
+*/
 		string sequence_type;
 /*
 	time the object was first created
-/*
+*/
 		string created;
 /*
 	resource location of this object instance
-/*
+*/
 		string url;
 /*
 	reference to the primary project object
-/*
+*/
 		string primary_project;
 /*
 	unique object identifier
-/*
+*/
 		string id;
 /*
 	reference to the related sample object
-/*
+*/
 		string sample;
 /*
 	key value pairs describing metadata
-/*
+*/
 		mapping<string, string> metadata;
 	} MetagenomeInstance;
 	typedef structure {
@@ -371,51 +371,51 @@ zero based index of the first data object to be returned
 	typedef structure {
 /*
 	a list of references to the related metagenome objects
-/*
+*/
 		list<string> analyzed;
 /*
 	version of the object
-/*
+*/
 		int version;
 /*
 	human readable identifier
-/*
+*/
 		string name;
 /*
 	a short, comprehensive description of the project
-/*
+*/
 		string description;
 /*
 	a list of references to the related library objects
-/*
+*/
 		list<string> libraries;
 /*
 	time the object was first created
-/*
+*/
 		string created;
 /*
 	a list of references to the related sample objects
-/*
+*/
 		list<string> samples;
 /*
 	the official name of the source of funding of this project
-/*
+*/
 		string funding_source;
 /*
 	resource location of this object instance
-/*
+*/
 		string url;
 /*
 	key value pairs describing metadata
-/*
+*/
 		mapping<string, string> metadata;
 /*
 	unique object identifier
-/*
+*/
 		string id;
 /*
 	the first and last name of the principal investigator of the project
-/*
+*/
 		string pi;
 	} ProjectQuery;
 	typedef structure {
@@ -434,51 +434,51 @@ unique object identifier
 	typedef structure {
 /*
 	a list of references to the related metagenome objects
-/*
+*/
 		list<string> analyzed;
 /*
 	version of the object
-/*
+*/
 		int version;
 /*
 	human readable identifier
-/*
+*/
 		string name;
 /*
 	a short, comprehensive description of the project
-/*
+*/
 		string description;
 /*
 	a list of references to the related library objects
-/*
+*/
 		list<string> libraries;
 /*
 	time the object was first created
-/*
+*/
 		string created;
 /*
 	a list of references to the related sample objects
-/*
+*/
 		list<string> samples;
 /*
 	the official name of the source of funding of this project
-/*
+*/
 		string funding_source;
 /*
 	resource location of this object instance
-/*
+*/
 		string url;
 /*
 	key value pairs describing metadata
-/*
+*/
 		mapping<string, string> metadata;
 /*
 	unique object identifier
-/*
+*/
 		string id;
 /*
 	the first and last name of the principal investigator of the project
-/*
+*/
 		string pi;
 	} ProjectInstance;
 	typedef structure {
@@ -502,43 +502,43 @@ zero based index of the first data object to be returned
 	typedef structure {
 /*
 	version of the object
-/*
+*/
 		int version;
 /*
 	reference to the project of this sample
-/*
+*/
 		string project;
 /*
 	human readable identifier
-/*
+*/
 		string name;
 /*
 	a list of references to the related metagenome objects
-/*
+*/
 		list<string> metagenomes;
 /*
 	a list of references to the related library objects
-/*
+*/
 		list<string> libraries;
 /*
 	time the object was first created
-/*
+*/
 		string created;
 /*
 	environmental package
-/*
+*/
 		mapping<string, string> env_package;
 /*
 	resource location of this object instance
-/*
+*/
 		string url;
 /*
 	unique object identifier
-/*
+*/
 		string id;
 /*
 	key value pairs describing metadata
-/*
+*/
 		mapping<string, string> metadata;
 	} SampleQuery;
 	typedef structure {
@@ -557,43 +557,43 @@ unique object identifier
 	typedef structure {
 /*
 	version of the object
-/*
+*/
 		int version;
 /*
 	reference to the project of this sample
-/*
+*/
 		string project;
 /*
 	human readable identifier
-/*
+*/
 		string name;
 /*
 	a list of references to the related metagenome objects
-/*
+*/
 		list<string> metagenomes;
 /*
 	a list of references to the related library objects
-/*
+*/
 		list<string> libraries;
 /*
 	time the object was first created
-/*
+*/
 		string created;
 /*
 	environmental package
-/*
+*/
 		mapping<string, string> env_package;
 /*
 	resource location of this object instance
-/*
+*/
 		string url;
 /*
 	unique object identifier
-/*
+*/
 		string id;
 /*
 	key value pairs describing metadata
-/*
+*/
 		mapping<string, string> metadata;
 	} SampleInstance;
 	typedef structure {
@@ -611,15 +611,15 @@ This parameter value can be chosen from the following (the first being default):
 	typedef structure {
 /*
 	version of the object
-/*
+*/
 		int version;
 /*
 	resource location of this object instance
-/*
+*/
 		string url;
 /*
 	unique object identifier
-/*
+*/
 		string id;
 	} SequencesMd5;
 	typedef structure {
@@ -670,15 +670,15 @@ organism name
 	typedef structure {
 /*
 	version of the object
-/*
+*/
 		int version;
 /*
 	resource location of this object instance
-/*
+*/
 		string url;
 /*
 	unique object identifier
-/*
+*/
 		string id;
 	} SequencesAnnotation;
 	typedef structure {
