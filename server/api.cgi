@@ -3,29 +3,13 @@ use JSON;
 
 use FIG_Config;
 
-use WebApplicationDBHandle;
-use DBMaster;
 
 # create cgi and json objects
 my $cgi = new CGI;
 my $json = new JSON;
 $json = $json->utf8();
 
-# initialize user database
-my ($dbmaster, $error) = WebApplicationDBHandle->new();
-my $authentication_available = 1;
-
-if ($error) {
-    $authentication_available = 0;
-    
-    if ($FIG_Config::api_fatal_on_no_auth_db) {
-	print $cgi->header(-type => 'text/plain',
-			   -status => 500,
-			   -Access_Control_Allow_Origin => '*' );
-	print "ERROR: authentication database offline";
-	exit 0;
-    }
-}
+my $authentication_available = 0;
 
 # get request method
 $ENV{'REQUEST_METHOD'} =~ tr/a-z/A-Z/;
@@ -114,33 +98,33 @@ if ($ENV{'REQUEST_METHOD'} eq "POST") {
 # check authentication
 my $user;
 if ($auth && $authentication_available) {
-    my $preference = $dbmaster->Preferences->get_objects( { value => $auth } );
-    if (scalar(@$preference)) {
-	my $u = $preference->[0]->user;
-	my $tdate = $dbmaster->Preferences->get_objects( { user => $u, name => 'WebServiceKeyTdate' } );
-	if (scalar(@$tdate)) {
-	    if (($tdate->[0]->{value} > time) || $u->has_right(undef, 'edit', 'user', '*')) {
-		$user = $u;
-	    } else {
-		print $cgi->header(-type => 'text/plain',
-				   -status => 401,
-				   -Access_Control_Allow_Origin => '*' );
-		print "ERROR: Authentication failed - WebServiceKey timed out";
-		exit 0;
-	    }
-	} else {
-	    my $timeout = 86400;
-	    my $tdate = time + $timeout;
-	    $dbmaster->Preferences->create( { user => $u, name => 'WebServiceKeyTdate', value => $tdate } );
-	    $user = $u;
-	}
-    } else {
-	print $cgi->header(-type => 'text/plain',
-			   -status => 401,
-			   -Access_Control_Allow_Origin => '*' );
-	print "ERROR: Authentication failed - invalid WebServiceKey";
-	exit 0;	
-    }
+#     my $preference = $dbmaster->Preferences->get_objects( { value => $auth } );
+#     if (scalar(@$preference)) {
+# 	my $u = $preference->[0]->user;
+# 	my $tdate = $dbmaster->Preferences->get_objects( { user => $u, name => 'WebServiceKeyTdate' } );
+# 	if (scalar(@$tdate)) {
+# 	    if (($tdate->[0]->{value} > time) || $u->has_right(undef, 'edit', 'user', '*')) {
+# 		$user = $u;
+# 	    } else {
+# 		print $cgi->header(-type => 'text/plain',
+# 				   -status => 401,
+# 				   -Access_Control_Allow_Origin => '*' );
+# 		print "ERROR: Authentication failed - WebServiceKey timed out";
+# 		exit 0;
+# 	    }
+# 	} else {
+# 	    my $timeout = 86400;
+# 	    my $tdate = time + $timeout;
+# 	    $dbmaster->Preferences->create( { user => $u, name => 'WebServiceKeyTdate', value => $tdate } );
+# 	    $user = $u;
+# 	}
+#     } else {
+# 	print $cgi->header(-type => 'text/plain',
+# 			   -status => 401,
+# 			   -Access_Control_Allow_Origin => '*' );
+# 	print "ERROR: Authentication failed - invalid WebServiceKey";
+# 	exit 0;	
+#    }
 }
 
 # if a resource is passed, call the resources module
