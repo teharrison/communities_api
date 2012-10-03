@@ -1,140 +1,140 @@
 
 
-function MG_RAST(url) {
+function CommunitiesAPI(url) {
 
     var _url = url;
 
 
     this.get_abundanceprofile_instance = function(get_abundanceprofile_instance_params)
     {
-	var resp = json_call_ajax_sync("MG_RAST.get_abundanceprofile_instance", [get_abundanceprofile_instance_params]);
-//	var resp = json_call_sync("MG_RAST.get_abundanceprofile_instance", [get_abundanceprofile_instance_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_abundanceprofile_instance", [get_abundanceprofile_instance_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_abundanceprofile_instance", [get_abundanceprofile_instance_params]);
         return resp[0];
     }
 
     this.get_abundanceprofile_instance_async = function(get_abundanceprofile_instance_params, _callback, _error_callback)
     {
-	json_call_ajax_async("MG_RAST.get_abundanceprofile_instance", [get_abundanceprofile_instance_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_abundanceprofile_instance", [get_abundanceprofile_instance_params], 1, _callback, _error_callback)
     }
 
     this.get_library_query = function(get_library_query_params)
     {
-	var resp = json_call_ajax_sync("MG_RAST.get_library_query", [get_library_query_params]);
-//	var resp = json_call_sync("MG_RAST.get_library_query", [get_library_query_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_library_query", [get_library_query_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_library_query", [get_library_query_params]);
         return resp[0];
     }
 
     this.get_library_query_async = function(get_library_query_params, _callback, _error_callback)
     {
-	json_call_ajax_async("MG_RAST.get_library_query", [get_library_query_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_library_query", [get_library_query_params], 1, _callback, _error_callback)
     }
 
     this.get_library_instance = function(get_library_instance_params)
     {
-	var resp = json_call_ajax_sync("MG_RAST.get_library_instance", [get_library_instance_params]);
-//	var resp = json_call_sync("MG_RAST.get_library_instance", [get_library_instance_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_library_instance", [get_library_instance_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_library_instance", [get_library_instance_params]);
         return resp[0];
     }
 
     this.get_library_instance_async = function(get_library_instance_params, _callback, _error_callback)
     {
-	json_call_ajax_async("MG_RAST.get_library_instance", [get_library_instance_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_library_instance", [get_library_instance_params], 1, _callback, _error_callback)
     }
 
     this.get_metagenome_query = function(get_metagenome_query_params)
     {
-	var resp = json_call_ajax_sync("MG_RAST.get_metagenome_query", [get_metagenome_query_params]);
-//	var resp = json_call_sync("MG_RAST.get_metagenome_query", [get_metagenome_query_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_metagenome_query", [get_metagenome_query_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_metagenome_query", [get_metagenome_query_params]);
         return resp[0];
     }
 
     this.get_metagenome_query_async = function(get_metagenome_query_params, _callback, _error_callback)
     {
-	json_call_ajax_async("MG_RAST.get_metagenome_query", [get_metagenome_query_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_metagenome_query", [get_metagenome_query_params], 1, _callback, _error_callback)
     }
 
     this.get_metagenome_instance = function(get_metagenome_instance_params)
     {
-	var resp = json_call_ajax_sync("MG_RAST.get_metagenome_instance", [get_metagenome_instance_params]);
-//	var resp = json_call_sync("MG_RAST.get_metagenome_instance", [get_metagenome_instance_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_metagenome_instance", [get_metagenome_instance_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_metagenome_instance", [get_metagenome_instance_params]);
         return resp[0];
     }
 
     this.get_metagenome_instance_async = function(get_metagenome_instance_params, _callback, _error_callback)
     {
-	json_call_ajax_async("MG_RAST.get_metagenome_instance", [get_metagenome_instance_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_metagenome_instance", [get_metagenome_instance_params], 1, _callback, _error_callback)
     }
 
     this.get_project_query = function(get_project_query_params)
     {
-	var resp = json_call_ajax_sync("MG_RAST.get_project_query", [get_project_query_params]);
-//	var resp = json_call_sync("MG_RAST.get_project_query", [get_project_query_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_project_query", [get_project_query_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_project_query", [get_project_query_params]);
         return resp[0];
     }
 
     this.get_project_query_async = function(get_project_query_params, _callback, _error_callback)
     {
-	json_call_ajax_async("MG_RAST.get_project_query", [get_project_query_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_project_query", [get_project_query_params], 1, _callback, _error_callback)
     }
 
     this.get_project_instance = function(get_project_instance_params)
     {
-	var resp = json_call_ajax_sync("MG_RAST.get_project_instance", [get_project_instance_params]);
-//	var resp = json_call_sync("MG_RAST.get_project_instance", [get_project_instance_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_project_instance", [get_project_instance_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_project_instance", [get_project_instance_params]);
         return resp[0];
     }
 
     this.get_project_instance_async = function(get_project_instance_params, _callback, _error_callback)
     {
-	json_call_ajax_async("MG_RAST.get_project_instance", [get_project_instance_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_project_instance", [get_project_instance_params], 1, _callback, _error_callback)
     }
 
     this.get_sample_query = function(get_sample_query_params)
     {
-	var resp = json_call_ajax_sync("MG_RAST.get_sample_query", [get_sample_query_params]);
-//	var resp = json_call_sync("MG_RAST.get_sample_query", [get_sample_query_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_sample_query", [get_sample_query_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_sample_query", [get_sample_query_params]);
         return resp[0];
     }
 
     this.get_sample_query_async = function(get_sample_query_params, _callback, _error_callback)
     {
-	json_call_ajax_async("MG_RAST.get_sample_query", [get_sample_query_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_sample_query", [get_sample_query_params], 1, _callback, _error_callback)
     }
 
     this.get_sample_instance = function(get_sample_instance_params)
     {
-	var resp = json_call_ajax_sync("MG_RAST.get_sample_instance", [get_sample_instance_params]);
-//	var resp = json_call_sync("MG_RAST.get_sample_instance", [get_sample_instance_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_sample_instance", [get_sample_instance_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_sample_instance", [get_sample_instance_params]);
         return resp[0];
     }
 
     this.get_sample_instance_async = function(get_sample_instance_params, _callback, _error_callback)
     {
-	json_call_ajax_async("MG_RAST.get_sample_instance", [get_sample_instance_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_sample_instance", [get_sample_instance_params], 1, _callback, _error_callback)
     }
 
     this.get_sequences_md5 = function(get_sequences_md5_params)
     {
-	var resp = json_call_ajax_sync("MG_RAST.get_sequences_md5", [get_sequences_md5_params]);
-//	var resp = json_call_sync("MG_RAST.get_sequences_md5", [get_sequences_md5_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_sequences_md5", [get_sequences_md5_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_sequences_md5", [get_sequences_md5_params]);
         return resp[0];
     }
 
     this.get_sequences_md5_async = function(get_sequences_md5_params, _callback, _error_callback)
     {
-	json_call_ajax_async("MG_RAST.get_sequences_md5", [get_sequences_md5_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_sequences_md5", [get_sequences_md5_params], 1, _callback, _error_callback)
     }
 
     this.get_sequences_annotation = function(get_sequences_annotation_params)
     {
-	var resp = json_call_ajax_sync("MG_RAST.get_sequences_annotation", [get_sequences_annotation_params]);
-//	var resp = json_call_sync("MG_RAST.get_sequences_annotation", [get_sequences_annotation_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_sequences_annotation", [get_sequences_annotation_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_sequences_annotation", [get_sequences_annotation_params]);
         return resp[0];
     }
 
     this.get_sequences_annotation_async = function(get_sequences_annotation_params, _callback, _error_callback)
     {
-	json_call_ajax_async("MG_RAST.get_sequences_annotation", [get_sequences_annotation_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_sequences_annotation", [get_sequences_annotation_params], 1, _callback, _error_callback)
     }
 
     function _json_call_prepare(url, method, params, async_flag)

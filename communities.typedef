@@ -1,0 +1,194 @@
+module CommunitiesAPI : CommunitiesAPI {
+	typedef structure {
+		string verbosity;
+		string source;
+		string id;
+		string type;
+	} get_abundanceprofile_instance_params;
+	typedef structure {
+		string generated_by;
+		string matrix_type;
+		string date;
+		list<list<float>> data;
+		list<mapping<string, string>> rows;
+		string matrix_element_type;
+		string format_url;
+		string format;
+		list<mapping<string, string>> columns;
+		string id;
+		string type;
+		list<int> shape;
+	} AbundanceprofileInstance;
+	typedef structure {
+		string verbosity;
+		string order;
+		int limit;
+		int offset;
+	} get_library_query_params;
+	typedef structure {
+		int version;
+		string project;
+		string name;
+		list<string> sequencesets;
+		string metagenome;
+		string created;
+		string url;
+		string id;
+		string sample;
+		mapping<string, string> metadata;
+	} LibraryQuery;
+	typedef structure {
+		string verbosity;
+		string id;
+	} get_library_instance_params;
+	typedef structure {
+		int version;
+		string project;
+		string name;
+		list<string> sequencesets;
+		string metagenome;
+		string created;
+		string url;
+		string id;
+		string sample;
+		mapping<string, string> metadata;
+	} LibraryInstance;
+	typedef structure {
+		string verbosity;
+		string order;
+		int limit;
+		int offset;
+	} get_metagenome_query_params;
+	typedef structure {
+		int file_size;
+		int version;
+		string name;
+		string library;
+		string sequence_type;
+		string created;
+		string url;
+		string primary_project;
+		string id;
+		string sample;
+		mapping<string, string> metadata;
+	} MetagenomeQuery;
+	typedef structure {
+		string verbosity;
+		string id;
+	} get_metagenome_instance_params;
+	typedef structure {
+		int file_size;
+		int version;
+		string name;
+		string library;
+		string sequence_type;
+		string created;
+		string url;
+		string primary_project;
+		string id;
+		string sample;
+		mapping<string, string> metadata;
+	} MetagenomeInstance;
+	typedef structure {
+		string order;
+		int limit;
+		int offset;
+	} get_project_query_params;
+	typedef structure {
+		list<string> analyzed;
+		int version;
+		string name;
+		string description;
+		list<string> libraries;
+		string created;
+		list<string> samples;
+		string funding_source;
+		string url;
+		mapping<string, string> metadata;
+		string id;
+		string pi;
+	} ProjectQuery;
+	typedef structure {
+		string verbosity;
+		string id;
+	} get_project_instance_params;
+	typedef structure {
+		list<string> analyzed;
+		int version;
+		string name;
+		string description;
+		list<string> libraries;
+		string created;
+		list<string> samples;
+		string funding_source;
+		string url;
+		mapping<string, string> metadata;
+		string id;
+		string pi;
+	} ProjectInstance;
+	typedef structure {
+		string order;
+		int limit;
+		int offset;
+	} get_sample_query_params;
+	typedef structure {
+		int version;
+		string project;
+		string name;
+		list<string> metagenomes;
+		list<string> libraries;
+		string created;
+		mapping<string, string> env_package;
+		string url;
+		string id;
+		mapping<string, string> metadata;
+	} SampleQuery;
+	typedef structure {
+		string verbosity;
+		string id;
+	} get_sample_instance_params;
+	typedef structure {
+		int version;
+		string project;
+		string name;
+		list<string> metagenomes;
+		list<string> libraries;
+		string created;
+		mapping<string, string> env_package;
+		string url;
+		string id;
+		mapping<string, string> metadata;
+	} SampleInstance;
+	typedef structure {
+		string id;
+		string sequence_type;
+	} get_sequences_md5_params;
+	typedef structure {
+		int version;
+		string url;
+		string id;
+	} SequencesMd5;
+	typedef structure {
+		string source;
+		string data_type;
+		string id;
+		string sequence_type;
+		string organism;
+	} get_sequences_annotation_params;
+	typedef structure {
+		int version;
+		string url;
+		string id;
+	} SequencesAnnotation;
+	funcdef get_abundanceprofile_instance(get_abundanceprofile_instance_params) returns (AbundanceprofileInstance);
+	funcdef get_library_query(get_library_query_params) returns (LibraryQuery);
+	funcdef get_library_instance(get_library_instance_params) returns (LibraryInstance);
+	funcdef get_metagenome_query(get_metagenome_query_params) returns (MetagenomeQuery);
+	funcdef get_metagenome_instance(get_metagenome_instance_params) returns (MetagenomeInstance);
+	funcdef get_project_query(get_project_query_params) returns (ProjectQuery);
+	funcdef get_project_instance(get_project_instance_params) returns (ProjectInstance);
+	funcdef get_sample_query(get_sample_query_params) returns (SampleQuery);
+	funcdef get_sample_instance(get_sample_instance_params) returns (SampleInstance);
+	funcdef get_sequences_md5(get_sequences_md5_params) returns (SequencesMd5);
+	funcdef get_sequences_annotation(get_sequences_annotation_params) returns (SequencesAnnotation);
+};

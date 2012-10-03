@@ -1,4 +1,4 @@
-package MG_RASTServer;
+package CommunitiesAPIServer;
 
 use Data::Dumper;
 use Moose;
@@ -51,11 +51,11 @@ sub call_method {
     my ($self, $data, $method_info) = @_;
     my ($module, $method) = @$method_info{qw(module method)};
     
-    my $ctx = MG_RASTServerContext->new(client_ip => $self->_plack_req->address);
+    my $ctx = CommunitiesAPIServerContext->new(client_ip => $self->_plack_req->address);
     
     my $args = $data->{arguments};
 
-        # Service MG_RAST does not require authentication.
+        # Service CommunitiesAPI does not require authentication.
         
     my $new_isa = $self->get_package_isa($module);
     no strict 'refs';
@@ -112,7 +112,7 @@ sub get_method
     if (!$self->valid_methods->{$method})
     {
 	$self->exception('NoSuchMethod',
-			 "'$method' is not a valid method in service MG_RAST.");
+			 "'$method' is not a valid method in service CommunitiesAPI.");
     }
 	
     my $inst = $self->instance_dispatch->{$package};
@@ -141,13 +141,13 @@ sub get_method
     return { module => $module, method => $method };
 }
 
-package MG_RASTServerContext;
+package CommunitiesAPIServerContext;
 
 use strict;
 
 =head1 NAME
 
-MG_RASTServerContext
+CommunitiesAPIServerContext
 
 head1 DESCRIPTION
 
