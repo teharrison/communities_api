@@ -1,4 +1,4 @@
-package MG_RASTImpl;
+package CommunitiesAPIImpl;
 use strict;
 use Bio::KBase::Exceptions;
 # Use Semantic Versioning (2.0.0-rc.1)
@@ -7,7 +7,7 @@ our $VERSION = "0.1.0";
 
 =head1 NAME
 
-MG_RAST
+CommunitiesAPI
 
 =head1 DESCRIPTION
 
@@ -123,7 +123,7 @@ sub get_abundanceprofile_instance
 							       method_name => 'get_abundanceprofile_instance');
     }
 
-    my $ctx = $MG_RASTServer::CallContext;
+    my $ctx = $CommunitiesAPIServer::CallContext;
     my($return);
     #BEGIN get_abundanceprofile_instance
     #END get_abundanceprofile_instance
@@ -221,7 +221,7 @@ sub get_library_query
 							       method_name => 'get_library_query');
     }
 
-    my $ctx = $MG_RASTServer::CallContext;
+    my $ctx = $CommunitiesAPIServer::CallContext;
     my($return);
     #BEGIN get_library_query
     #END get_library_query
@@ -315,7 +315,7 @@ sub get_library_instance
 							       method_name => 'get_library_instance');
     }
 
-    my $ctx = $MG_RASTServer::CallContext;
+    my $ctx = $CommunitiesAPIServer::CallContext;
     my($return);
     #BEGIN get_library_instance
     #END get_library_instance
@@ -415,7 +415,7 @@ sub get_metagenome_query
 							       method_name => 'get_metagenome_query');
     }
 
-    my $ctx = $MG_RASTServer::CallContext;
+    my $ctx = $CommunitiesAPIServer::CallContext;
     my($return);
     #BEGIN get_metagenome_query
     #END get_metagenome_query
@@ -511,7 +511,7 @@ sub get_metagenome_instance
 							       method_name => 'get_metagenome_instance');
     }
 
-    my $ctx = $MG_RASTServer::CallContext;
+    my $ctx = $CommunitiesAPIServer::CallContext;
     my($return);
     #BEGIN get_metagenome_instance
     #END get_metagenome_instance
@@ -611,7 +611,7 @@ sub get_project_query
 							       method_name => 'get_project_query');
     }
 
-    my $ctx = $MG_RASTServer::CallContext;
+    my $ctx = $CommunitiesAPIServer::CallContext;
     my($return);
     #BEGIN get_project_query
     #END get_project_query
@@ -709,7 +709,7 @@ sub get_project_instance
 							       method_name => 'get_project_instance');
     }
 
-    my $ctx = $MG_RASTServer::CallContext;
+    my $ctx = $CommunitiesAPIServer::CallContext;
     my($return);
     #BEGIN get_project_instance
     #END get_project_instance
@@ -805,7 +805,7 @@ sub get_sample_query
 							       method_name => 'get_sample_query');
     }
 
-    my $ctx = $MG_RASTServer::CallContext;
+    my $ctx = $CommunitiesAPIServer::CallContext;
     my($return);
     #BEGIN get_sample_query
     #END get_sample_query
@@ -899,7 +899,7 @@ sub get_sample_instance
 							       method_name => 'get_sample_instance');
     }
 
-    my $ctx = $MG_RASTServer::CallContext;
+    my $ctx = $CommunitiesAPIServer::CallContext;
     my($return);
     #BEGIN get_sample_instance
     #END get_sample_instance
@@ -979,7 +979,7 @@ sub get_sequences_md5
 							       method_name => 'get_sequences_md5');
     }
 
-    my $ctx = $MG_RASTServer::CallContext;
+    my $ctx = $CommunitiesAPIServer::CallContext;
     my($return);
     #BEGIN get_sequences_md5
     #END get_sequences_md5
@@ -1065,7 +1065,7 @@ sub get_sequences_annotation
 							       method_name => 'get_sequences_annotation');
     }
 
-    my $ctx = $MG_RASTServer::CallContext;
+    my $ctx = $CommunitiesAPIServer::CallContext;
     my($return);
     #BEGIN get_sequences_annotation
     #END get_sequences_annotation

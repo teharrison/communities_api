@@ -1,4 +1,4 @@
-package MG_RASTClient;
+package CommunitiesAPIClient;
 
 use JSON::RPC::Client;
 use strict;
@@ -13,7 +13,7 @@ our $VERSION = "0.1.0";
 
 =head1 NAME
 
-MG_RASTClient
+CommunitiesAPIClient
 
 =head1 DESCRIPTION
 
@@ -26,7 +26,7 @@ sub new
     my($class, $url) = @_;
 
     my $self = {
-	client => MG_RASTClient::RpcClient->new,
+	client => CommunitiesAPIClient::RpcClient->new,
 	url => $url,
     };
     my $ua = $self->{client}->ua;	 
@@ -68,7 +68,7 @@ sub get_abundanceprofile_instance
     }
 
     my $result = $self->{client}->call($self->{url}, {
-	method => "MG_RAST.get_abundanceprofile_instance",
+	method => "CommunitiesAPI.get_abundanceprofile_instance",
 	params => \@args,
     });
     if ($result) {
@@ -118,7 +118,7 @@ sub get_library_query
     }
 
     my $result = $self->{client}->call($self->{url}, {
-	method => "MG_RAST.get_library_query",
+	method => "CommunitiesAPI.get_library_query",
 	params => \@args,
     });
     if ($result) {
@@ -168,7 +168,7 @@ sub get_library_instance
     }
 
     my $result = $self->{client}->call($self->{url}, {
-	method => "MG_RAST.get_library_instance",
+	method => "CommunitiesAPI.get_library_instance",
 	params => \@args,
     });
     if ($result) {
@@ -218,7 +218,7 @@ sub get_metagenome_query
     }
 
     my $result = $self->{client}->call($self->{url}, {
-	method => "MG_RAST.get_metagenome_query",
+	method => "CommunitiesAPI.get_metagenome_query",
 	params => \@args,
     });
     if ($result) {
@@ -268,7 +268,7 @@ sub get_metagenome_instance
     }
 
     my $result = $self->{client}->call($self->{url}, {
-	method => "MG_RAST.get_metagenome_instance",
+	method => "CommunitiesAPI.get_metagenome_instance",
 	params => \@args,
     });
     if ($result) {
@@ -318,7 +318,7 @@ sub get_project_query
     }
 
     my $result = $self->{client}->call($self->{url}, {
-	method => "MG_RAST.get_project_query",
+	method => "CommunitiesAPI.get_project_query",
 	params => \@args,
     });
     if ($result) {
@@ -368,7 +368,7 @@ sub get_project_instance
     }
 
     my $result = $self->{client}->call($self->{url}, {
-	method => "MG_RAST.get_project_instance",
+	method => "CommunitiesAPI.get_project_instance",
 	params => \@args,
     });
     if ($result) {
@@ -418,7 +418,7 @@ sub get_sample_query
     }
 
     my $result = $self->{client}->call($self->{url}, {
-	method => "MG_RAST.get_sample_query",
+	method => "CommunitiesAPI.get_sample_query",
 	params => \@args,
     });
     if ($result) {
@@ -468,7 +468,7 @@ sub get_sample_instance
     }
 
     my $result = $self->{client}->call($self->{url}, {
-	method => "MG_RAST.get_sample_instance",
+	method => "CommunitiesAPI.get_sample_instance",
 	params => \@args,
     });
     if ($result) {
@@ -518,7 +518,7 @@ sub get_sequences_md5
     }
 
     my $result = $self->{client}->call($self->{url}, {
-	method => "MG_RAST.get_sequences_md5",
+	method => "CommunitiesAPI.get_sequences_md5",
 	params => \@args,
     });
     if ($result) {
@@ -568,7 +568,7 @@ sub get_sequences_annotation
     }
 
     my $result = $self->{client}->call($self->{url}, {
-	method => "MG_RAST.get_sequences_annotation",
+	method => "CommunitiesAPI.get_sequences_annotation",
 	params => \@args,
     });
     if ($result) {
@@ -593,7 +593,7 @@ sub get_sequences_annotation
 sub version {
     my ($self) = @_;
     my $result = $self->{client}->call($self->{url}, {
-        method => "MG_RAST.version",
+        method => "CommunitiesAPI.version",
         params => [],
     });
     if ($result) {
@@ -636,14 +636,14 @@ sub _validate_version {
         );
     }
     if ($sMinor > $cMinor) {
-        warn "New client version available for MG_RASTClient\n";
+        warn "New client version available for CommunitiesAPIClient\n";
     }
     if ($sMajor == 0) {
-        warn "MG_RASTClient version is $svr_version. API subject to change.\n";
+        warn "CommunitiesAPIClient version is $svr_version. API subject to change.\n";
     }
 }
 
-package MG_RASTClient::RpcClient;
+package CommunitiesAPIClient::RpcClient;
 use base 'JSON::RPC::Client';
 
 #
