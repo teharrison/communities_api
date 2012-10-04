@@ -1,0 +1,1030 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>communities api help</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:_www@dangerous.apple.com" />
+</head>
+
+<body style="background-color: white">
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#module_mg_rast">module MG_RAST</a></li>
+	<ul>
+
+		<li><a href="#get_abundanceprofile_instance">get_abundanceprofile_instance</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+		<li><a href="#get_library_query">get_library_query</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+		<li><a href="#get_library_instance">get_library_instance</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+		<li><a href="#get_metagenome_query">get_metagenome_query</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+		<li><a href="#get_metagenome_instance">get_metagenome_instance</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+		<li><a href="#get_project_query">get_project_query</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+		<li><a href="#get_project_instance">get_project_instance</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+		<li><a href="#get_sample_query">get_sample_query</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+		<li><a href="#get_sample_instance">get_sample_instance</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+		<li><a href="#get_sequences_md5">get_sequences_md5</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+		<li><a href="#get_sequences_annotation">get_sequences_annotation</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+		<li><a href="#get_sequenceset_instance">get_sequenceset_instance</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+		<li><a href="#get_sequenceset_setlist">get_sequenceset_setlist</a></li>
+		<ul>
+
+			<li><a href="#description">Description</a></li>
+			<li><a href="#parameters">Parameters</a></li>
+			<li><a href="#return_attributes">Return Attributes</a></li>
+		</ul>
+
+	</ul>
+
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="module_mg_rast">module MG_RAST</a></h1>
+<p>RESTful Metagenomics RAST object and resource API</p>
+<p>
+</p>
+<h2><a name="get_abundanceprofile_instance">get_abundanceprofile_instance</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A profile in biom format that contains abundance counts
+Returns a single data object.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_verbosity" class="item">string verbosity</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ minimal - returns only minimal information
+ verbose - returns all metadata
+ full - returns all references</pre>
+</li>
+<li><strong><a name="string_source" class="item">string source</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ M5NR - M5NR data source
+ SwissProt - SwissProt data source
+ GenBank - GenBank data source
+ IMG - IMG data source
+ SEED - SEED data source
+ TrEMBL - TrEMBL data source
+ RefSeq - RefSeq data source
+ PATRIC - PATRIC data source
+ eggNOG - eggNOG data source
+ KEGG - KEGG data source
+ NOG - NOG data source
+ COG - COG data source
+ KO - KO data source
+ GO - GO data source
+ Subsystems - Subsystems data source
+ M5RNA - M5RNA data source
+ RDP - RDP data source
+ Greengenes - Greengenes data source
+ LSU - LSU data source
+ SSU - SSU data source</pre>
+</li>
+<li><strong><a name="string_id" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+<li><strong><a name="string_type" class="item">string type</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ organism - return organism data
+ function - return functional data
+ feature - return feature data</pre>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+<ul>
+<li><strong><a name="string_generated_by" class="item">string generated_by</a></strong>
+
+<p>identifier of the data generator</p>
+</li>
+<li><strong><a name="string_matrix_type" class="item">string matrix_type</a></strong>
+
+<p>type of the data encoding matrix (dense or sparse)</p>
+</li>
+<li><strong><a name="string_date" class="item">string date</a></strong>
+
+<p>time the output data was generated</p>
+</li>
+<li><strong><a name="list_list_float_data" class="item">list&lt;list&lt;float&gt;&gt; data</a></strong>
+
+<p>the matrix values</p>
+</li>
+<li><strong><a name="list_mapping_string_string_rows" class="item">list&lt;mapping&lt;string, string&gt;&gt; rows</a></strong>
+
+<p>list of row descriptions</p>
+</li>
+<li><strong><a name="string_matrix_element_type" class="item">string matrix_element_type</a></strong>
+
+<p>data type of the elements in the return matrix</p>
+</li>
+<li><strong><a name="string_format_url" class="item">string format_url</a></strong>
+
+<p>url to the format specification</p>
+</li>
+<li><strong><a name="string_format" class="item">string format</a></strong>
+
+<p>format specification name</p>
+</li>
+<li><strong><a name="list_mapping_string_string_columns" class="item">list&lt;mapping&lt;string, string&gt;&gt; columns</a></strong>
+
+<p>list of column descriptions</p>
+</li>
+<li><strong><a name="string_id2" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+<li><strong><a name="string_type2" class="item">string type</a></strong>
+
+<p>type of the data in the return table (taxon, function or gene)</p>
+</li>
+<li><strong><a name="list_int_shape" class="item">list&lt;int&gt; shape</a></strong>
+
+<p>list of the dimension sizes of the return matrix</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="get_library_query">get_library_query</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A library of metagenomic samples from some environment
+Returns a set of data matching the query criteria.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_verbosity2" class="item">string verbosity</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ minimal - returns only minimal information</pre>
+</li>
+<li><strong><a name="string_order" class="item">string order</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ created - return data objects ordered by creation date
+ id - return data objects ordered by id
+ name - return data objects ordered by name
+ version - return data objects ordered by version</pre>
+</li>
+<li><strong><a name="int_limit" class="item">int limit</a></strong>
+
+<p>maximum number of items requested</p>
+</li>
+<li><strong><a name="int_offset" class="item">int offset</a></strong>
+
+<p>zero based index of the first data object to be returned</p>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+<ul>
+<li><strong><a name="int_version" class="item">int version</a></strong>
+
+<p>version of the object</p>
+</li>
+<li><strong><a name="string_project" class="item">string project</a></strong>
+
+<p>reference to the project object</p>
+</li>
+<li><strong><a name="string_name" class="item">string name</a></strong>
+
+<p>human readable identifier</p>
+</li>
+<li><strong><a name="list_string_sequencesets" class="item">list&lt;string&gt; sequencesets</a></strong>
+
+<p>a list of references to the related sequence sets</p>
+</li>
+<li><strong><a name="string_metagenome" class="item">string metagenome</a></strong>
+
+<p>reference to the related metagenome object</p>
+</li>
+<li><strong><a name="string_created" class="item">string created</a></strong>
+
+<p>time the object was first created</p>
+</li>
+<li><strong><a name="string_url" class="item">string url</a></strong>
+
+<p>resource location of this object instance</p>
+</li>
+<li><strong><a name="string_id3" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+<li><strong><a name="string_sample" class="item">string sample</a></strong>
+
+<p>reference to the related sample object</p>
+</li>
+<li><strong><a name="mapping_string_string_metadata" class="item">mapping&lt;string, string&gt; metadata</a></strong>
+
+<p>key value pairs describing metadata</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="get_library_instance">get_library_instance</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A library of metagenomic samples from some environment
+Returns a single data object.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_verbosity3" class="item">string verbosity</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ minimal - returns only minimal information
+ verbose - returns a standard subselection of metadata
+ full - returns all connected metadata</pre>
+</li>
+<li><strong><a name="string_id4" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+<ul>
+<li><strong><a name="int_version2" class="item">int version</a></strong>
+
+<p>version of the object</p>
+</li>
+<li><strong><a name="string_project2" class="item">string project</a></strong>
+
+<p>reference to the project object</p>
+</li>
+<li><strong><a name="string_name2" class="item">string name</a></strong>
+
+<p>human readable identifier</p>
+</li>
+<li><strong><a name="list_string_sequencesets2" class="item">list&lt;string&gt; sequencesets</a></strong>
+
+<p>a list of references to the related sequence sets</p>
+</li>
+<li><strong><a name="string_metagenome2" class="item">string metagenome</a></strong>
+
+<p>reference to the related metagenome object</p>
+</li>
+<li><strong><a name="string_created2" class="item">string created</a></strong>
+
+<p>time the object was first created</p>
+</li>
+<li><strong><a name="string_url2" class="item">string url</a></strong>
+
+<p>resource location of this object instance</p>
+</li>
+<li><strong><a name="string_id5" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+<li><strong><a name="string_sample2" class="item">string sample</a></strong>
+
+<p>reference to the related sample object</p>
+</li>
+<li><strong><a name="mapping_string_string_metadata2" class="item">mapping&lt;string, string&gt; metadata</a></strong>
+
+<p>key value pairs describing metadata</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="get_metagenome_query">get_metagenome_query</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A metagenome is an analyzed set sequences from a sample of some environment
+Returns a set of data matching the query criteria.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_verbosity4" class="item">string verbosity</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ minimal - returns only minimal information</pre>
+</li>
+<li><strong><a name="string_order2" class="item">string order</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ created - return data objects ordered by creation date
+ id - return data objects ordered by id
+ name - return data objects ordered by name
+ sequence_type - return data objects ordered by sequence type
+ file_size - return data objects ordered by file size
+ version - return data objects ordered by version</pre>
+</li>
+<li><strong><a name="int_limit2" class="item">int limit</a></strong>
+
+<p>maximum number of items requested</p>
+</li>
+<li><strong><a name="int_offset2" class="item">int offset</a></strong>
+
+<p>zero based index of the first data object to be returned</p>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+<ul>
+<li><strong><a name="int_file_size" class="item">int file_size</a></strong>
+
+<p>sequence file size in bytes</p>
+</li>
+<li><strong><a name="int_version3" class="item">int version</a></strong>
+
+<p>version of the object</p>
+</li>
+<li><strong><a name="string_name3" class="item">string name</a></strong>
+
+<p>human readable identifier</p>
+</li>
+<li><strong><a name="string_library" class="item">string library</a></strong>
+
+<p>reference to the related library object</p>
+</li>
+<li><strong><a name="string_sequence_type" class="item">string sequence_type</a></strong>
+
+<p>sequencing type</p>
+</li>
+<li><strong><a name="string_created3" class="item">string created</a></strong>
+
+<p>time the object was first created</p>
+</li>
+<li><strong><a name="string_url3" class="item">string url</a></strong>
+
+<p>resource location of this object instance</p>
+</li>
+<li><strong><a name="string_primary_project" class="item">string primary_project</a></strong>
+
+<p>reference to the primary project object</p>
+</li>
+<li><strong><a name="string_id6" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+<li><strong><a name="string_sample3" class="item">string sample</a></strong>
+
+<p>reference to the related sample object</p>
+</li>
+<li><strong><a name="mapping_string_string_metadata3" class="item">mapping&lt;string, string&gt; metadata</a></strong>
+
+<p>key value pairs describing metadata</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="get_metagenome_instance">get_metagenome_instance</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A metagenome is an analyzed set sequences from a sample of some environment
+Returns a single data object.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_verbosity5" class="item">string verbosity</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ minimal - returns only minimal information
+ verbose - returns a standard subselection of metadata
+ full - returns all connected metadata</pre>
+</li>
+<li><strong><a name="string_id7" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+<ul>
+<li><strong><a name="int_file_size2" class="item">int file_size</a></strong>
+
+<p>sequence file size in bytes</p>
+</li>
+<li><strong><a name="int_version4" class="item">int version</a></strong>
+
+<p>version of the object</p>
+</li>
+<li><strong><a name="string_name4" class="item">string name</a></strong>
+
+<p>human readable identifier</p>
+</li>
+<li><strong><a name="string_library2" class="item">string library</a></strong>
+
+<p>reference to the related library object</p>
+</li>
+<li><strong><a name="string_sequence_type2" class="item">string sequence_type</a></strong>
+
+<p>sequencing type</p>
+</li>
+<li><strong><a name="string_created4" class="item">string created</a></strong>
+
+<p>time the object was first created</p>
+</li>
+<li><strong><a name="string_url4" class="item">string url</a></strong>
+
+<p>resource location of this object instance</p>
+</li>
+<li><strong><a name="string_primary_project2" class="item">string primary_project</a></strong>
+
+<p>reference to the primary project object</p>
+</li>
+<li><strong><a name="string_id8" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+<li><strong><a name="string_sample4" class="item">string sample</a></strong>
+
+<p>reference to the related sample object</p>
+</li>
+<li><strong><a name="mapping_string_string_metadata4" class="item">mapping&lt;string, string&gt; metadata</a></strong>
+
+<p>key value pairs describing metadata</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="get_project_query">get_project_query</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A project is a composition of samples, libraries and metagenomes being analyzed in a global context.
+Returns a set of data matching the query criteria.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_order3" class="item">string order</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ created - return data objects ordered by creation date
+ id - return data objects ordered by id
+ name - return data objects ordered by name
+ funding_source - return data objects ordered by funding source
+ pi - return data objects ordered by principal investigator
+ version - return data objects ordered by version</pre>
+</li>
+<li><strong><a name="int_limit3" class="item">int limit</a></strong>
+
+<p>maximum number of items requested</p>
+</li>
+<li><strong><a name="int_offset3" class="item">int offset</a></strong>
+
+<p>zero based index of the first data object to be returned</p>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+<ul>
+<li><strong><a name="list_string_analyzed" class="item">list&lt;string&gt; analyzed</a></strong>
+
+<p>a list of references to the related metagenome objects</p>
+</li>
+<li><strong><a name="int_version5" class="item">int version</a></strong>
+
+<p>version of the object</p>
+</li>
+<li><strong><a name="string_name5" class="item">string name</a></strong>
+
+<p>human readable identifier</p>
+</li>
+<li><strong><a name="string_description" class="item">string description</a></strong>
+
+<p>a short, comprehensive description of the project</p>
+</li>
+<li><strong><a name="list_string_libraries" class="item">list&lt;string&gt; libraries</a></strong>
+
+<p>a list of references to the related library objects</p>
+</li>
+<li><strong><a name="string_created5" class="item">string created</a></strong>
+
+<p>time the object was first created</p>
+</li>
+<li><strong><a name="list_string_samples" class="item">list&lt;string&gt; samples</a></strong>
+
+<p>a list of references to the related sample objects</p>
+</li>
+<li><strong><a name="string_funding_source" class="item">string funding_source</a></strong>
+
+<p>the official name of the source of funding of this project</p>
+</li>
+<li><strong><a name="string_url5" class="item">string url</a></strong>
+
+<p>resource location of this object instance</p>
+</li>
+<li><strong><a name="mapping_string_string_metadata5" class="item">mapping&lt;string, string&gt; metadata</a></strong>
+
+<p>key value pairs describing metadata</p>
+</li>
+<li><strong><a name="string_id9" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+<li><strong><a name="string_pi" class="item">string pi</a></strong>
+
+<p>the first and last name of the principal investigator of the project</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="get_project_instance">get_project_instance</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A project is a composition of samples, libraries and metagenomes being analyzed in a global context.
+Returns a single data object.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_verbosity6" class="item">string verbosity</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ minimal - returns only minimal information
+ verbose - returns all metadata
+ full - returns all metadata and references</pre>
+</li>
+<li><strong><a name="string_id10" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+<ul>
+<li><strong><a name="list_string_analyzed2" class="item">list&lt;string&gt; analyzed</a></strong>
+
+<p>a list of references to the related metagenome objects</p>
+</li>
+<li><strong><a name="int_version6" class="item">int version</a></strong>
+
+<p>version of the object</p>
+</li>
+<li><strong><a name="string_name6" class="item">string name</a></strong>
+
+<p>human readable identifier</p>
+</li>
+<li><strong><a name="string_description2" class="item">string description</a></strong>
+
+<p>a short, comprehensive description of the project</p>
+</li>
+<li><strong><a name="list_string_libraries2" class="item">list&lt;string&gt; libraries</a></strong>
+
+<p>a list of references to the related library objects</p>
+</li>
+<li><strong><a name="string_created6" class="item">string created</a></strong>
+
+<p>time the object was first created</p>
+</li>
+<li><strong><a name="list_string_samples2" class="item">list&lt;string&gt; samples</a></strong>
+
+<p>a list of references to the related sample objects</p>
+</li>
+<li><strong><a name="string_funding_source2" class="item">string funding_source</a></strong>
+
+<p>the official name of the source of funding of this project</p>
+</li>
+<li><strong><a name="string_url6" class="item">string url</a></strong>
+
+<p>resource location of this object instance</p>
+</li>
+<li><strong><a name="mapping_string_string_metadata6" class="item">mapping&lt;string, string&gt; metadata</a></strong>
+
+<p>key value pairs describing metadata</p>
+</li>
+<li><strong><a name="string_id11" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+<li><strong><a name="string_pi2" class="item">string pi</a></strong>
+
+<p>the first and last name of the principal investigator of the project</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="get_sample_query">get_sample_query</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A metagenomic sample from some environment.
+Returns a set of data matching the query criteria.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_order4" class="item">string order</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ created - return data objects ordered by creation date
+ id - return data objects ordered by id
+ name - return data objects ordered by name
+ version - return data objects ordered by version</pre>
+</li>
+<li><strong><a name="int_limit4" class="item">int limit</a></strong>
+
+<p>maximum number of items requested</p>
+</li>
+<li><strong><a name="int_offset4" class="item">int offset</a></strong>
+
+<p>zero based index of the first data object to be returned</p>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+<ul>
+<li><strong><a name="int_version7" class="item">int version</a></strong>
+
+<p>version of the object</p>
+</li>
+<li><strong><a name="string_project3" class="item">string project</a></strong>
+
+<p>reference to the project of this sample</p>
+</li>
+<li><strong><a name="string_name7" class="item">string name</a></strong>
+
+<p>human readable identifier</p>
+</li>
+<li><strong><a name="list_string_metagenomes" class="item">list&lt;string&gt; metagenomes</a></strong>
+
+<p>a list of references to the related metagenome objects</p>
+</li>
+<li><strong><a name="list_string_libraries3" class="item">list&lt;string&gt; libraries</a></strong>
+
+<p>a list of references to the related library objects</p>
+</li>
+<li><strong><a name="string_created7" class="item">string created</a></strong>
+
+<p>time the object was first created</p>
+</li>
+<li><strong><a name="mapping_string_string_env_package" class="item">mapping&lt;string, string&gt; env_package</a></strong>
+
+<p>environmental package</p>
+</li>
+<li><strong><a name="string_url7" class="item">string url</a></strong>
+
+<p>resource location of this object instance</p>
+</li>
+<li><strong><a name="string_id12" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+<li><strong><a name="mapping_string_string_metadata7" class="item">mapping&lt;string, string&gt; metadata</a></strong>
+
+<p>key value pairs describing metadata</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="get_sample_instance">get_sample_instance</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A metagenomic sample from some environment.
+Returns a single data object.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_verbosity7" class="item">string verbosity</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ minimal - returns only minimal information
+ verbose - returns all metadata
+ full - returns all metadata and references</pre>
+</li>
+<li><strong><a name="string_id13" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+<ul>
+<li><strong><a name="int_version8" class="item">int version</a></strong>
+
+<p>version of the object</p>
+</li>
+<li><strong><a name="string_project4" class="item">string project</a></strong>
+
+<p>reference to the project of this sample</p>
+</li>
+<li><strong><a name="string_name8" class="item">string name</a></strong>
+
+<p>human readable identifier</p>
+</li>
+<li><strong><a name="list_string_metagenomes2" class="item">list&lt;string&gt; metagenomes</a></strong>
+
+<p>a list of references to the related metagenome objects</p>
+</li>
+<li><strong><a name="list_string_libraries4" class="item">list&lt;string&gt; libraries</a></strong>
+
+<p>a list of references to the related library objects</p>
+</li>
+<li><strong><a name="string_created8" class="item">string created</a></strong>
+
+<p>time the object was first created</p>
+</li>
+<li><strong><a name="mapping_string_string_env_package2" class="item">mapping&lt;string, string&gt; env_package</a></strong>
+
+<p>environmental package</p>
+</li>
+<li><strong><a name="string_url8" class="item">string url</a></strong>
+
+<p>resource location of this object instance</p>
+</li>
+<li><strong><a name="string_id14" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+<li><strong><a name="mapping_string_string_metadata8" class="item">mapping&lt;string, string&gt; metadata</a></strong>
+
+<p>key value pairs describing metadata</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="get_sequences_md5">get_sequences_md5</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A set of genomic sequences of a metagenome annotated by a specified source
+Returns a single data object.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_id15" class="item">string id</a></strong>
+
+<p>unique metagenome identifier</p>
+</li>
+<li><strong><a name="string_sequence_type3" class="item">string sequence_type</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ dna - return DNA sequences
+ protein - return protein sequences</pre>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+<ul>
+<li><strong><a name="int_version9" class="item">int version</a></strong>
+
+<p>version of the object</p>
+</li>
+<li><strong><a name="string_url9" class="item">string url</a></strong>
+
+<p>resource location of this object instance</p>
+</li>
+<li><strong><a name="string_id16" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="get_sequences_annotation">get_sequences_annotation</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A set of genomic sequences of a metagenome annotated by a specified source
+Returns a single data object.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_source2" class="item">string source</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ RDP - 
+ Greengenes - 
+ LSU - 
+ SSU - 
+ NOG - 
+ COG - 
+ KO - 
+ GO - 
+ Subsystems - 
+ SwissProt - 
+ GenBank - 
+ IMG - 
+ SEED - 
+ TrEMBL - 
+ RefSeq - 
+ PATRIC - 
+ eggNOG - 
+ KEGG -</pre>
+</li>
+<li><strong><a name="string_data_type" class="item">string data_type</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ organism - return organism data
+ function - return function data
+ ontology - return ontology data</pre>
+</li>
+<li><strong><a name="string_id17" class="item">string id</a></strong>
+
+<p>unique metagenome identifier</p>
+</li>
+<li><strong><a name="string_sequence_type4" class="item">string sequence_type</a></strong>
+
+<p>This parameter value can be chosen from the following (the first being default):</p>
+<pre>
+ dna - return DNA sequences
+ protein - return protein sequences</pre>
+</li>
+<li><strong><a name="string_organism" class="item">string organism</a></strong>
+
+<p>organism name</p>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+<ul>
+<li><strong><a name="int_version10" class="item">int version</a></strong>
+
+<p>version of the object</p>
+</li>
+<li><strong><a name="string_url10" class="item">string url</a></strong>
+
+<p>resource location of this object instance</p>
+</li>
+<li><strong><a name="string_id18" class="item">string id</a></strong>
+
+<p>unique object identifier</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="get_sequenceset_instance">get_sequenceset_instance</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A set / subset of genomic sequences of a metagenome from a specific stage in its analysis
+Returns a single sequence file.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_id19" class="item">string id</a></strong>
+
+<p>unique metagenome identifier</p>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+<p>
+</p>
+<h2><a name="get_sequenceset_setlist">get_sequenceset_setlist</a></h2>
+<p>
+</p>
+<h3><a name="description">Description</a></h3>
+<p>A set / subset of genomic sequences of a metagenome from a specific stage in its analysis
+Returns a list of sets for the given id.</p>
+<p>
+</p>
+<h3><a name="parameters">Parameters</a></h3>
+<ul>
+<li><strong><a name="string_id20" class="item">string id</a></strong>
+
+<p>unique metagenome identifier</p>
+</li>
+</ul>
+<p>
+</p>
+<h3><a name="return_attributes">Return Attributes</a></h3>
+
+</body>
+
+</html>
