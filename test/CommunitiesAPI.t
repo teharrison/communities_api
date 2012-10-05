@@ -4,6 +4,9 @@ use strict;
 use warnings;
 
 use Test::More tests => 52;
+
+use lib "/Users/Andi/Development/kbase//typecomp/lib";
+use lib "/Users/Andi/Development/kbase/communities_api/client";
 use CommunitiesAPIClient;
 
 =pod
@@ -46,6 +49,22 @@ my $test_value;
 
 #----------------------------------------------------------------------------
 #
+#  METHOD get_metagenome_instance
+#
+note("TEST get_metagenome_instance");
+
+my $options = {} ;
+eval { $return = $object->get_metagenome_instance($options) };
+isnt($@, undef, "Call with no parameters failed properly $@");
+
+$options = {'id' => 'mgm4440026.3'};
+eval { $return = $object->get_metagenome_instance($options)  };
+ok( !($@) , 'No error for mgm4440026.3');
+is(ref $return, "HASH" , "Got HASH");
+ok( $return->{id} = $options->{id} , "Got data for mgm4440026.3");
+
+#----------------------------------------------------------------------------
+#
 #  METHOD get_abundanceprofile_instance
 #
 note("TEST get_abundanceprofile_instance");
@@ -60,19 +79,19 @@ $test_value{'source'} = 'M5NR';
 $test_value{'limit'}  = 3;
 $test_value{'offset'} = 56;
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
-is($@, undef, "Call with valid parameter works ");
+is(ref $return, "HASH" , "Call with valid parameter works ");
 
 $test_value{'verbosity'} = 'full';
 $test_value{'type'} = 'function';
 $test_value{'source'} = 'SwissProt';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
-is($@, undef, "Call with valid parameter works ");
+is(ref $return, "HASH", "Call with valid parameter works ");
 
 $test_value{'verbosity'} = 'verbose';
 $test_value{'type'} = 'feature';
 $test_value{'source'} = 'GenBank';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
-is($@, undef, "Call with valid parameter works ");
+is(ref $return, "HASH" , "Call with valid parameter works ");
 exit;
 
 #----------------------------------------------------------------------------
