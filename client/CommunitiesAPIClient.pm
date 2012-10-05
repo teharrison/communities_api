@@ -662,9 +662,6 @@ sub call {
         $result = $self->_post($uri, $obj);
     }
 
-    use Data::Dumper;
-    print STDERR Dumper($result)."\n";
-
     my $service = $obj->{method} =~ /^system\./ if ( $obj );
 
     $self->status_line($result->status_line);
