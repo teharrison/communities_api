@@ -1,6 +1,6 @@
 /*
 
-RESTful Metagenomics RAST object and resource API
+Communities Metagenomic object and resource API
 
 */
 module CommunitieAPI : CommunitiesAPI {
