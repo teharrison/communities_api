@@ -5,11 +5,8 @@ use warnings;
 
 use Test::More tests => 11;
 
-use lib "/Users/tobiaspaczian/CODE/typecomp/lib";
-use lib "/Users/tobiaspaczian/CODE/communities_api/client";
-use lib "/Users/tobiaspaczian/CODE/api/kbase";
 use CommunitiesAPIClient;
-use rpc_client;
+#use rpc_client;
 
 =pod
 
@@ -31,18 +28,18 @@ my $HOST='http://kbase.us/services/communities';
 #  Test 1 - Can a new object be created?
 #
 
-my $object = rpc_client->new({ "url" => $HOST });
-#my $object = CommunitiesAPIClient->new(); # create a new object
+#my $object = rpc_client->new({ "url" => $HOST });
+my $object = CommunitiesAPIClient->new(); # create a new object
 ok( defined $object, "Did an object get defined for Communities" );
 
 #
 #  Test 2 - Is the object in the right class?
 #
-#isa_ok( $object, 'CommunitiesAPIClient', "Is it in the right class (Communities)" );   
-isa_ok( $object, 'rpc_client', "Is it in the right class (Communities)" );
+isa_ok( $object, 'CommunitiesAPIClient', "Is it in the right class (Communities)" );   
+#isa_ok( $object, 'rpc_client', "Is it in the right class (Communities)" );
 
-#$object = CommunitiesAPIClient->new($HOST); # create a new object with the URL
-$object = rpc_client->new({ "url" => $HOST }); # create a new object with the URL
+$object = CommunitiesAPIClient->new($HOST); # create a new object with the URL
+#$object = rpc_client->new({ "url" => $HOST }); # create a new object with the URL
 
 #
 #  Test 3 - Are the methods valid?
