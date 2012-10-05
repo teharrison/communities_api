@@ -3,7 +3,7 @@
 Communities Metagenomic object and resource API
 
 */
-module CommunitieAPI : CommunitiesAPI {
+module CommunitiesAPI : CommunitiesAPI {
 	typedef structure {
 /*
 This parameter value can be chosen from the following (the first being default):
