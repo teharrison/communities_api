@@ -3,11 +3,13 @@
 use strict;
 use warnings;
 
-use Test::More tests => 52;
+use Test::More tests => 11;
 
-use lib "/Users/Andi/Development/kbase//typecomp/lib";
-use lib "/Users/Andi/Development/kbase/communities_api/client";
+use lib "/Users/tobiaspaczian/CODE/typecomp/lib";
+use lib "/Users/tobiaspaczian/CODE/communities_api/client";
+use lib "/Users/tobiaspaczian/CODE/api/kbase";
 use CommunitiesAPIClient;
+use rpc_client;
 
 =pod
 
@@ -24,19 +26,23 @@ use CommunitiesAPIClient;
 =cut
 
 my $HOST='http://kbase.us/services/communities';
-   $HOST='http://dunkirk.mcs.anl.gov/~wilke/MG-RAST/site/CGI/api2.cgi/';
+   $HOST='http://api.metagenomics.anl.gov/api2.cgi/';
 #
 #  Test 1 - Can a new object be created?
 #
 
-my $object = CommunitiesAPIClient->new(); # create a new object
-ok( defined $object, "Did an object get defined for Communities" );               
+my $object = rpc_client->new({ "url" => $HOST });
+#my $object = CommunitiesAPIClient->new(); # create a new object
+ok( defined $object, "Did an object get defined for Communities" );
+
 #
 #  Test 2 - Is the object in the right class?
 #
-isa_ok( $object, 'CommunitiesAPIClient', "Is it in the right class (Communities)" );   
+#isa_ok( $object, 'CommunitiesAPIClient', "Is it in the right class (Communities)" );   
+isa_ok( $object, 'rpc_client', "Is it in the right class (Communities)" );
 
-$object = CommunitiesAPIClient->new($HOST); # create a new object with the URL
+#$object = CommunitiesAPIClient->new($HOST); # create a new object with the URL
+$object = rpc_client->new({ "url" => $HOST }); # create a new object with the URL
 
 #
 #  Test 3 - Are the methods valid?
@@ -58,7 +64,7 @@ eval { $return = $object->get_metagenome_instance($options) };
 isnt($@, undef, "Call with no parameters failed properly $@");
 
 $options = {'id' => 'mgm4440026.3'};
-eval { $return = $object->get_metagenome_instance($options)  };
+$return = $object->get_metagenome_instance($options);
 ok( !($@) , 'No error for mgm4440026.3');
 is(ref $return, "HASH" , "Got HASH");
 ok( $return->{id} = $options->{id} , "Got data for mgm4440026.3");
@@ -100,7 +106,6 @@ exit;
 #
 note("TEST get_library_query");
 
-my %test_value ;
 eval { $return = $object->get_library_query(\%test_value)  };
 is($@, undef, "Call with no parameters did not fail $@");
 
@@ -124,7 +129,6 @@ exit;
 #
 note("TEST get_library_instance");
 
-my %test_value ;
 eval { $return = $object->get_library_instance(\%test_value)  };
 is($@, undef, "Call with no parameters failed properly $@");
 
@@ -208,7 +212,6 @@ $id       = 'mgp127';
 $query    = 'type=ontology&source=Subsystems';
 $return = $object->request($resource,$id,$query,\@param);
 is(ref($return), 'HASH', "request - Pass BAD resource and return reference is a hash");
-#is(scalar keys(%$return), 0, "request - Pass BAD resource and hash is empty");
 
 $resource = 'project';
 @param    = ('test');  # nothing IS being done with this now
@@ -217,9 +220,6 @@ $query    = 'type=ontology&source=Subsystems';
 $return = $object->request($resource,$id,$query,\@param);
 is(ref($return), 'HASH', "request - Pass BAD ID and return reference is a hash");
 is(scalar keys(%$return), 0, "request - Pass BAD ID and hash is empty");
-foreach my $key (keys(%$return)) {
-#      print "DEBUG: KEY=$key VALUE=$return->{$key} \n";  ## Each value in the hash 
-}
 print "DEBUG: ID=$return->{'id'} and RESOURCE=$return->{'type'}\n";;
 
 $resource = 'project';
@@ -241,11 +241,7 @@ is(ref($return), 'HASH', "request - Pass valid parameters and return reference i
 
 is ($return->{'id'}, $id, 'request - Valid data, key id has requested id ');
 is ($return->{'type'}, $resource, 'request - Valid data, key type has requested resouce');
-print "DEBUG: ID=$return->{'id'} and RESOURCE=$return->{'type'}\n";;
-foreach my $key (keys(%$return)) {
-#      print "DEBUG: KEY=$key VALUE=$return->{$key} \n";  ## Each value in the hash 
-}
-
+print "DEBUG: ID=$return->{'id'} and RESOURCE=$return->{'type'}\n";
 $resource = '';
 @param    = ();
 $id       = '';
@@ -265,18 +261,12 @@ is(scalar keys(%$return), 0, "request - Pass empty parameters and hash is empty"
 #
 
 $test_value = '';
-#eval { $return = $object->query(); };
-#isnt($@, '', 'query -  Called with no parameters failed properly');
-#print "DEBUG: error=$@\n\n\n" if $@;
 $return = $object->query();
 is(ref($return), 'HASH', "query - No input parameters returns a HASH");
 is(scalar keys(%$return), 0, "query - No input parameters returns an empty HASH");
 
 my $rt = '';
 my %att = (  );
-#eval { $return = $object->query($rt,\%att); };
-#isnt($@, '', 'query -  Called with null parameters failed properly');
-#print "DEBUG: error=$@\n\n\n" if $@;
 $return = $object->query($rt,\%att);
 is(ref($return), 'HASH', "query - Null input parameters returns a HASH");
 is(scalar keys(%$return), 0, "query - Null input parameters returns an empty HASH");
@@ -291,9 +281,6 @@ $rt = 'project';
 $return = $object->query($rt,\%att);
 is(ref($return), 'ARRAY', "query - Valid Resource but invalid attributes returns a ARRAY");
 is(scalar @$return, 0, "query - Valid Resource but invalid attributes returns an empty ARRAY");
-foreach (@$return) {
-#      print "DEBUG: VALUE=$_ and its reference=".ref($_)." \n";  ## Each value in the hash 
-}
 
 $rt = 'project';
 %att = ( 'public' => 1 );
@@ -302,14 +289,9 @@ is(ref($return), 'ARRAY', "query - Valid input parameters returns a ARRAY");
 isnt(scalar @$return, 0, "query - Valid input parameters returns a non-empty ARRAY");
 
 foreach my $item (@$return) {
-#	print "DEBUG: VALUE=$item and its reference=".ref($item)." \n";  ## Each value in the array is a hash 
 	is(ref($item), 'HASH', "query - ARRAY list contains HASH references");
 	last;
 }
-
-#foreach my $key (keys(%$return)) {
-#  print "Return for KEY $key = $return->{$key}\n";
-#}
 
 #----------------------------------------------------------------------------
 #
@@ -331,14 +313,12 @@ isnt(scalar @$list, 0, 'project - ARRAY is not empty');
 
 my $one_project_id = '';
 foreach  (@$list) {
-#	print "Items in the list = $_ ref=".ref($_)."\n";
 	$one_project_id = $_;
 }
 
 $return = $object->project('Not_a_project_id');
 is($return, '0', "project - BAD input parameters returns zero");
 
-#print "DEBUG: MY ONE PROJECT ID = $one_project_id\n";
 $return = $object->project($one_project_id);
 is(ref($return), 'Communities::Project', "project - Valid input parameters returns a Communities::Project object");
 my $test = $return->id;
@@ -361,7 +341,6 @@ isnt(scalar @$list, 0, 'sample - ARRAY is not empty');
 
 my $one_sample_id = '';
 foreach  (@$list) {
-#	print "Items in the list = $_\n";
 	$one_sample_id = $_;
 }
 
@@ -397,7 +376,6 @@ isnt(scalar @$list, 0, 'library - ARRAY is not empty');
 
 my $one_library_id = '';
 foreach  (@$list) {
-#	print "Items in the list = $_\n";
 	$one_library_id = $_;
 }
 print "DEBUG: MY ONE LIBRARY ID = $one_library_id\n";
@@ -407,7 +385,7 @@ is($return, '', "library - Bad input parameters returns nothing");
 
 $return = $object->library($one_library_id);
 is(ref($return), 'Communities::Library', "library - Valid input parameters returns a Communities::Library");
-my $test = $return->id;
+$test = $return->id;
 is ($test,$one_library_id,"Is the ID that came back the same as the one requested");
 
 

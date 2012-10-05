@@ -78,7 +78,7 @@ sub get_abundanceprofile_instance
 					       method_name => 'get_abundanceprofile_instance',
 					      );
 	} else {
-	    return wantarray ? @{$result->result} : $result->result->[0];
+	    return $result->result;
 	}
     } else {
         Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method get_abundanceprofile_instance",
@@ -178,7 +178,7 @@ sub get_library_instance
 					       method_name => 'get_library_instance',
 					      );
 	} else {
-	    return wantarray ? @{$result->result} : $result->result->[0];
+	    return $result->result;
 	}
     } else {
         Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method get_library_instance",
@@ -278,7 +278,7 @@ sub get_metagenome_instance
 					       method_name => 'get_metagenome_instance',
 					      );
 	} else {
-	    return wantarray ? @{$result->result} : $result->result->[0];
+	    return $result->result;
 	}
     } else {
         Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method get_metagenome_instance",
@@ -378,7 +378,7 @@ sub get_project_instance
 					       method_name => 'get_project_instance',
 					      );
 	} else {
-	    return wantarray ? @{$result->result} : $result->result->[0];
+	    return $result->result;
 	}
     } else {
         Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method get_project_instance",
@@ -478,7 +478,7 @@ sub get_sample_instance
 					       method_name => 'get_sample_instance',
 					      );
 	} else {
-	    return wantarray ? @{$result->result} : $result->result->[0];
+	    return $result->result;
 	}
     } else {
         Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method get_sample_instance",
@@ -661,6 +661,9 @@ sub call {
         Carp::croak "not hashref." unless (ref $obj eq 'HASH');
         $result = $self->_post($uri, $obj);
     }
+
+    use Data::Dumper;
+    print STDERR Dumper($result)."\n";
 
     my $service = $obj->{method} =~ /^system\./ if ( $obj );
 

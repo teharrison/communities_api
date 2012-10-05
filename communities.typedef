@@ -3,7 +3,7 @@
 RESTful Metagenomics RAST object and resource API
 
 */
-module MG_RAST : MG_RAST {
+module CommunitieAPI : CommunitiesAPI {
 	typedef structure {
 /*
 This parameter value can be chosen from the following (the first being default):
