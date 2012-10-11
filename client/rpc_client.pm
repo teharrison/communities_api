@@ -107,6 +107,9 @@ sub AUTOLOAD {
       warn "the method call could not be processed: $response";
       return undef;
     } else {
+      if ($call =~ /instance$/ && ref($retval) eq 'ARRAY') {
+	$retval = $retval->[0];
+      }
       return $retval;
     }
 		       
