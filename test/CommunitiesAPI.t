@@ -3,9 +3,11 @@
 use strict;
 use warnings;
 
+use lib "/Users/Andi/Development/kbase/communities_api/client" ;
+
 use Test::More tests => 52;
-#use CommunitiesAPIClient;
-use rpc_client;
+use CommunitiesAPIClient;
+#use rpc_client;
 use Data::Dumper;
 
 =pod
