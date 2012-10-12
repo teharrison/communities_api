@@ -7,7 +7,7 @@ use Getopt::Long;
 
 use LWP::UserAgent;
 
-use lib qw(/Users/tobiaspaczian/CODE/idserver/lib);
+#use lib qw(/Users/tobiaspaczian/CODE/idserver/lib);
 use Bio::KBase::IDServer::Client;
 
 sub usage {
