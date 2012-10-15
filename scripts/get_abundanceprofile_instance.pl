@@ -10,10 +10,8 @@ use LWP::UserAgent;
 use Bio::KBase::IDServer::Client;
 
 sub usage {
-  print "get_abundanceprofile_instance.pl >>> retrieve a abundanceprofile from the communities API
-";
-  print "get_abundanceprofile_instance.pl -id <id of the abundanceprofile>
-";
+  print "get_abundanceprofile_instance.pl >>> retrieve a abundanceprofile from the communities API\n";
+  print "get_abundanceprofile_instance.pl -id <id of the abundanceprofile>\n";
 }
 
 my $HOST='http://api.metagenomics.anl.gov/api2.cgi/abundanceprofile/';

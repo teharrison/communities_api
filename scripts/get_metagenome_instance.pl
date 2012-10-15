@@ -10,10 +10,8 @@ use LWP::UserAgent;
 use Bio::KBase::IDServer::Client;
 
 sub usage {
-  print "get_metagenome_instance.pl >>> retrieve a metagenome from the communities API
-";
-  print "get_metagenome_instance.pl -id <id of the metagenome>
-";
+  print "get_metagenome_instance.pl >>> retrieve a metagenome from the communities API\n";
+  print "get_metagenome_instance.pl -id <id of the metagenome>\n";
 }
 
 my $HOST='http://api.metagenomics.anl.gov/api2.cgi/metagenome/';

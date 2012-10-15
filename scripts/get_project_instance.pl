@@ -10,10 +10,8 @@ use LWP::UserAgent;
 use Bio::KBase::IDServer::Client;
 
 sub usage {
-  print "get_project_instance.pl >>> retrieve a project from the communities API
-";
-  print "get_project_instance.pl -id <id of the project>
-";
+  print "get_project_instance.pl >>> retrieve a project from the communities API\n";
+  print "get_project_instance.pl -id <id of the project>\n";
 }
 
 my $HOST='http://api.metagenomics.anl.gov/api2.cgi/project/';

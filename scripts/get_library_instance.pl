@@ -10,10 +10,8 @@ use LWP::UserAgent;
 use Bio::KBase::IDServer::Client;
 
 sub usage {
-  print "get_library_instance.pl >>> retrieve a library from the communities API
-";
-  print "get_library_instance.pl -id <id of the library>
-";
+  print "get_library_instance.pl >>> retrieve a library from the communities API\n";
+  print "get_library_instance.pl -id <id of the library>\n";
 }
 
 my $HOST='http://api.metagenomics.anl.gov/api2.cgi/library/';
