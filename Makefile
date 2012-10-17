@@ -40,8 +40,7 @@ test-client:
 		echo $$t ; \
 		$(KB_RUNTIME)/bin/perl $$t ; \
 		if [ $$? -ne 0 ] ; then \
-			echo "test $(TEST) failed with returnvalue $$?" ; \
-			exit $$? ; \
+			exit 1 ; \
 		fi \
 	done
 
