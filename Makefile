@@ -9,6 +9,9 @@ WRAP_PERL_TOOL = wrap_perl
 WRAP_PERL_SCRIPT = bash $(TOOLS_DIR)/$(WRAP_PERL_TOOL).sh
 SRC_PERL = $(wildcard scripts/*.pl)
 
+# thngs needed for testing
+TESTS = $(wildcard test/*.t) 
+
 all: deploy
 
 deploy: deploy-client deploy-scripts
@@ -28,5 +31,17 @@ deploy-scripts:
 		echo install $$src $$base ; \
 		cp $$src $(TARGET)/plbin ; \
 		$(WRAP_PERL_SCRIPT) "$(TARGET)/plbin/$$basefile" $(TARGET)/bin/$$base ; \
+	done
+
+test: test-client
+
+test-client:
+	for t in $(TESTS) ; do \
+		echo $$t ; \
+		$(KB_RUNTIME)/bin/perl $$t ; \
+		if [ $$? -ne 0 ] ; then \
+			echo "test $(TEST) failed with returnvalue $$?" ; \
+			exit $$? ; \
+		fi \
 	done
 
