@@ -1,10 +1,11 @@
+#!/usr/bin/perl
 
 use strict;
 use warnings;
 
-use Test::More tests => 378;
-use CommunitiesAPIClient;
-#use rpc_client;
+use Test::More tests => 394;
+#use CommunitiesAPIClient;
+use rpc_client;
 use Data::Dumper;
 
 =pod
@@ -22,6 +23,7 @@ use Data::Dumper;
 =cut
 
 my $HOST='http://kbase.us/services/communities';
+#   $HOST='http://dunkirk.mcs.anl.gov/~wilke/MG-RAST/site/CGI/api2.cgi/';
 	$HOST='http://api.metagenomics.anl.gov/api2.cgi';
 #
 #  Test 1 - Can a new object be created?
@@ -29,14 +31,13 @@ my $HOST='http://kbase.us/services/communities';
 
 #my $object = CommunitiesAPIClient->new(); # create a new object
 #my $object = rpc_client->new(); # create a new object with the URL
-my $object = CommunitiesAPIClient->new($HOST); # create a new object with the URL
-#my $object = rpc_client->new({"url"=>$HOST}); # create a new object with the URL
+my $object = rpc_client->new({"url"=>$HOST}); # create a new object with the URL
 ok( defined $object, "Did an object get defined for Communities" );               
 #
 #  Test 2 - Is the object in the right class?
 #
-isa_ok( $object, 'CommunitiesAPIClient', "Is it in the right class (Communities)" );   
-#isa_ok( $object, 'rpc_client', "Is it in the right class (rpc_client)" );   
+#isa_ok( $object, 'CommunitiesAPIClient', "Is it in the right class (Communities)" );   
+isa_ok( $object, 'rpc_client', "Is it in the right class (rpc_client)" );   
 
 #$object = CommunitiesAPIClient->new($HOST); # create a new object with the URL
 
@@ -44,7 +45,7 @@ isa_ok( $object, 'CommunitiesAPIClient', "Is it in the right class (Communities)
 #  Test 3 - Are the methods valid?
 #
 
-can_ok($object, qw[get_abundanceprofile_instance get_library_query get_library_instance get_metagenome_query get_metagenome_instance get_project_query  get_project_instance get_sample_query get_sample_instance get_sequences_md5 get_sequences_annotation ]);
+can_ok($object, qw[get_abundanceprofile_instance get_library_query get_library_instance get_metagenome_query get_metagenome_instance get_project_query  get_project_instance get_sample_query get_sample_instance get_sequences_md5 get_sequences_annotation get_sequenceset_instance get_sequenceset_setlist]);
 
 my $return;
 my %test_value;
@@ -78,7 +79,7 @@ if ($do{'get_abundanceprofile_instance'} eq 'Y')
 {
 $test_name = "get_abundanceprofile_instance";
 note("TEST $test_name");
-my %attributes = (
+%attributes = (
 		'generated_by'=>'S',
 		'matrix_type'=>'S',
 		'date'=>'S',
@@ -96,7 +97,7 @@ undef %test_value;
 undef $return;
 
 eval { $return = $object->get_abundanceprofile_instance() };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+ok(exists $return->{'error'}->{'data'}, "Call with no parameters fails properly");
 
 undef $return;
 $test_value{'verbosity'} = 'full';
@@ -105,132 +106,133 @@ $test_value{'type'} = 'organism';
 $test_value{'source'} = 'M5NR';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return an ARRAY?") if ($return); 
-&test_result($return,\%attributes,\%test_value) if ($return);
+is (ref($return), 'HASH', "$test_name was the return a HASH with M5NR?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
+&test_result($return,\%attributes,\%test_value) ;
 
-undef $return;
 $test_value{'verbosity'} = 'minimal';
 $test_value{'type'} = 'feature';
 $test_value{'source'} = 'SwissProt';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return an ARRAY?") if ($return); 
-#&test_result($return,\%attributes,\%test_value) if ($return);
+is (ref($return), 'HASH', "$test_name was the return a HASH with SwissProt"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'verbosity'} = 'verbose';
 $test_value{'source'} = 'GenBank';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with GenBank?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with GenBank?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'IMG';
 $test_value{'type'} = 'organism';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with IMG?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with IMG?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'SEED';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with SEED?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with SEED?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'TrEMBL';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with TrEMBL?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with TrEMBL?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'RefSeq';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with RefSeq?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with RefSeq?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'PATRIC';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with PATRIC?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with PATRIC?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'eggNOG';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with eggNOG?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with eggNOG?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'KEGG';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with KEGG?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with KEGG?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'NOG';
 $test_value{'type'} = 'function';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with NOG?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with NOG?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'COG';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with COG?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with COG?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'KO';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with KO?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with KO?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'GO';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with GO?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with GO?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'Subsystems';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with Subsystems?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with Subsystems?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'M5RNA';
 $test_value{'type'} = 'organism';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with M5RNA?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with M5RNA?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'RDP';
 $test_value{'type'} = 'feature';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with RDP?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with RDP?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'Greengenes';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with Greengenes?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with Greengenes?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'LSU';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with LSU?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with LSU?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{'source'} = 'SSU';
 eval { $return = $object->get_abundanceprofile_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return a ARRAY with SSU?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH with SSU?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
 }
+
 
 
 #----------------------------------------------------------------------------
@@ -253,7 +255,7 @@ note("TEST $test_name");
 		'sample'=>'S',
 		'metadata'=>'M'
 		);
-undef %test_value;
+undef %test_value ;
 undef $return;
 
 $test_value{"verbosity"} = 'minimal';
@@ -261,35 +263,32 @@ $test_value{"limit"} = 1;
 $test_value{"offset"} = 56;
 
 eval { $return = $object->get_library_query()  };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+isnt($@, '', "$test_name Call with no parameter fails properly ");
 
-undef $return;
 $test_value{"order"}='created'; 
 eval { $return = $object->get_library_query(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'HASH', "$test_name was the return a HASH?") if ($return); 
-&test_result($return,\%attributes,\%test_value)  if ($return);
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
+&test_result($return,\%attributes,\%test_value) ;
 
-undef $return;
 $test_value{"order"}='id';
 eval { $return = $object->get_library_query(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'HASH', "$test_name was the return a HASH?") if ($return); 
-&test_result($return,\%attributes,\%test_value)  if ($return);
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"order"}='name';
 eval { $return = $object->get_library_query(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'HASH', "$test_name was the return a HASH?") if ($return); 
-&test_result($return,\%attributes,\%test_value) if ($return) ;
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"order"}='version';
 eval { $return = $object->get_library_query(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'HASH', "$test_name was the return a HASH?") if ($return); 
-&test_result($return,\%attributes,\%test_value) if ($return) ;
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
 }
 
@@ -313,30 +312,31 @@ note("TEST $test_name");
 		'sample'=>'S',
 		'metadata'=>'M'
 		);
-undef %test_value;
+undef %test_value ;
 undef $return;
 
 eval { $return = $object->get_library_instance()  };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+isnt($@,'', "Call with no parameters failed properly");
 
 $test_value{"verbosity"}='full'; 
 $test_value{"id"}='mgl5589'; 
 eval { $return = $object->get_library_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return an ARRAY?") if ($return); 
-&test_result($return,\%attributes,\%test_value)  if ($return);
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
+&test_result($return,\%attributes,\%test_value) ;
 
-undef $return;
 $test_value{"verbosity"}='minimal'; 
 eval { $return = $object->get_library_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return an ARRAY?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"verbosity"}='verbose'; 
 eval { $return = $object->get_library_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return an ARRAY?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
 }
 
@@ -361,51 +361,52 @@ note("TEST $test_name");
 		'sample'=>'S',
 		'metadata'=>'M'
 		);
-undef %test_value ;
+undef %test_value;
 undef $return;
 
 eval { $return = $object->get_metagenome_query()  };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+isnt($@, undef, "$test_name Call with no parameters failed properly $@");
 
-undef $return;
 $test_value{"verbosity"}='minimal'; 
 $test_value{"limit"} = 1;
 $test_value{"offset"} = 56;
 $test_value{"order"}='created'; 
 eval { $return = $object->get_metagenome_query(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'HASH', "$test_name was the return a HASH with created?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
+
 &test_result($return,\%attributes,\%test_value) ;
 
-undef $return;
 $test_value{"order"}='id'; 
 eval { $return = $object->get_metagenome_query(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'HASH', "$test_name was the return a HASH with id?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"order"}='name'; 
 eval { $return = $object->get_metagenome_query(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'HASH', "$test_name was the return a HASH with name?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"order"}='sequence_type'; 
 eval { $return = $object->get_metagenome_query(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'HASH', "$test_name was the return a HASH with sequence_type?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"order"}='file_size'; 
 eval { $return = $object->get_metagenome_query(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'HASH', "$test_name was the return a HASH with file_size?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"order"}='version'; 
 eval { $return = $object->get_metagenome_query(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'HASH', "$test_name was the return a HASH with version?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
 }
 
@@ -430,37 +431,38 @@ note("TEST $test_name");
 		'sample'=>'S',
 		'metadata'=>'M'
 		);
-undef %test_value ;
+undef %test_value;
 undef $return;
 
 eval { $return = $object->get_metagenome_instance()  };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+isnt($@, undef, "$test_name Call with no parameters failed properly $@");
 
 $test_value{"verbosity"}='full'; 
 $test_value{id} = 'mgm4440026.3';
 eval { $return = $object->get_metagenome_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return an ARRAY?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
+
 &test_result($return,\%attributes,\%test_value) ;
 
-undef $return;
 $test_value{"verbosity"}='verbose'; 
 eval { $return = $object->get_metagenome_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return an ARRAY?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"verbosity"}='minimal'; 
 eval { $return = $object->get_metagenome_instance(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'ARRAY', "$test_name was the return an ARRAY?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
 }
 
 #----------------------------------------------------------------------------
 #
 #  METHOD get_project_query
-#	For some reason, projects are nested in an extra array
 #
 if ($do{'get_project_query'} eq 'Y')
 {
@@ -480,64 +482,58 @@ note("TEST $test_name");
 		'pi'=>'S',
 		'metadata'=>'M'
 		);
-undef %test_value ;
+undef %test_value;
 undef $return;
 
 eval { $return = $object->get_project_query()  };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+ok(exists $return->{'error'}->{'data'}, "Call with no parameters fails properly");
 
 undef $return;
 $test_value{"limit"} = 1;
 $test_value{"offset"} = 56;
 $test_value{"order"}='created'; 
 eval { $return = $object->get_project_query(\%test_value)  };
-is($@, '', "Call with valid parameters works $@");
-$return = pop($return) if ($return);
-is(ref $return, "HASH", "Call with valid parameters returns a HASH wiht created") if ($return);
-&test_result(pop($return),\%attributes,\%test_value)  if ($return);
+isnt($return, undef, "Call with valid parameters works $@");
+is(ref $return, "HASH", "Call with valid parameters returns a HASH with created");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
+&test_result($return,\%attributes,\%test_value) if (exists $return->{'result'}) ;
 
-undef $return;
 $test_value{"order"}='id'; 
 eval { $return = $object->get_project_query(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-$return = pop($return) if ($return);
-is(ref $return, "HASH", "Call with valid parameters returns a HASH with id") if ($return);
-&test_result($return,\%attributes,\%test_value)  if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a HASH with id");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
+&test_result($return,\%attributes,\%test_value) ;
 
-undef $return;
 $test_value{"order"}='name'; 
 eval { $return = $object->get_project_query(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-$return = pop($return) if ($return);
-is(ref $return, "HASH", "Call with valid parameters returns a HASH with name") if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a HASH with name");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"order"}='funding_source'; 
 eval { $return = $object->get_project_query(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-$return = pop($return) if ($return);
-is(ref $return, "HASH", "Call with valid parameters returns a HASH with funding_source") if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a HASH with funding_source");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"order"}='pi'; 
 eval { $return = $object->get_project_query(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-$return = pop($return) if ($return);
-is(ref $return, "HASH", "Call with valid parameters returns a HASH with pi") if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a HASH with pi");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"order"}='version'; 
 eval { $return = $object->get_project_query(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-$return = pop($return) if ($return);
-is(ref $return, "HASH", "Call with valid parameters returns a HASH with version") if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a HASH with version");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
 }
 
 #----------------------------------------------------------------------------
 #
 #  METHOD get_project_instance
-#	For some reason, projects are nested in an extra array
 #
 if ($do{'get_project_instance'} eq 'Y')
 {
@@ -560,17 +556,18 @@ note("TEST $test_name");
 undef %test_value ;
 undef $return;
 
-eval { $return = $object->get_project_instance()  };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
-
-undef $return;
 $test_value{"verbosity"}='full'; 
 $test_value{"id"}='mgp60'; 
+eval { $return = $object->get_project_instance()  };
+ok(exists $return->{'error'}->{'data'}, "Call with no parameters fails properly");
+
+undef $return;
 eval { $return = $object->get_project_instance(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-$return = pop($return) if ($return);
-is(ref($return), "ARRAY", "Call with valid parameters returns an ARRAY") if ($return);
-&test_result($return,\%attributes,\%test_value)  if ($return);
+is(ref($return), "HASH", "Call with valid parameters returns a hash");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
+
+&test_result($return,\%attributes,\%test_value) ;
 
 }
 
@@ -581,7 +578,7 @@ is(ref($return), "ARRAY", "Call with valid parameters returns an ARRAY") if ($re
 if ($do{'get_sample_query'} eq 'Y')
 {
 $test_name = "get_sample_query";
-note"TEST get_sample_instance";
+note"TEST $test_name";
 %attributes = (
 		'version'=>'S',
 		'project'=>'S',
@@ -598,7 +595,7 @@ undef %test_value;
 undef $return;
 
 eval { $return = $object->get_sample_query()  };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+ok(exists $return->{'error'}->{'data'}, "Call with no parameters fails properly");
 
 undef $return;
 $test_value{"limit"} = 1;
@@ -606,26 +603,28 @@ $test_value{"offset"} = 56;
 $test_value{"order"}='created'; 
 eval { $return = $object->get_sample_query(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-is(ref $return, "HASH", "Call with valid parameters returns a hash") if ($return);
-&test_result($return,\%attributes,\%test_value)  if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a HASH with created");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
+&test_result($return,\%attributes,\%test_value) ;
+
 $test_value{"order"}='id'; 
 eval { $return = $object->get_sample_query(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-is(ref $return, "HASH", "Call with valid parameters returns a hash") if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a HASH with id");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"order"}='name'; 
 eval { $return = $object->get_sample_query(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-is(ref $return, "HASH", "Call with valid parameters returns a hash") if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a HASH with name");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"order"}='version'; 
 eval { $return = $object->get_sample_query(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-is(ref $return, "HASH", "Call with valid parameters returns a hash") if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a HASH with version");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
 }
 
@@ -637,34 +636,47 @@ if ($do{'get_sample_instance'} eq 'Y')
 {
 $test_name = "get_sample_instance";
 note("TEST $test_name");
-
-undef %test_value ;
+%attributes = (
+		'version'=>'S',
+		'project'=>'S',
+		'name'=>'S',
+		'metagenomes'=>'L',
+		'libraries'=>'L',
+		'created'=>'S',
+		'env_package'=>'M',
+		'url'=>'S',
+		'id'=>'S',
+		'metadata'=>'M'
+		);
+undef %test_value;
 undef $return;
 
 eval { $return = $object->get_sample_instance()  };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+ok(exists $return->{'error'}->{'data'}, "Call with no parameters fails properly");
 
 undef $return;
 $test_value{"verbosity"}='full'; 
 $test_value{"id"}='mgs73470'; 
 eval { $return = $object->get_sample_instance(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-is(ref $return, "ARRAY", "Call with valid parameters returns a ARRAY") if ($return);
-&test_result($return,\%attributes,\%test_value)  if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a HASH");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
+&test_result($return,\%attributes,\%test_value) ;
+
 $test_value{"verbosity"}='verbose'; 
 $test_value{"id"}='mgs73470'; 
 eval { $return = $object->get_sample_instance(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-is(ref $return, "ARRAY", "Call with valid parameters returns a ARRAY") if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a HASH with verbose");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
-undef $return;
 $test_value{"verbosity"}='minimal'; 
 $test_value{"id"}='mgs73470'; 
 eval { $return = $object->get_sample_instance(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-is(ref $return, "ARRAY", "Call with valid parameters returns a ARRAY") if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a HASH with minimal");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
 }
 
@@ -685,22 +697,25 @@ undef %test_value ;
 undef $return;
 
 eval { $return = $object->get_sequences_md5()  };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+ok(exists $return->{'error'}->{'data'}, "Call with no parameters fails properly");
 
 undef $return;
 $test_value{id} = 'mgm4440026.3';
 $test_value{"sequence_type"} = 'dna';
-$test_value{"md5"} = ['960128629b9182b2a2dc54f26c94b692','3a50a86ac9665da473b0a6f3525ee2bd'];
+$test_value{"source"} = 'Greengenes';
+#$test_value{"md5"} = ['960128629b9182b2a2dc54f26c94b692','3a50a86ac9665da473b0a6f3525ee2bd'];
 eval { $return = $object->get_sequences_md5(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-is(ref $return, "HASH", "Call with valid parameters returns a hash") if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a hash");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
+
 &test_result($return,\%attributes,\%test_value) ;
 
-undef $return;
 $test_value{"sequence_type"} = 'protein';
 eval { $return = $object->get_sequences_md5(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-is(ref $return, "HASH", "Call with valid parameters returns a hash") if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a hash");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
 }
 
@@ -712,21 +727,25 @@ if ($do{'get_sequences_annotation'} eq 'Y')
 {
 $test_name = "get_sequences_annotation";
 note("TEST $test_name");
-
+%attributes = (
+		'version'=>'S',
+		'url'=>'S',
+		'id'=>'S',
+		);
 undef %test_value ;
 undef $return;
 
 eval { $return = $object->get_sequences_annotation()  };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+ok(exists $return->{'error'}->{'data'}, "Call with no parameters fails properly");
 
 undef $return;
 $test_value{"verbosity"}='minimal'; 
-$test_value{"limit"} = 2;
-$test_value{"offset"} = 56;
 $test_value{id} = 'mgm4440026.3';
+$test_value{"source"} = 'Greengenes';
 eval { $return = $object->get_sequences_annotation(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
-is (ref($return), 'HASH', "$test_name was the return a HASH?") if ($return); 
+is (ref($return), 'HASH', "$test_name was the return a HASH?"); 
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
 }
 
@@ -754,14 +773,15 @@ undef %test_value ;
 undef $return;
 
 eval { $return = $object->get_sequenceset_instance()  };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+ok(exists $return->{'error'}->{'data'}, "Call with no parameters fails properly");
 
 undef $return;
 $test_value{id} = 'mgm4440026.3';
 eval { $return = $object->get_sequenceset_instance(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
-is(ref $return, "HASH", "Call with valid parameters returns a hash") if ($return);
-&test_result($return,\%attributes,\%test_value)  if ($return);
+is(ref $return, "HASH", "Call with valid parameters returns a hash");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
+&test_result($return,\%attributes,\%test_value) ;
 
 }
 
@@ -779,12 +799,13 @@ undef %test_value ;
 undef $return;
 
 eval { $return = $object->version()  };
-like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+ok(exists $return->{'error'}->{'data'}, "Call with no parameters fails properly");
 
 undef $return;
 $test_value{id} = 'mgm4440037.3-100-1"';
 eval { $return = $object->version(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
+&test_error($return,\%test_value) if (ref($return) eq 'HASH');
 
 }
 
@@ -800,49 +821,43 @@ is($@, '', "$test_name Call with valid parameter works ");
 sub test_result
 {
 	my ($return,$attribute,$test) = @_;
+
+	return unless (ref($return) eq 'HASH' && exists $return->{'result'} && ref($return->{'result'}) eq 'ARRAY');
+
+	my $result = pop($return->{'result'});
 	my $data;
 
-	my $result = $return;
-#		print Dumper($result);  
-
-	if (ref($result) eq 'HASH' && exists ($result->{'rows'}) )
-	{	#print "DEBUG: Abundanceprofile \n";
-		$data->[0] = $result;
+	if (ref($result) eq 'HASH' && exists $result->{'data'} && ref($result->{'data'}) eq 'ARRAY')
+	{
+		if (exists $result->{'rows'} )
+		{	#print "Abundance Profile\n";
+			$data->[0] = $result;
+		}
+		else
+		{	#print "Most Query requests\n";
+			$data = $result->{'data'};
+		}
+	}
+	elsif (ref($result) eq 'HASH' && exists $result->{'data'} )
+	{	#print "Sequences MD5 and Annotation\n";
+		$data->[0] = $result->{'data'};
 	}
 	elsif (ref($result) eq 'HASH')
-	{   #print "DEBUG: Sample/Library/Metagenome/Project query \n";
-		$data = $result->{'data'};
-	}  
-	elsif (ref($result) eq 'ARRAY')
-	{	#print "DEBUG: Sample/Library/Metagenome/Project/Sequences_MD5 instance  \n";
-#		print Dumper($result);  
-		$data = $return;
+	{	#print "Most Instance requests\n";
+		$data->[0] = $result;
 	}
-	else
-	{	print "DEBUG: UNKNOWN  \n";
-		$data = $return;
+	elsif (ref($result) eq 'ARRAY' && ref($result->[0]) eq 'HASH' && exists $result->[0]->{'data'})
+	{	#print "Project Query\n";
+		$data = $result->[0]->{'data'};
+		$result = $result->[0];
 	}
+	elsif (ref($result) eq 'ARRAY' && ref($result->[0])  eq 'HASH' )
+	{	#print "Project Instance\n";
+		$data = $result;
+	}
+#	print Dumper($data);
+#	return;
 
-#	my $result = $return->{'result'};
-#		print Dumper($data);  
-#return;
-
-#	if (ref($result) eq 'HASH' && exists ($return->{'result'}->{'rows'}) )
-#	{	#print "DEBUG: Abundanceprofile \n";
-#		$data->[0] = $return->{'result'};
-#	}
-#	elsif (ref($result) eq 'HASH')
-#	{   #print "DEBUG: Sample/Library/Metagenome/Project query \n";
-#		$data = $return->{'result'}->{'data'};
-#	}  
-#	elsif (ref($result) eq 'ARRAY')
-#	{	#print "DEBUG: Sample/Library/Metagenome/Project/Sequences_MD5 instance  \n";
-#		$data = $return->{'result'};
-#	}
-#	else
-#	{	print "DEBUG: UNKNOWN  \n";
-#		$data = $return;
-#	}
 
 	my %attributes = %$attribute;
 	my %test_value = %$test;
@@ -859,11 +874,11 @@ sub test_result
 				{
 #					print "\t\t\tKEY=$key4 VALUE=$key3->{$key4} \n";
 					ok(exists $attributes{$key4}, "Is Attribute $key4 valid?");
-					if (exists $attributes{$key4} && $attributes{$key4} eq 'M'  )
+					if (exists $attributes{$key4} && $attributes{$key4} eq 'M')
 					{
 						is (ref($key3->{$key4}),'HASH', "Is Attribute $key4 a hash?");
 					}
-					elsif (exists $attributes{$key4} && $attributes{$key4} eq 'L'  )
+					elsif (exists $attributes{$key4} && $attributes{$key4} eq 'L' )
 					{
 						is (ref($key3->{$key4}),'ARRAY', "Is Attribute $key4 an array?");
 					}
@@ -889,17 +904,10 @@ sub test_result
 
 	return if (ref($result) eq 'ARRAY');
 
-	is ($result->{'limit'},$test_value{"limit"}, "Is the returned limit the same as the requested limit?") if (exists $test_value{"limit"});
+	is ($result->{'limit'},$test_value{"limit"}, "Is the returned limit the same as the requested limit?") if (exists $test_value{"limit"} && exists ($result->{'limit'}) );
 	is ($count, $test_value{"limit"}, "Is the returned number of records the same as the requested limit?") if (exists $test_value{"limit"});
-	is ($result->{'offset'},$test_value{"offset"}, "Is the returned offset the same as the requested offset?") if (exists $test_value{"offset"});
-	is ($result->{'order'},$test_value{"order"}, "Is the returned order the same as the requested order?") if (exists $test_value{"order"});
-
-#	is ($return->{'result'}->{'limit'},$test_value{"limit"}, "Is the returned limit the same as the requested limit?") if (exists $test_value{"limit"});
-#	is ($count, $test_value{"limit"}, "Is the returned number of records the same as the requested limit?") if (exists $test_value{"limit"});
-#	is ($return->{'result'}->{'offset'},$test_value{"offset"}, "Is the returned offset the same as the requested offset?") if (exists $test_value{"offset"});
-#	is ($return->{'result'}->{'order'},$test_value{"order"}, "Is the returned order the same as the requested order?") if (exists $test_value{"order"});
-
-
+	is ($result->{'offset'},$test_value{"offset"}, "Is the returned offset the same as the requested offset?") if (exists $test_value{"offset"} && exists ($result->{'offset'}) );
+	is ($result->{'order'},$test_value{"order"}, "Is the returned order the same as the requested order?") if (exists $test_value{"order"} && exists ($result->{'offset'}) );
 }
 
 sub test_error
@@ -910,9 +918,19 @@ sub test_error
 	if (exists $return->{'error'})
 	{
 		print "\tRETURN ERROR\n";
-		foreach my $key (keys(%{$return->{'error'}->{'data'}}))
+		my $error = {};
+		if (ref $return->{'error'}->{'data'} eq 'ARRAY')
 		{
-			print "\t$return->{'error'}->{'data'}->{$key} \n";
+			$error = pop($return->{'error'}->{'data'});
+		}
+		else
+		{
+			$error =  $return->{'error'}->{'data'};
+		}
+		foreach my $key (keys(%$error))
+		{
+#			print "\t$return->{'error'}->{'data'}->{$key} \n";
+			print "\t$error->{$key} \n";
 		}
  		print "\tRETURN PARAMETERS: ";
 		foreach my $key (keys(%test_value))
