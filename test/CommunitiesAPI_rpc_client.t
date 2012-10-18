@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 52;
+use Test::More tests => 394;
 #use CommunitiesAPIClient;
 use rpc_client;
 use Data::Dumper;
