@@ -137,6 +137,30 @@ function CommunitiesAPI(url) {
 	json_call_ajax_async("CommunitiesAPI.get_sequences_annotation", [get_sequences_annotation_params], 1, _callback, _error_callback)
     }
 
+    this.get_sequenceset_instance = function(get_sequenceset_instance_params)
+    {
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_sequenceset_instance", [get_sequenceset_instance_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_sequenceset_instance", [get_sequenceset_instance_params]);
+        return resp[0];
+    }
+
+    this.get_sequenceset_instance_async = function(get_sequenceset_instance_params, _callback, _error_callback)
+    {
+	json_call_ajax_async("CommunitiesAPI.get_sequenceset_instance", [get_sequenceset_instance_params], 1, _callback, _error_callback)
+    }
+
+    this.get_sequenceset_setlist = function(get_sequenceset_setlist_params)
+    {
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_sequenceset_setlist", [get_sequenceset_setlist_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_sequenceset_setlist", [get_sequenceset_setlist_params]);
+        return resp[0];
+    }
+
+    this.get_sequenceset_setlist_async = function(get_sequenceset_setlist_params, _callback, _error_callback)
+    {
+	json_call_ajax_async("CommunitiesAPI.get_sequenceset_setlist", [get_sequenceset_setlist_params], 1, _callback, _error_callback)
+    }
+
     function _json_call_prepare(url, method, params, async_flag)
     {
 	var rpc = { 'params' : params,

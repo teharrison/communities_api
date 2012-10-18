@@ -191,6 +191,38 @@ class CommunitiesAPI:
         else:
             return None
 
+    def get_sequenceset_instance(self, get_sequenceset_instance_params):
+
+        arg_hash = { 'method': 'CommunitiesAPI.get_sequenceset_instance',
+                     'params': [get_sequenceset_instance_params],
+                     'version': '1.1'
+                     }
+
+        body = json.dumps(arg_hash)
+        resp_str = urllib.urlopen(self.url, body).read()
+        resp = json.loads(resp_str)
+
+        if 'result' in resp:
+            return resp['result'][0]
+        else:
+            return None
+
+    def get_sequenceset_setlist(self, get_sequenceset_setlist_params):
+
+        arg_hash = { 'method': 'CommunitiesAPI.get_sequenceset_setlist',
+                     'params': [get_sequenceset_setlist_params],
+                     'version': '1.1'
+                     }
+
+        body = json.dumps(arg_hash)
+        resp_str = urllib.urlopen(self.url, body).read()
+        resp = json.loads(resp_str)
+
+        if 'result' in resp:
+            return resp['result'][0]
+        else:
+            return None
+
 
 
 

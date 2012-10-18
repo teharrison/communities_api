@@ -24,6 +24,8 @@ our %return_counts = (
         'get_sample_instance' => 1,
         'get_sequences_md5' => 1,
         'get_sequences_annotation' => 1,
+        'get_sequenceset_instance' => 1,
+        'get_sequenceset_setlist' => 1,
         'version' => 1,
 );
 
@@ -42,6 +44,8 @@ sub _build_valid_methods
         'get_sample_instance' => 1,
         'get_sequences_md5' => 1,
         'get_sequences_annotation' => 1,
+        'get_sequenceset_instance' => 1,
+        'get_sequenceset_setlist' => 1,
         'version' => 1,
     };
     return $methods;

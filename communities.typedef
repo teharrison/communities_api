@@ -2,6 +2,10 @@
 
 Communities Metagenomic object and resource API
 
+=head2 Synopsis
+
+=head2 Name
+
 */
 module CommunitiesAPI : CommunitiesAPI {
 	typedef structure {
@@ -687,7 +691,8 @@ unique metagenome identifier
 */
 		string id;
 	} get_sequenceset_instance_params;
-	typedef structure {
+	typedef structure { 
+		string file; 
 	} SequencesetInstance;
 	typedef structure {
 /*
@@ -696,6 +701,7 @@ unique metagenome identifier
 		string id;
 	} get_sequenceset_setlist_params;
 	typedef structure {
+		mapping<string,string> file;
 	} SequencesetSetlist;
 
 
