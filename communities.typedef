@@ -1,390 +1,27 @@
 /*
 
-Communities Metagenomic object and resource API
+Communities object and resource API
+For usage note that required parameters need to be passed as path parameters, optional parameters need to be query parameters. If an optional parameter has a list of option values, the first displayed will be used as default.
 
 */
 module CommunitiesAPI : CommunitiesAPI {
 	typedef structure {
 /*
-This parameter value can be chosen from the following (the first being default):
-	minimal - returns only minimal information
-	verbose - returns all metadata
-	full - returns all references
-*/
-		string verbosity;
-/*
-This parameter value can be chosen from the following (the first being default):
-	M5NR - M5NR data source
-	SwissProt - SwissProt data source
-	GenBank - GenBank data source
-	IMG - IMG data source
-	SEED - SEED data source
-	TrEMBL - TrEMBL data source
-	RefSeq - RefSeq data source
-	PATRIC - PATRIC data source
-	eggNOG - eggNOG data source
-	KEGG - KEGG data source
-	NOG - NOG data source
-	COG - COG data source
-	KO - KO data source
-	GO - GO data source
-	Subsystems - Subsystems data source
-	M5RNA - M5RNA data source
-	RDP - RDP data source
-	Greengenes - Greengenes data source
-	LSU - LSU data source
-	SSU - SSU data source
-*/
-		string source;
-/*
-unique object identifier
-*/
-		string id;
-/*
-This parameter value can be chosen from the following (the first being default):
-	organism - return organism data
-	function - return functional data
-	feature - return feature data
-*/
-		string type;
-	} get_abundanceprofile_instance_params;
-	typedef structure {
-/*
-	identifier of the data generator
-*/
-		string generated_by;
-/*
-	type of the data encoding matrix (dense or sparse)
-*/
-		string matrix_type;
-/*
-	time the output data was generated
-*/
-		string date;
-/*
-	the matrix values
-*/
-		list<list<float>> data;
-/*
-	list of row descriptions
-*/
-		list<mapping<string, string>> rows;
-/*
-	data type of the elements in the return matrix
-*/
-		string matrix_element_type;
-/*
-	url to the format specification
-*/
-		string format_url;
-/*
-	format specification name
-*/
-		string format;
-/*
-	list of column descriptions
-*/
-		list<mapping<string, string>> columns;
-/*
-	unique object identifier
-*/
-		string id;
-/*
-	type of the data in the return table (taxon, function or gene)
-*/
-		string type;
-/*
-	list of the dimension sizes of the return matrix
-*/
-		list<int> shape;
-	} AbundanceprofileInstance;
-	typedef structure {
-/*
-This parameter value can be chosen from the following (the first being default):
-	minimal - returns only minimal information
-*/
-		string verbosity;
-/*
-This parameter value can be chosen from the following (the first being default):
-	created - return data objects ordered by creation date
-	id - return data objects ordered by id
-	name - return data objects ordered by name
-	version - return data objects ordered by version
-*/
-		string order;
-/*
-maximum number of items requested
-*/
-		int limit;
-/*
-zero based index of the first data object to be returned
-*/
-		int offset;
-	} get_library_query_params;
-	typedef structure {
-/*
 	version of the object
 */
 		int version;
 /*
-	reference to the project object
+	reference to the project of this sample
 */
 		string project;
 /*
 	human readable identifier
 */
 		string name;
-/*
-	a list of references to the related sequence sets
-*/
-		list<string> sequencesets;
-/*
-	reference to the related metagenome object
-*/
-		string metagenome;
-/*
-	time the object was first created
-*/
-		string created;
-/*
-	resource location of this object instance
-*/
-		string url;
-/*
-	unique object identifier
-*/
-		string id;
-/*
-	reference to the related sample object
-*/
-		string sample;
-/*
-	key value pairs describing metadata
-*/
-		mapping<string, string> metadata;
-	} LibraryQuery;
-	typedef structure {
-/*
-This parameter value can be chosen from the following (the first being default):
-	minimal - returns only minimal information
-	verbose - returns a standard subselection of metadata
-	full - returns all connected metadata
-*/
-		string verbosity;
-/*
-unique object identifier
-*/
-		string id;
-	} get_library_instance_params;
-	typedef structure {
-/*
-	version of the object
-*/
-		int version;
-/*
-	reference to the project object
-*/
-		string project;
-/*
-	human readable identifier
-*/
-		string name;
-/*
-	a list of references to the related sequence sets
-*/
-		list<string> sequencesets;
-/*
-	reference to the related metagenome object
-*/
-		string metagenome;
-/*
-	time the object was first created
-*/
-		string created;
-/*
-	resource location of this object instance
-*/
-		string url;
-/*
-	unique object identifier
-*/
-		string id;
-/*
-	reference to the related sample object
-*/
-		string sample;
-/*
-	key value pairs describing metadata
-*/
-		mapping<string, string> metadata;
-	} LibraryInstance;
-	typedef structure {
-/*
-This parameter value can be chosen from the following (the first being default):
-	minimal - returns only minimal information
-*/
-		string verbosity;
-/*
-This parameter value can be chosen from the following (the first being default):
-	created - return data objects ordered by creation date
-	id - return data objects ordered by id
-	name - return data objects ordered by name
-	sequence_type - return data objects ordered by sequence type
-	file_size - return data objects ordered by file size
-	version - return data objects ordered by version
-*/
-		string order;
-/*
-maximum number of items requested
-*/
-		int limit;
-/*
-zero based index of the first data object to be returned
-*/
-		int offset;
-	} get_metagenome_query_params;
-	typedef structure {
-/*
-	sequence file size in bytes
-*/
-		int file_size;
-/*
-	version of the object
-*/
-		int version;
-/*
-	human readable identifier
-*/
-		string name;
-/*
-	reference to the related library object
-*/
-		string library;
-/*
-	sequencing type
-*/
-		string sequence_type;
-/*
-	time the object was first created
-*/
-		string created;
-/*
-	resource location of this object instance
-*/
-		string url;
-/*
-	reference to the primary project object
-*/
-		string primary_project;
-/*
-	unique object identifier
-*/
-		string id;
-/*
-	reference to the related sample object
-*/
-		string sample;
-/*
-	key value pairs describing metadata
-*/
-		mapping<string, string> metadata;
-	} MetagenomeQuery;
-	typedef structure {
-/*
-This parameter value can be chosen from the following (the first being default):
-	minimal - returns only minimal information
-	verbose - returns a standard subselection of metadata
-	full - returns all connected metadata
-*/
-		string verbosity;
-/*
-unique object identifier
-*/
-		string id;
-	} get_metagenome_instance_params;
-	typedef structure {
-/*
-	sequence file size in bytes
-*/
-		int file_size;
-/*
-	version of the object
-*/
-		int version;
-/*
-	human readable identifier
-*/
-		string name;
-/*
-	reference to the related library object
-*/
-		string library;
-/*
-	sequencing type
-*/
-		string sequence_type;
-/*
-	time the object was first created
-*/
-		string created;
-/*
-	resource location of this object instance
-*/
-		string url;
-/*
-	reference to the primary project object
-*/
-		string primary_project;
-/*
-	unique object identifier
-*/
-		string id;
-/*
-	reference to the related sample object
-*/
-		string sample;
-/*
-	key value pairs describing metadata
-*/
-		mapping<string, string> metadata;
-	} MetagenomeInstance;
-	typedef structure {
-/*
-This parameter value can be chosen from the following (the first being default):
-	created - return data objects ordered by creation date
-	id - return data objects ordered by id
-	name - return data objects ordered by name
-	funding_source - return data objects ordered by funding source
-	pi - return data objects ordered by principal investigator
-	version - return data objects ordered by version
-*/
-		string order;
-/*
-maximum number of items requested
-*/
-		int limit;
-/*
-zero based index of the first data object to be returned
-*/
-		int offset;
-	} get_project_query_params;
-	typedef structure {
 /*
 	a list of references to the related metagenome objects
 */
-		list<string> analyzed;
-/*
-	version of the object
-*/
-		int version;
-/*
-	human readable identifier
-*/
-		string name;
-/*
-	a short, comprehensive description of the project
-*/
-		string description;
+		list<string> metagenomes;
 /*
 	a list of references to the related library objects
 */
@@ -394,43 +31,22 @@ zero based index of the first data object to be returned
 */
 		string created;
 /*
-	a list of references to the related sample objects
+	environmental package object
 */
-		list<string> samples;
-/*
-	the official name of the source of funding of this project
-*/
-		string funding_source;
+		get_sample_instance_env_package_object env_package;
 /*
 	resource location of this object instance
 */
 		string url;
 /*
-	key value pairs describing metadata
-*/
-		mapping<string, string> metadata;
-/*
 	unique object identifier
 */
 		string id;
 /*
-	the first and last name of the principal investigator of the project
+	key value pairs describing metadata
 */
-		string pi;
-	} ProjectQuery;
-	typedef structure {
-/*
-This parameter value can be chosen from the following (the first being default):
-	minimal - returns only minimal information
-	verbose - returns all metadata
-	full - returns all metadata and references
-*/
-		string verbosity;
-/*
-unique object identifier
-*/
-		string id;
-	} get_project_instance_params;
+		mapping<string, string> metadata;
+	} SampleInstance;
 	typedef structure {
 /*
 	a list of references to the related metagenome objects
@@ -483,130 +99,578 @@ unique object identifier
 	} ProjectInstance;
 	typedef structure {
 /*
+	version of the object
+*/
+		int version;
+/*
+	reference to the project object
+*/
+		string project;
+/*
+	human readable identifier
+*/
+		string name;
+/*
+	reference to the related library object
+*/
+		string library;
+/*
+	sequencing type
+*/
+		string sequence_type;
+/*
+	time the object was first created
+*/
+		string created;
+/*
+	resource location of this object instance
+*/
+		string url;
+/*
+	unique object identifier
+*/
+		string id;
+/*
+	reference to the related sample object
+*/
+		string sample;
+/*
+	key value pairs describing metadata
+*/
+		mapping<string, string> metadata;
+	} MetagenomeInstance;
+	typedef structure {
+/*
+	version of the object
+*/
+		int version;
+/*
+	reference to the project object
+*/
+		string project;
+/*
+	human readable identifier
+*/
+		string name;
+/*
+	a list of references to the related sequence sets
+*/
+		list<string> sequencesets;
+/*
+	reference to the related metagenome object
+*/
+		string metagenome;
+/*
+	time the object was first created
+*/
+		string created;
+/*
+	resource location of this object instance
+*/
+		string url;
+/*
+	unique object identifier
+*/
+		string id;
+/*
+	reference to the related sample object
+*/
+		string sample;
+/*
+	key value pairs describing metadata
+*/
+		mapping<string, string> metadata;
+	} LibraryInstance;
+/*
+	rows object
+*/
+	typedef structure {
+/*
+	key value pairs describing metadata
+*/
+		mapping<string, string> metadata;
+/*
+	unique identifier
+*/
+		string id;
+	} get_abundanceprofile_instance_rows_object;
+/*
+	columns object
+*/
+	typedef structure {
+/*
+	list of metadata, contains the metagenome
+*/
+		mapping<string, string> metadata;
+/*
+	unique identifier
+*/
+		string id;
+	} get_abundanceprofile_instance_columns_object;
+	typedef structure {
+/*
+
 This parameter value can be chosen from the following (the first being default):
-	created - return data objects ordered by creation date
+
+	minimal - returns only minimal information
+	verbose - returns all metadata
+	full - returns all references
+
+*/
+		string verbosity;
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	M5RNA - comprehensive RNA database, type organism and feature only
+	RDP - RNA database, type organism and feature only
+	Greengenes - RNA database, type organism and feature only
+	LSU - RNA database, type organism and feature only
+	SSU - RNA database, type organism and feature only
+	M5NR - comprehensive protein database, type organism and feature only
+	SwissProt - protein database, type organism and feature only
+	GenBank - protein database, type organism and feature only
+	IMG - protein database, type organism and feature only
+	SEED - protein database, type organism and feature only
+	TrEMBL - protein database, type organism and feature only
+	RefSeq - protein database, type organism and feature only
+	PATRIC - protein database, type organism and feature only
+	eggNOG - protein database, type organism and feature only
+	KEGG - protein database, type organism and feature only
+	NOG - ontology database, type function only
+	COG - ontology database, type function only
+	KO - ontology database, type function only
+	GO - ontology database, type function only
+	Subsystems - ontology database, type function only
+
+*/
+		string source;
+/*
+
+	unique object identifier
+
+*/
+		string id;
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	organism - return organism data
+	function - return functional data
+	feature - return feature data
+
+*/
+		string type;
+	} get_abundanceprofile_instance_params;
+	typedef structure {
+/*
+	identifier of the data generator
+*/
+		string generated_by;
+/*
+	type of the data encoding matrix (dense or sparse)
+*/
+		string matrix_type;
+/*
+	time the output data was generated
+*/
+		string date;
+/*
+	the matrix values
+*/
+		list<list<float>> data;
+/*
+	rows object
+*/
+		list<get_abundanceprofile_instance_rows_object> rows;
+/*
+	data type of the elements in the return matrix
+*/
+		string matrix_element_type;
+/*
+	url to the format specification
+*/
+		string format_url;
+/*
+	format specification name
+*/
+		string format;
+/*
+	columns object
+*/
+		list<get_abundanceprofile_instance_columns_object> columns;
+/*
+	unique object identifier
+*/
+		string id;
+/*
+	type of the data in the return table (taxon, function or gene)
+*/
+		string type;
+/*
+	list of the dimension sizes of the return matrix
+*/
+		list<int> shape;
+	} AbundanceprofileInstance;
+	typedef structure {
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	minimal - returns only minimal information
+
+*/
+		string verbosity;
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
 	id - return data objects ordered by id
 	name - return data objects ordered by name
-	version - return data objects ordered by version
+
 */
 		string order;
 /*
-maximum number of items requested
+
+	maximum number of items requested
+
 */
 		int limit;
 /*
-zero based index of the first data object to be returned
+
+	zero based index of the first data object to be returned
+
+*/
+		int offset;
+	} get_library_query_params;
+	typedef structure {
+/*
+	link to the previous set or null if this is the first set
+*/
+		string next;
+/*
+	link to the next set or null if this is the last set
+*/
+		string prev;
+/*
+	name of the attribute the returned data is ordered by
+*/
+		string order;
+/*
+	maximum number of data items returned, default is 10
+*/
+		int limit;
+/*
+	list of the library objects
+*/
+		list<LibraryInstance> data;
+/*
+	zero based index of the first returned data item
+*/
+		int offset;
+/*
+	total number of available data items
+*/
+		int total_count;
+	} LibraryQuery;
+	typedef structure {
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	minimal - returns only minimal information
+	verbose - returns a standard subselection of metadata
+	full - returns all connected metadata
+
+*/
+		string verbosity;
+/*
+
+	unique object identifier
+
+*/
+		string id;
+	} get_library_instance_params;
+	typedef structure {
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	minimal - returns only minimal information
+	verbose - returns a standard subselection of metadata
+	full - returns all connected metadata
+
+*/
+		string verbosity;
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	id - return data objects ordered by id
+	name - return data objects ordered by name
+
+*/
+		string order;
+/*
+
+	maximum number of items requested
+
+*/
+		int limit;
+/*
+
+	zero based index of the first data object to be returned
+
+*/
+		int offset;
+	} get_metagenome_query_params;
+	typedef structure {
+/*
+	link to the previous set or null if this is the first set
+*/
+		string next;
+/*
+	link to the next set or null if this is the last set
+*/
+		string prev;
+/*
+	name of the attribute the returned data is ordered by
+*/
+		string order;
+/*
+	maximum number of data items returned, default is 10
+*/
+		int limit;
+/*
+	list of the metagenome objects
+*/
+		list<MetagenomeInstance> data;
+/*
+	zero based index of the first returned data item
+*/
+		int offset;
+/*
+	total number of available data items
+*/
+		int total_count;
+	} MetagenomeQuery;
+	typedef structure {
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	minimal - returns only minimal information
+	verbose - returns a standard subselection of metadata
+	full - returns all connected metadata
+
+*/
+		string verbosity;
+/*
+
+	unique object identifier
+
+*/
+		string id;
+	} get_metagenome_instance_params;
+	typedef structure {
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	minimal - returns only minimal information
+	verbose - returns all metadata
+	full - returns all metadata and references
+
+*/
+		string verbosity;
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	id - return data objects ordered by id
+	name - return data objects ordered by name
+
+*/
+		string order;
+/*
+
+	maximum number of items requested
+
+*/
+		int limit;
+/*
+
+	zero based index of the first data object to be returned
+
+*/
+		int offset;
+	} get_project_query_params;
+	typedef structure {
+/*
+	link to the previous set or null if this is the first set
+*/
+		string next;
+/*
+	link to the next set or null if this is the last set
+*/
+		string prev;
+/*
+	name of the attribute the returned data is ordered by
+*/
+		string order;
+/*
+	maximum number of data items returned, default is 10
+*/
+		int limit;
+/*
+	list of the project objects
+*/
+		list<ProjectInstance> data;
+/*
+	zero based index of the first returned data item
+*/
+		int offset;
+/*
+	total number of available data items
+*/
+		int total_count;
+	} ProjectQuery;
+	typedef structure {
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	minimal - returns only minimal information
+	verbose - returns all metadata
+	full - returns all metadata and references
+
+*/
+		string verbosity;
+/*
+
+	unique object identifier
+
+*/
+		string id;
+	} get_project_instance_params;
+	typedef structure {
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	id - return data objects ordered by id
+	name - return data objects ordered by name
+
+*/
+		string order;
+/*
+
+	maximum number of items requested
+
+*/
+		int limit;
+/*
+
+	zero based index of the first data object to be returned
+
 */
 		int offset;
 	} get_sample_query_params;
 	typedef structure {
 /*
-	version of the object
+	link to the previous set or null if this is the first set
 */
-		int version;
+		string next;
 /*
-	reference to the project of this sample
+	link to the next set or null if this is the last set
 */
-		string project;
+		string prev;
 /*
-	human readable identifier
+	name of the attribute the returned data is ordered by
 */
-		string name;
+		string order;
 /*
-	a list of references to the related metagenome objects
+	maximum number of data items returned, default is 10
 */
-		list<string> metagenomes;
+		int limit;
 /*
-	a list of references to the related library objects
+	list of sample objects
 */
-		list<string> libraries;
+		list<SampleInstance> data;
 /*
-	time the object was first created
+	zero based index of the first returned data item
+*/
+		int offset;
+/*
+	total number of available data items
+*/
+		int total_count;
+	} SampleQuery;
+/*
+	environmental package object
+*/
+	typedef structure {
+/*
+	creation date
 */
 		string created;
 /*
-	environmental package
+	name of the package
 */
-		mapping<string, string> env_package;
+		string name;
 /*
-	resource location of this object instance
-*/
-		string url;
-/*
-	unique object identifier
+	unique package identifier
 */
 		string id;
+/*
+	package type
+*/
+		string type;
 /*
 	key value pairs describing metadata
 */
 		mapping<string, string> metadata;
-	} SampleQuery;
+	} get_sample_instance_env_package_object;
 	typedef structure {
 /*
+
 This parameter value can be chosen from the following (the first being default):
+
 	minimal - returns only minimal information
 	verbose - returns all metadata
 	full - returns all metadata and references
+
 */
 		string verbosity;
 /*
-unique object identifier
+
+	unique object identifier
+
 */
 		string id;
 	} get_sample_instance_params;
 	typedef structure {
 /*
-	version of the object
-*/
-		int version;
-/*
-	reference to the project of this sample
-*/
-		string project;
-/*
-	human readable identifier
-*/
-		string name;
-/*
-	a list of references to the related metagenome objects
-*/
-		list<string> metagenomes;
-/*
-	a list of references to the related library objects
-*/
-		list<string> libraries;
-/*
-	time the object was first created
-*/
-		string created;
-/*
-	environmental package
-*/
-		mapping<string, string> env_package;
-/*
-	resource location of this object instance
-*/
-		string url;
-/*
-	unique object identifier
+
+	unique metagenome identifier
+
 */
 		string id;
 /*
-	key value pairs describing metadata
-*/
-		mapping<string, string> metadata;
-	} SampleInstance;
-	typedef structure {
-/*
-unique metagenome identifier
-*/
-		string id;
-/*
+
 This parameter value can be chosen from the following (the first being default):
+
 	dna - return DNA sequences
 	protein - return protein sequences
+
 */
 		string sequence_type;
+/*
+
+	md5 identifier
+
+*/
+		list<string> md5;
 	} get_sequences_md5_params;
 	typedef structure {
 /*
@@ -618,52 +682,77 @@ This parameter value can be chosen from the following (the first being default):
 */
 		string url;
 /*
+	a hash of data_type to list of sequences
+*/
+		list<mapping<string, string>> data;
+/*
 	unique object identifier
 */
 		string id;
 	} SequencesMd5;
 	typedef structure {
 /*
+
 This parameter value can be chosen from the following (the first being default):
-	RDP - 
-	Greengenes - 
-	LSU - 
-	SSU - 
-	NOG - 
-	COG - 
-	KO - 
-	GO - 
-	Subsystems - 
-	SwissProt - 
-	GenBank - 
-	IMG - 
-	SEED - 
-	TrEMBL - 
-	RefSeq - 
-	PATRIC - 
-	eggNOG - 
-	KEGG - 
+
+	M5RNA - comprehensive RNA database, type organism and feature only
+	RDP - RNA database, type organism and feature only
+	Greengenes - RNA database, type organism and feature only
+	LSU - RNA database, type organism and feature only
+	SSU - RNA database, type organism and feature only
+	M5NR - comprehensive protein database, type organism and feature only
+	SwissProt - protein database, type organism and feature only
+	GenBank - protein database, type organism and feature only
+	IMG - protein database, type organism and feature only
+	SEED - protein database, type organism and feature only
+	TrEMBL - protein database, type organism and feature only
+	RefSeq - protein database, type organism and feature only
+	PATRIC - protein database, type organism and feature only
+	eggNOG - protein database, type organism and feature only
+	KEGG - protein database, type organism and feature only
+	NOG - ontology database, type function only
+	COG - ontology database, type function only
+	KO - ontology database, type function only
+	GO - ontology database, type function only
+	Subsystems - ontology database, type function only
+
 */
 		string source;
 /*
+
 This parameter value can be chosen from the following (the first being default):
+
 	organism - return organism data
 	function - return function data
 	ontology - return ontology data
+
 */
 		string data_type;
 /*
-unique metagenome identifier
+
+	function to filter by
+
+*/
+		list<string> function;
+/*
+
+	unique metagenome identifier
+
 */
 		string id;
 /*
+
 This parameter value can be chosen from the following (the first being default):
+
 	dna - return DNA sequences
 	protein - return protein sequences
+
 */
 		string sequence_type;
 /*
-organism name
+
+	organism name
+
 */
 		string organism;
 	} get_sequences_annotation_params;
@@ -677,25 +766,61 @@ organism name
 */
 		string url;
 /*
+	a hash of data_type to list of sequences
+*/
+		list<mapping<string, string>> data;
+/*
 	unique object identifier
 */
 		string id;
 	} SequencesAnnotation;
 	typedef structure {
 /*
-unique metagenome identifier
+
+	unique sequence set identifier - to get a list of all identifiers for a metagenome, use the setlist request
+
 */
 		string id;
 	} get_sequenceset_instance_params;
 	typedef structure {
+/*
+	requested sequence file
+*/
+		string data;
 	} SequencesetInstance;
 	typedef structure {
 /*
-unique metagenome identifier
+
+	unique metagenome identifier
+
 */
 		string id;
 	} get_sequenceset_setlist_params;
 	typedef structure {
+/*
+	name of the stage in processing of this sequence file
+*/
+		string stage_name;
+/*
+	name of the sequence file
+*/
+		string file_name;
+/*
+	url for retrieving this sequence file
+*/
+		string url;
+/*
+	unique identifier of the sequence file
+*/
+		string id;
+/*
+	type of the sequence file within a stage, i.e. passed or removed for quality control steps
+*/
+		string stage_type;
+/*
+	three digit numerical identifier of the stage
+*/
+		string stage_id;
 	} SequencesetSetlist;
 
 
