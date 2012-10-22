@@ -7,6 +7,7 @@ use Test::More tests => 52;
 #use CommunitiesAPIClient;
 use rpc_client;
 use Data::Dumper;
+use lib "../lib/";
 
 =pod
 
