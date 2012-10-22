@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use lib "../lib/";
+use lib "../client/";
 use Test::More tests => 378;
 use CommunitiesAPIClient;
 #use rpc_client;
