@@ -2,9 +2,11 @@
 #use strict;
 #use warnings;
 
-
 use lib "/Users/Andi/Development/kbase/communities_api/client" ;
 use lib "/Users/Andi/Development/kbase/kb_seed/lib/" ;
+
+#use lib "../client/";
+
 use Test::More tests => 378;
 
 use CommunitiesAPIClient;

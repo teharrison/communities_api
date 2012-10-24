@@ -34,26 +34,30 @@ Options
 
 	token - Globus Online authentication token
 
+	webkey - MG-RAST webkey to synch with the passed Globus Online authentication
+
 	verbosity - verbosity of the result data, can be one of [ 'minimal', 'verbose', 'full' ]
 
 ~;
   system "echo '$text' | more";
 }
 
-my $HOST='http://api.metagenomics.anl.gov/api2.cgi/library/';
+my $HOST      = 'http://api.metagenomics.anl.gov/api2.cgi/library/';
 my $id        = '';
 my $user      = '';
 my $pass      = '';
 my $token     = '';
 my $verbosity = 'full';
 my $help      = '';
+my $webkey    = '';
 
 GetOptions ( 'id=s' => \$id,
              'user=s' => \$user,
              'pass=s' => \$pass,
              'token=s' => \$token,
              'verbosity=s' => \$verbosity,
-             'help' => \$help );
+             'help' => \$help,
+             'webkey=s' => \$webkey );
 
 if ($help) {
   &help();
@@ -96,6 +100,9 @@ if ($user || $pass) {
 }
 
 my $url = $HOST.$id."?verbosity=$verbosity";
+if ($webkey) {
+  $url .= "&webkey=".$webkey;
+}
 my $ua = LWP::UserAgent->new;
 if ($token) {
   $ua->default_header('user_auth' => $token);
