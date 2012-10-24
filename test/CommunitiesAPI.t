@@ -115,7 +115,10 @@ is($@, '', "$test_name Call with valid parameter works ");
 
 
 is (ref($return), 'HASH', "$test_name was the return an HASH?") if ($return); 
+#print Dumper $return ;
 &test_result($return,\%attributes,\%test_value) if ($return);
+#exit;
+
 
 undef $return;
 $test_value{'verbosity'} = 'minimal';
@@ -278,7 +281,6 @@ eval { $return = $object->get_library_query(\%test_value)  };
 is($@, '', "$test_name Call with valid parameter works ");
 is (ref($return), 'HASH', "$test_name was the return a HASH?") if ($return); 
 &test_result($return,\%attributes,\%test_value)  if ($return);
-
 
 
 undef $return;
@@ -503,7 +505,9 @@ like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed 
 undef $return;
 $test_value{"limit"} = 1;
 $test_value{"offset"} = 56;
-$test_value{"order"}='created'; 
+# not a valid option
+# $test_value{"order"}='created'; 
+$test_value{"order"}='name';
 eval { $return = $object->get_project_query(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
 
@@ -532,21 +536,21 @@ is(ref $return, "HASH", "Call with valid parameters returns a HASH with name") i
 undef $return;
 $test_value{"order"}='funding_source'; 
 eval { $return = $object->get_project_query(\%test_value)  };
-is($@, '', "Call with valid parameters works $@");
+isnt($@, '', "Call with valid parameters works $@");
 #$return = pop($return) if ($return);
 is(ref $return, "HASH", "Call with valid parameters returns a HASH with funding_source") if ($return);
 
 undef $return;
 $test_value{"order"}='pi'; 
 eval { $return = $object->get_project_query(\%test_value)  };
-is($@, '', "Call with valid parameters works $@");
+isnt($@, '', "Call with valid parameters works $@");
 #$return = pop($return) if ($return);
 is(ref $return, "HASH", "Call with valid parameters returns a HASH with pi") if ($return);
 
 undef $return;
 $test_value{"order"}='version'; 
 eval { $return = $object->get_project_query(\%test_value)  };
-is($@, '', "Call with valid parameters works $@");
+isnt($@, '', "Call with valid parameters works $@");
 #$return = pop($return) if ($return);
 is(ref $return, "HASH", "Call with valid parameters returns a HASH with version") if ($return);
 
@@ -669,6 +673,9 @@ eval { $return = $object->get_sample_instance(\%test_value)  };
 is($@, '', "Call with valid parameters works $@");
 is(ref $return, "HASH", "Call with valid parameters returns a HASH") if ($return);
 &test_result($return,\%attributes,\%test_value)  if ($return);
+
+print Dumper $return ;
+exit;
 
 undef $return;
 $test_value{"verbosity"}='verbose'; 
@@ -827,14 +834,19 @@ sub test_result
 	{	#print "DEBUG: Abundanceprofile \n";
 		$data->[0] = $result;
 	}
-	elsif (ref($result) eq 'HASH')
+	elsif (ref($result) eq 'HASH' && exists ($result->{'data'}))
 	{   #print "DEBUG: Sample/Library/Metagenome/Project query \n";
-		$data = $result->{'data'};
+		$data->[0] = $result->{data};
 	}  
+	elsif (ref($result) eq 'HASH')
+	{   #print "DEBUG: Sample/Library/Metagenome/Project instance \n";
+		$data->[0] = $result;
+	} 
 	elsif (ref($result) eq 'ARRAY')
 	{	#print "DEBUG: Sample/Library/Metagenome/Project/Sequences_MD5 instance  \n";
 #		print Dumper($result);  
 		$data = $return;
+		die "never should reached this point" ;
 	}
 	else
 	{	print "DEBUG: UNKNOWN  \n";
@@ -875,7 +887,8 @@ sub test_result
 			{
 				foreach my $key4 (keys(%$key3))
 				{
-#					print "\t\t\tKEY=$key4 VALUE=$key3->{$key4} \n";
+					print "\t\t\tKEY=$key4 VALUE=$key3->{$key4} \n";
+					print Dumper \%attributes ;
 					ok(exists $attributes{$key4}, "Is Attribute $key4 valid?");
 					if (exists $attributes{$key4} && $attributes{$key4} eq 'M'  )
 					{
