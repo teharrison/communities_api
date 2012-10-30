@@ -73,7 +73,11 @@ sub get_abundanceprofile_instance
 	params => \@args,
     });
     if ($result) {
-	if ($result->is_error) {
+	# print STDERR Dumper $result ;
+        if ($result->is_error) {
+	    print STDERR "Error in Client:\n" ;
+	    print STDERR Dumper $result ;
+	    print STDERR Dumper $result->error_message ;
 	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
 					       code => $result->content->{code},
 					       method_name => 'get_abundanceprofile_instance',

@@ -114,7 +114,7 @@ sub test2 {
 
   # test parameters 
   my @verbosity          = ( 'minimal' , 'verbose' , 'full' );
-  my @sources_features   = ( 'M5RNA' , 'RDP' , 'Greengenes' , 'LSU' , 'SSU' , ' M5NR' , 'SwissProt' , 'GenBank' , 'IMG' , 
+  my @sources_features   = ( 'M5RNA' , 'RDP' , 'Greengenes' , 'LSU' , 'SSU' , 'M5NR' , 'SwissProt' , 'GenBank' , 'IMG' , 
 			     'KEGG' , 'SEED' , 'TrEMBL' , 'RefSeq' , 'PATRIC' , 'eggNOG' ) ;
   my @sources_functions  = ( 'NOG' , 'COG' , 'KO' , 'GO' , 'Subsystems' ) ;
   my @types      = ( 'feature' , 'organism' , 'function' ) ;
@@ -181,114 +181,168 @@ sub test2 {
 
 # Test Project
 sub test3 {
-       my ($object) = @_ ;
+  my ($object) = @_ ;
+  
+  my $test_name = "get_library_query";
+  note("TEST $test_name");
+  my %attributes = (
+		    'version'=>'S',
+		    'project'=>'S',
+		    'name'=>'S',
+		    'sequencesets'=>'L',
+		    'metagenome'=>'S',
+		    'created'=>'S',
+		    'url'=>'S',
+		    'id'=>'S',
+		    'sample'=>'S',
+		    'metadata'=>'M'
+		   );
+  my $return     = undef;
 
-       my $test_name = "get_library_query";
-       note("TEST $test_name");
-       my %attributes = (
-			 'version'=>'S',
-			 'project'=>'S',
-			 'name'=>'S',
-			 'sequencesets'=>'L',
-			 'metagenome'=>'S',
-			 'created'=>'S',
-			 'url'=>'S',
-			 'id'=>'S',
-			 'sample'=>'S',
-			 'metadata'=>'M'
-			);;
-       my $return = undef;
-
-       # Test parameters
-        my $good_params = {
-			  "verbosity"=> [
-					 "minimal",
-					],
-			  "order    "=> [
-					 "id",
-					 "name",
-					],
-			   "limit"    => [ 1 , 50 , 100 ] ,
-			   "offset"   => [ 0 , 1 , 50 ] ,
-			 };
-
-       my $bad_params = {
-			  "verbosity"=> [
-					 "verbose",
-					 "full",
-					],
-			  "order"=> [
-				     "created",
-				     "url",
-				     "metagenome",
-				    ],
-			 "limit"=> [ -50 ] ,
-			 "offset"=> [ 0 , -10 ] ,
-			};
-
-          
-       eval { $return = $object->get_library_query()  };
-       like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+  # Test parameters
+  my $good_params = {
+		     "verbosity"=> [
+				    "minimal",
+				   ],
+		     "order    "=> [
+				    "id",
+				    "name",
+				   ],
+		     "limit"    => [ 1 , 50 , 100 ] ,
+		     "offset"   => [ 0 , 1 , 50 ] ,
+		    };
+  
+  my $bad_params = {
+		    "verbosity"=> [
+				   "verbose",
+				   "full",
+				  ],
+		    "order"=> [
+			       "created",
+			       "url",
+			       "metagenome",
+			      ],
+		    "limit"=> [ -50 ] ,
+		    "offset"=> [ 0 , -10 ] ,
+		   };
+  
+  
+  eval { $return = $object->get_library_query()  };
+  like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+  
+  # Test should work
+  foreach my $verbose ( @{$good_params->{verbosity} }) {
+    foreach my $order ( @{$good_params->{order} }) {
+      foreach my $limit ( @{$good_params->{limit} }) {
+	foreach my $offset ( @{$good_params->{offset} }) {
+	  
+	  my$return = undef;
+	  my $test_value = { "verbosity" => $verbose ,
+			     "limit"     => $limit ,
+			     "offset"    => $offset ,
+			     "order"     => $order ,
+			   };
+	  eval { $return = $object->get_library_query($test_value)  };
+	  is($@, '', "$test_name Call with valid parameters (verbosity=$verbose , limit=$limit , offset=$offset , order=$order) works ");
+	  is (ref($return), 'HASH', "$test_name was the return a HASH?") if ($return); 
+	  &test_result($return,\%attributes,$test_value)  if ($return);
+	}
+      }
+    }
+  }
        
-       # Test should work
-       foreach my $verbose ( @{$good_params->{verbosity} }) {
-	 foreach my $order ( @{$good_params->{order} }) {
-	   foreach my $limit ( @{$good_params->{limit} }) {
-	     foreach my $offset ( @{$good_params->{offset} }) {
-	       
-	       my$return = undef;
-	       my $test_value = { "verbosity" => $verbose ,
-				  "limit"     => $limit ,
-				  "offset"    => $offset ,
-				  "order"     => $order ,
-				};
-	       eval { $return = $object->get_library_query($test_value)  };
-	       is($@, '', "$test_name Call with valid parameters (verbosity=$verbose , limit=$limit , offset=$offset , order=$order) works ");
-	       is (ref($return), 'HASH', "$test_name was the return a HASH?") if ($return); 
-	       &test_result($return,\%attributes,$test_value)  if ($return);
-	     }
-	   }
-	 }
-       }
-       
-       # Test should fail
-         foreach my $verbose ( @{$bad_params->{verbosity} }) {
-	 foreach my $order ( @{$bad_params->{order} }) {
-	   foreach my $limit ( @{$bad_params->{limit} }) {
-	     foreach my $offset ( @{$bad_params->{offset} }) {
-	       
-	       my $return = undef;
-	       my $test_value = { "verbosity" => $verbose ,
-				  "limit"     => $limit ,
-				  "offset"    => $offset ,
-				  "order"     => $order ,
-				};
-	       
-	       eval { $return = $object->get_library_query($test_value)  };
-	       is($@, '', "$test_name Call with invalid parameter (verbosity=$verbose , limit=$limit , offset=$offset , order=$order) works ");
-	       if ($@) {
-		 diag ( "Test failed:\n " . $@ ) ;
-		 diag ( Dumper $return ) ;
-		 next ;
-
-	       }
-	       is (ref($return), 'HASH', "$test_name was the return a HASH?") if ($return);
-	       ok($return->{ERROR} , "$test_name returned error message");
-	       ok( !@{$return->{data}} , "$test_name no instances returned for invalid parameters?") if ($return); 
-	       if ( @{$return->{data}} ){
-		 print STDERR  Dumper $return ;
-		 exit;
-
-	       }
-	       &test_result($return,\%attributes,$test_value)  if (@{$return->{data}});
-	     }
-	   }
-	 }
-       }
-
+  # Test should fail
+  foreach my $verbose ( @{$bad_params->{verbosity} }) {
+    foreach my $order ( @{$bad_params->{order} }) {
+      foreach my $limit ( @{$bad_params->{limit} }) {
+	foreach my $offset ( @{$bad_params->{offset} }) {
+	  
+	  my $return = undef;
+	  my $test_value = { "verbosity" => $verbose ,
+			     "limit"     => $limit ,
+			     "offset"    => $offset ,
+			     "order"     => $order ,
+			   };
+	  
+	  eval { $return = $object->get_library_query($test_value)  };
+	  is($@, '', "$test_name Call with invalid parameter (verbosity=$verbose , limit=$limit , offset=$offset , order=$order) works ");
+	  if ($@) {
+	    diag ( "Test failed:\n " . $@ ) ;
+	    diag ( Dumper $return ) ;
+	    next ;
+	    
+	  }
+	  is (ref($return), 'HASH', "$test_name was the return a HASH?") if ($return);
+	  ok($return->{ERROR} , "$test_name returned error message");
+	  ok( !@{$return->{data}} , "$test_name no instances returned for invalid parameters?") if ($return); 
+	  if ( @{$return->{data}} ){
+	    print STDERR  Dumper $return ;
+	    exit;
+	    
+	  }
+	  &test_result($return,\%attributes,$test_value)  if (@{$return->{data}});
+	}
+      }
+    }
+  }
 }
+
+
 sub test4 {
-       ok(1,  (caller(0))[3] );
+  my ($client) = @_ ;
+
+  my $test_name = "get_library_instance";
+  note("TEST $test_name");
+  my %attributes = (
+		    'version'=>'S',
+		    'project'=>'S',
+		    'name'=>'S',
+		    'sequencesets'=>'L',
+		    'metagenome'=>'S',
+		    'created'=>'S',
+		    'url'=>'S',
+		    'id'=>'S',
+		    'sample'=>'S',
+		    'metadata'=>'M'
+		   );
+  
+  my $good_params = {
+		     "verbosity"=> [
+				    "minimal",
+				    "verbose",
+				    "full",
+				   ],
+		    };
+  
+  my $bad_params = {
+		    "verbosity"=> [
+				   "all",
+				   "done",
+				  ],
+		    "order"=> [
+			       "created",
+			       "url",
+			       "metagenome",
+			      ],
+		   };
+ 
+  my $return = undef ;
+  eval { $return = $client->get_library_instance()  };
+  like($@, qr/Invalid argument count/, "$test_name Call with no parameters failed properly");
+  
+  foreach my $verbose ( @{$good_params->{verbosity} }) {
+    
+    my $test_value = { id        => 'mgl5589' ,
+		       verbosity => $verbose ,
+		     };
+    my $return = undef ;
+
+    eval { $return = $client->get_library_instance($test_value)  };
+    is($@, '', "$test_name Call with valid parameter works ");
+    is (ref($return), 'HASH', "$test_name was the return an HASH?") if ($return); 
+    &test_result($return,\%attributes,$test_value)  if ($return);
+  }
+      
 }
 
 
