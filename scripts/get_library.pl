@@ -11,18 +11,18 @@ use JSON;
 use Bio::KBase::IDServer::Client;
 
 sub usage {
-  print "get_sequenceset_instance.pl >>> retrieve a sequenceset from the communities API\n";
-  print "get_sequenceset_instance.pl -id <id of the sequenceset>\n"; 
+  print "get_library.pl >>> retrieve a library from the communities API\n";
+  print "get_library.pl -id <id of the library>\n"; 
 }
 
 sub help {
-  my $text = qq~get_sequenceset_instance
+  my $text = qq~get_library
 
-retrieve a sequenceset from the communities API
+retrieve a library from the communities API
 
 Parameters
 
-	id - the id of the sequenceset to be retrieved from the API
+	id - the is of the library to be retrieved from the API
 
 Options
 
@@ -37,12 +37,11 @@ Options
 	webkey - MG-RAST webkey to synch with the passed Globus Online authentication
 
 	verbosity - verbosity of the result data, can be one of [ 'minimal', 'verbose', 'full' ]
-
 ~;
   system "echo '$text' | more";
 }
 
-my $HOST      = 'http://api.metagenomics.anl.gov/api2.cgi/sequenceset/';
+my $HOST      = 'http://api.metagenomics.anl.gov/api2.cgi/library/';
 my $id        = '';
 my $user      = '';
 my $pass      = '';
@@ -63,11 +62,11 @@ if ($help) {
   &help();
   exit 0;
 }
-
 unless ($id) {
   &usage();
   exit 0;
 }
+
 
 if ($id =~/^kb\|/) {
   my $id_server_url = "http://bio-data-1.mcs.anl.gov:8080/services/idserver";

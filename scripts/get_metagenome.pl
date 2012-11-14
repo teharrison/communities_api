@@ -11,18 +11,18 @@ use JSON;
 use Bio::KBase::IDServer::Client;
 
 sub usage {
-  print "get_abundanceprofile_instance.pl >>> retrieve a abundanceprofile from the communities API\n";
-  print "get_abundanceprofile_instance.pl -id <id of the abundanceprofile>\n"; 
+  print "get_metagenome.pl >>> retrieve a metagenome from the communities API\n";
+  print "get_metagenome.pl -id <id of the metagenome>\n"; 
 }
 
 sub help {
-  my $text = qq~get_abundanceprofile_instance
+  my $text = qq~get_metagenome
 
-retrieve a abundanceprofile from the communities API
+retrieve a metagenome from the communities API
 
 Parameters
 
-	id - the id of the abundanceprofile to be retrieved from the API
+	id - the is of the metagenome to be retrieved from the API
 
 Options
 
@@ -37,12 +37,11 @@ Options
 	webkey - MG-RAST webkey to synch with the passed Globus Online authentication
 
 	verbosity - verbosity of the result data, can be one of [ 'minimal', 'verbose', 'full' ]
-
 ~;
   system "echo '$text' | more";
 }
 
-my $HOST      = 'http://api.metagenomics.anl.gov/api2.cgi/abundanceprofile/';
+my $HOST      = 'http://api.metagenomics.anl.gov/api2.cgi/metagenome/';
 my $id        = '';
 my $user      = '';
 my $pass      = '';
@@ -63,11 +62,11 @@ if ($help) {
   &help();
   exit 0;
 }
-
 unless ($id) {
   &usage();
   exit 0;
 }
+
 
 if ($id =~/^kb\|/) {
   my $id_server_url = "http://bio-data-1.mcs.anl.gov:8080/services/idserver";

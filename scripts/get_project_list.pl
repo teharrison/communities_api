@@ -11,18 +11,15 @@ use JSON;
 use Bio::KBase::IDServer::Client;
 
 sub usage {
-  print "get_project_instance.pl >>> retrieve a project from the communities API\n";
-  print "get_project_instance.pl -id <id of the project>\n"; 
+  print "get_project_list.pl >>> retrieve a list of projects from the communities API\n";
+  print "get_project_list.pl -id <id of the project>\n"; 
 }
 
 sub help {
-  my $text = qq~get_project_instance
+  my $text = qq~get_project_list
 
-retrieve a project from the communities API
+retrieve a list of projects from the communities API
 
-Parameters
-
-	id - the id of the project to be retrieved from the API
 
 Options
 
@@ -38,34 +35,36 @@ Options
 
 	verbosity - verbosity of the result data, can be one of [ 'minimal', 'verbose', 'full' ]
 
+	limit - the maximum number of data items to be returned
+
+	offset - the zero-based index of the first data item to be returned
+
 ~;
   system "echo '$text' | more";
 }
 
 my $HOST      = 'http://api.metagenomics.anl.gov/api2.cgi/project/';
-my $id        = '';
 my $user      = '';
 my $pass      = '';
 my $token     = '';
 my $verbosity = 'full';
 my $help      = '';
 my $webkey    = '';
+my $offset    = '0';
+my $limit     = '10';
 
-GetOptions ( 'id=s' => \$id,
-             'user=s' => \$user,
+
+GetOptions ( 'user=s' => \$user,
              'pass=s' => \$pass,
              'token=s' => \$token,
              'verbosity=s' => \$verbosity,
              'help' => \$help,
-             'webkey=s' => \$webkey );
+             'webkey=s' => \$webkey,
+             'limit=s' => \$limit,
+             'offset' => \$offset );
 
 if ($help) {
   &help();
-  exit 0;
-}
-
-unless ($id) {
-  &usage();
   exit 0;
 }
 
@@ -99,7 +98,7 @@ if ($user || $pass) {
   }
 }
 
-my $url = $HOST.$id."?verbosity=$verbosity";
+my $url = $HOST.$id."?verbosity=$verbosity&limit=$limit&offset=$offset";
 if ($webkey) {
   $url .= "&webkey=".$webkey;
 }
