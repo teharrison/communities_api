@@ -68,13 +68,6 @@ if ($help) {
   exit 0;
 }
 
-if ($id =~/^kb\|/) {
-  my $id_server_url = "http://bio-data-1.mcs.anl.gov:8080/services/idserver";
-  my $idserver = Bio::KBase::IDServer::Client->new($id_server_url);
-  my $return = $idserver->kbase_ids_to_external_ids( [ $id ]);
-  $id = $return->{$id}->[1] ;
-}
-
 if ($user || $pass) {
   if ($user && $pass) {
     my $exec = 'curl -s -u '.$user.':'.$pass.' -X POST "https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials"';

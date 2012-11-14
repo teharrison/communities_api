@@ -10,7 +10,7 @@ WRAP_PERL_TOOL = wrap_perl
 WRAP_PERL_SCRIPT = bash $(TOOLS_DIR)/$(WRAP_PERL_TOOL).sh
 SRC_PERL = $(wildcard scripts/*.pl)
 
-# thngs needed for testing
+# things needed for testing
 TESTS = $(wildcard test/*.t) 
 
 all: deploy
