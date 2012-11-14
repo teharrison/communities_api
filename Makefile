@@ -23,6 +23,8 @@ deploy-client:
 	cp client/* $(TARGET)/lib
 
 deploy-scripts:
+	if [ ! -d $(TARGET)/bin ]; then mkdir -p $(TARGET)/bin; fi
+	if [ ! -d $(TARGET)/plbin ]; then mkdir -p $(TARGET)/plbin; fi
 	export KB_TOP=$(TARGET); \
 	export KB_RUNTIME=$(DEPLOY_RUNTIME); \
 	export KB_PERL_PATH=$(TARGET)/lib:$(TARGET)/lib/perl5 bash ; \
