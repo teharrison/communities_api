@@ -91,7 +91,7 @@ if ($user || $pass) {
   }
 }
 
-my $url = $HOST.$id."?verbosity=$verbosity&limit=$limit&offset=$offset";
+my $url = $HOST."?verbosity=$verbosity&limit=$limit&offset=$offset";
 if ($webkey) {
   $url .= "&webkey=".$webkey;
 }
