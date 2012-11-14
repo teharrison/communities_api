@@ -501,7 +501,7 @@ sub get_sample_instance
 
 =head2 $result = get_sequences_md5(get_sequences_md5_params)
 
-A set of genomic sequences of a metagenome annotated by a specified source
+A set of genomic sequences of a metagenome annotated by a specified source that match the given md5 (or all if no md5s are passed).
 Returns a single data object.
 
 =cut
@@ -552,7 +552,7 @@ sub get_sequences_md5
 
 =head2 $result = get_sequences_annotation(get_sequences_annotation_params)
 
-A set of genomic sequences of a metagenome annotated by a specified source
+A set of genomic sequences of a metagenome annotated by a specified source that match the specified annotations (or all if no annotations are passed).
 Returns a single data object.
 
 =cut
@@ -652,51 +652,50 @@ sub get_sequenceset_instance
 
 
 
-=head2 $result = get_sequenceset_setlist(get_sequenceset_setlist_params)
+=head2 $result = get_sequenceset_list(get_sequenceset_list_params)
 
-A set / subset of genomic sequences of a metagenome from a specific stage in its analysis
-Returns a list of sets for the given id.
+Returns a list of sequenceset objects for the given metagenome.
 
 =cut
 
-sub get_sequenceset_setlist
+sub get_sequenceset_list
 {
     my($self, @args) = @_;
 
     if ((my $n = @args) != 1)
     {
 	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
-							       "Invalid argument count for function get_sequenceset_setlist (received $n, expecting 1)");
+							       "Invalid argument count for function get_sequenceset_list (received $n, expecting 1)");
     }
     {
-	my($get_sequenceset_setlist_params) = @args;
+	my($get_sequenceset_list_params) = @args;
 
 	my @_bad_arguments;
-        (ref($get_sequenceset_setlist_params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"get_sequenceset_setlist_params\" (value was \"$get_sequenceset_setlist_params\")");
+        (ref($get_sequenceset_list_params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"get_sequenceset_list_params\" (value was \"$get_sequenceset_list_params\")");
         if (@_bad_arguments) {
-	    my $msg = "Invalid arguments passed to get_sequenceset_setlist:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    my $msg = "Invalid arguments passed to get_sequenceset_list:\n" . join("", map { "\t$_\n" } @_bad_arguments);
 	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
-								   method_name => 'get_sequenceset_setlist');
+								   method_name => 'get_sequenceset_list');
 	}
     }
 
     my $result = $self->{client}->call($self->{url}, {
-	method => "CommunitiesAPI.get_sequenceset_setlist",
+	method => "CommunitiesAPI.get_sequenceset_list",
 	params => \@args,
     });
     if ($result) {
 	if ($result->is_error) {
 	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
 					       code => $result->content->{code},
-					       method_name => 'get_sequenceset_setlist',
+					       method_name => 'get_sequenceset_list',
 					      );
 	} else {
 	    return wantarray ? @{$result->result} : $result->result->[0];
 	}
     } else {
-        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method get_sequenceset_setlist",
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method get_sequenceset_list",
 					    status_line => $self->{client}->status_line,
-					    method_name => 'get_sequenceset_setlist',
+					    method_name => 'get_sequenceset_list',
 				       );
     }
 }
@@ -714,16 +713,16 @@ sub version {
             Bio::KBase::Exceptions::JSONRPC->throw(
                 error => $result->error_message,
                 code => $result->content->{code},
-                method_name => 'get_sequenceset_setlist',
+                method_name => 'get_sequenceset_list',
             );
         } else {
             return wantarray ? @{$result->result} : $result->result->[0];
         }
     } else {
         Bio::KBase::Exceptions::HTTP->throw(
-            error => "Error invoking method get_sequenceset_setlist",
+            error => "Error invoking method get_sequenceset_list",
             status_line => $self->{client}->status_line,
-            method_name => 'get_sequenceset_setlist',
+            method_name => 'get_sequenceset_list',
         );
     }
 }

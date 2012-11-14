@@ -207,10 +207,10 @@ class CommunitiesAPI:
         else:
             return None
 
-    def get_sequenceset_setlist(self, get_sequenceset_setlist_params):
+    def get_sequenceset_list(self, get_sequenceset_list_params):
 
-        arg_hash = { 'method': 'CommunitiesAPI.get_sequenceset_setlist',
-                     'params': [get_sequenceset_setlist_params],
+        arg_hash = { 'method': 'CommunitiesAPI.get_sequenceset_list',
+                     'params': [get_sequenceset_list_params],
                      'version': '1.1'
                      }
 

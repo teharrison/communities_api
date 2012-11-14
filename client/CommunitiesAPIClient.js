@@ -149,16 +149,16 @@ function CommunitiesAPI(url) {
 	json_call_ajax_async("CommunitiesAPI.get_sequenceset_instance", [get_sequenceset_instance_params], 1, _callback, _error_callback)
     }
 
-    this.get_sequenceset_setlist = function(get_sequenceset_setlist_params)
+    this.get_sequenceset_list = function(get_sequenceset_list_params)
     {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_sequenceset_setlist", [get_sequenceset_setlist_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_sequenceset_setlist", [get_sequenceset_setlist_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_sequenceset_list", [get_sequenceset_list_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_sequenceset_list", [get_sequenceset_list_params]);
         return resp[0];
     }
 
-    this.get_sequenceset_setlist_async = function(get_sequenceset_setlist_params, _callback, _error_callback)
+    this.get_sequenceset_list_async = function(get_sequenceset_list_params, _callback, _error_callback)
     {
-	json_call_ajax_async("CommunitiesAPI.get_sequenceset_setlist", [get_sequenceset_setlist_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_sequenceset_list", [get_sequenceset_list_params], 1, _callback, _error_callback)
     }
 
     function _json_call_prepare(url, method, params, async_flag)
