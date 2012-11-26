@@ -36,6 +36,10 @@ deploy-scripts:
 		$(WRAP_PERL_SCRIPT) "$(TARGET)/plbin/$$basefile" $(TARGET)/bin/$$base ; \
 	done
 
+deploy-docs:
+	if [ ! -d $(TARGET)/services/$(SERVICE_NAME)/webroot/ ]; then mkdir -p $(TARGET)/services/$(SERVICE_NAME)/webroot/; fi
+	cp docs/*.html $(TARGET)/services/$(SERVICE_NAME)/webroot/.
+
 test: test-client
 
 test-client:
