@@ -15,7 +15,7 @@ TESTS = $(wildcard test/*.t)
 
 all: deploy
 
-deploy: deploy-client deploy-scripts
+deploy: deploy-client deploy-scripts deploy-docs
 
 deploy-client:
 	if [ ! -d $(SERVICE_DIR) ]; then mkdir -p $(SERVICE_DIR); fi
