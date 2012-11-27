@@ -11,18 +11,18 @@ use JSON;
 use Bio::KBase::IDServer::Client;
 
 sub usage {
-  print "get_project_instance.pl >>> retrieve a project from the communities API\n";
-  print "get_project_instance.pl -id <id of the project>\n"; 
+  print "get_project.pl >>> retrieve a project from the communities API\n";
+  print "get_project.pl -id <id of the project>\n"; 
 }
 
 sub help {
-  my $text = qq~get_project_instance
+  my $text = qq~get_project
 
 retrieve a project from the communities API
 
 Parameters
 
-	id - the id of the project to be retrieved from the API
+	id - the is of the project to be retrieved from the API
 
 Options
 
@@ -37,7 +37,6 @@ Options
 	webkey - MG-RAST webkey to synch with the passed Globus Online authentication
 
 	verbosity - verbosity of the result data, can be one of [ 'minimal', 'verbose', 'full' ]
-
 ~;
   system "echo '$text' | more";
 }
@@ -63,11 +62,11 @@ if ($help) {
   &help();
   exit 0;
 }
-
 unless ($id) {
   &usage();
   exit 0;
 }
+
 
 if ($id =~/^kb\|/) {
   my $id_server_url = "http://bio-data-1.mcs.anl.gov:8080/services/idserver";

@@ -11,18 +11,15 @@ use JSON;
 use Bio::KBase::IDServer::Client;
 
 sub usage {
-  print "get_sequenceset.pl >>> retrieve a sequenceset from the communities API\n";
-  print "get_sequenceset.pl -id <id of the sequenceset>\n"; 
+  print "get_metagenome_list.pl >>> retrieve a list of metagenomes from the communities API\n";
+  print "get_metagenome_list.pl -id <id of the metagenome>\n"; 
 }
 
 sub help {
-  my $text = qq~get_sequenceset
+  my $text = qq~get_metagenome_list
 
-retrieve a sequenceset from the communities API
+retrieve a list of metagenomes from the communities API
 
-Parameters
-
-	id - the is of the sequenceset to be retrieved from the API
 
 Options
 
@@ -37,42 +34,38 @@ Options
 	webkey - MG-RAST webkey to synch with the passed Globus Online authentication
 
 	verbosity - verbosity of the result data, can be one of [ 'minimal', 'verbose', 'full' ]
+
+	limit - the maximum number of data items to be returned
+
+	offset - the zero-based index of the first data item to be returned
+
 ~;
   system "echo '$text' | more";
 }
 
-my $HOST      = 'http://api.metagenomics.anl.gov/api2.cgi/sequenceset/';
-my $id        = '';
+my $HOST      = 'http://api.metagenomics.anl.gov/api2.cgi/metagenome/';
 my $user      = '';
 my $pass      = '';
 my $token     = '';
 my $verbosity = 'full';
 my $help      = '';
 my $webkey    = '';
+my $offset    = '0';
+my $limit     = '10';
 
-GetOptions ( 'id=s' => \$id,
-             'user=s' => \$user,
+
+GetOptions ( 'user=s' => \$user,
              'pass=s' => \$pass,
              'token=s' => \$token,
              'verbosity=s' => \$verbosity,
              'help' => \$help,
-             'webkey=s' => \$webkey );
+             'webkey=s' => \$webkey,
+             'limit=s' => \$limit,
+             'offset' => \$offset );
 
 if ($help) {
   &help();
   exit 0;
-}
-unless ($id) {
-  &usage();
-  exit 0;
-}
-
-
-if ($id =~/^kb\|/) {
-  my $id_server_url = "http://bio-data-1.mcs.anl.gov:8080/services/idserver";
-  my $idserver = Bio::KBase::IDServer::Client->new($id_server_url);
-  my $return = $idserver->kbase_ids_to_external_ids( [ $id ]);
-  $id = $return->{$id}->[1] ;
 }
 
 if ($user || $pass) {
@@ -98,7 +91,7 @@ if ($user || $pass) {
   }
 }
 
-my $url = $HOST.$id."?verbosity=$verbosity";
+my $url = $HOST."?verbosity=$verbosity&limit=$limit&offset=$offset";
 if ($webkey) {
   $url .= "&webkey=".$webkey;
 }

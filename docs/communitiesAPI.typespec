@@ -1,7 +1,6 @@
 /*
 
 Communities object and resource API
-For usage note that required parameters need to be passed as path parameters, optional parameters need to be query parameters. If an optional parameter has a list of option values, the first displayed will be used as default.
 
 =head2 Synopsis
 
@@ -9,6 +8,31 @@ For usage note that required parameters need to be passed as path parameters, op
 
 */
 module CommunitiesAPI : CommunitiesAPI {
+/*
+	environmental package object
+*/
+	typedef structure {
+/*
+	creation date
+*/
+		string created;
+/*
+	name of the package
+*/
+		string name;
+/*
+	unique package identifier
+*/
+		string id;
+/*
+	package type
+*/
+		string type;
+/*
+	key value pairs describing metadata
+*/
+		mapping<string, string> metadata;
+	} get_sample_instance_env_package_object;
 	typedef structure {
 /*
 	version of the object
@@ -17,7 +41,7 @@ module CommunitiesAPI : CommunitiesAPI {
 /*
 	reference to the project of this sample
 */
-		string project;
+		list<string> project;
 /*
 	human readable identifier
 */
@@ -25,11 +49,11 @@ module CommunitiesAPI : CommunitiesAPI {
 /*
 	a list of references to the related metagenome objects
 */
-		list<string> metagenomes;
+		list<list<string>> metagenomes;
 /*
 	a list of references to the related library objects
 */
-		list<string> libraries;
+		list<list<string>> libraries;
 /*
 	time the object was first created
 */
@@ -55,7 +79,7 @@ module CommunitiesAPI : CommunitiesAPI {
 /*
 	a list of references to the related metagenome objects
 */
-		list<string> analyzed;
+		list<list<string>> analyzed;
 /*
 	version of the object
 */
@@ -71,7 +95,7 @@ module CommunitiesAPI : CommunitiesAPI {
 /*
 	a list of references to the related library objects
 */
-		list<string> libraries;
+		list<list<string>> libraries;
 /*
 	time the object was first created
 */
@@ -79,7 +103,7 @@ module CommunitiesAPI : CommunitiesAPI {
 /*
 	a list of references to the related sample objects
 */
-		list<string> samples;
+		list<list<string>> samples;
 /*
 	the official name of the source of funding of this project
 */
@@ -109,7 +133,7 @@ module CommunitiesAPI : CommunitiesAPI {
 /*
 	reference to the project object
 */
-		string project;
+		list<string> project;
 /*
 	human readable identifier
 */
@@ -117,7 +141,7 @@ module CommunitiesAPI : CommunitiesAPI {
 /*
 	reference to the related library object
 */
-		string library;
+		list<string> library;
 /*
 	sequencing type
 */
@@ -137,7 +161,7 @@ module CommunitiesAPI : CommunitiesAPI {
 /*
 	reference to the related sample object
 */
-		string sample;
+		list<string> sample;
 /*
 	key value pairs describing metadata
 */
@@ -151,7 +175,7 @@ module CommunitiesAPI : CommunitiesAPI {
 /*
 	reference to the project object
 */
-		string project;
+		list<string> project;
 /*
 	human readable identifier
 */
@@ -159,11 +183,11 @@ module CommunitiesAPI : CommunitiesAPI {
 /*
 	a list of references to the related sequence sets
 */
-		list<string> sequencesets;
+		list<mapping<string, string>> sequence_sets;
 /*
 	reference to the related metagenome object
 */
-		string metagenome;
+		list<string> metagenome;
 /*
 	time the object was first created
 */
@@ -179,11 +203,15 @@ module CommunitiesAPI : CommunitiesAPI {
 /*
 	reference to the related sample object
 */
-		string sample;
+		list<string> sample;
 /*
 	key value pairs describing metadata
 */
 		mapping<string, string> metadata;
+/*
+	a reference to the associated reads object
+*/
+		list<string> reads;
 	} LibraryInstance;
 /*
 	rows object
@@ -610,31 +638,6 @@ This parameter value can be chosen from the following (the first being default):
 */
 		int total_count;
 	} SampleQuery;
-/*
-	environmental package object
-*/
-	typedef structure {
-/*
-	creation date
-*/
-		string created;
-/*
-	name of the package
-*/
-		string name;
-/*
-	unique package identifier
-*/
-		string id;
-/*
-	package type
-*/
-		string type;
-/*
-	key value pairs describing metadata
-*/
-		mapping<string, string> metadata;
-	} get_sample_instance_env_package_object;
 	typedef structure {
 /*
 
@@ -781,7 +784,7 @@ This parameter value can be chosen from the following (the first being default):
 	typedef structure {
 /*
 
-	unique sequence set identifier - to get a list of all identifiers for a metagenome, use the setlist request
+	unique sequence set identifier - to get a list of all identifiers for a metagenome, use the list request
 
 */
 		string id;
@@ -801,7 +804,7 @@ This parameter value can be chosen from the following (the first being default):
 
 */
 		string id;
-	} get_sequenceset_setlist_params;
+	} get_sequenceset_list_params;
 	typedef structure {
 /*
 	name of the stage in processing of this sequence file
@@ -828,7 +831,7 @@ This parameter value can be chosen from the following (the first being default):
 */
 		string stage_id;
 
-	} SequencesetSetlist;
+	} SequencesetList;
 
 
 /* A profile in biom format that contains abundance counts
@@ -885,13 +888,13 @@ Returns a single data object.
 	funcdef get_sample_instance(get_sample_instance_params) returns (SampleInstance);
 
 
-/* A set of genomic sequences of a metagenome annotated by a specified source
+/* A set of genomic sequences of a metagenome annotated by a specified source that match the given md5 (or all if no md5s are passed).
 Returns a single data object.
 */
 	funcdef get_sequences_md5(get_sequences_md5_params) returns (SequencesMd5);
 
 
-/* A set of genomic sequences of a metagenome annotated by a specified source
+/* A set of genomic sequences of a metagenome annotated by a specified source that match the specified annotations (or all if no annotations are passed).
 Returns a single data object.
 */
 	funcdef get_sequences_annotation(get_sequences_annotation_params) returns (SequencesAnnotation);
@@ -903,8 +906,7 @@ Returns a single sequence file.
 	funcdef get_sequenceset_instance(get_sequenceset_instance_params) returns (SequencesetInstance);
 
 
-/* A set / subset of genomic sequences of a metagenome from a specific stage in its analysis
-Returns a list of sets for the given id.
+/* Returns a list of sequenceset objects for the given metagenome.
 */
-	funcdef get_sequenceset_setlist(get_sequenceset_setlist_params) returns (SequencesetSetlist);
+	funcdef get_sequenceset_list(get_sequenceset_list_params) returns (SequencesetList);
 };

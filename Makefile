@@ -10,12 +10,12 @@ WRAP_PERL_TOOL = wrap_perl
 WRAP_PERL_SCRIPT = bash $(TOOLS_DIR)/$(WRAP_PERL_TOOL).sh
 SRC_PERL = $(wildcard scripts/*.pl)
 
-# thngs needed for testing
+# things needed for testing
 TESTS = $(wildcard test/*.t) 
 
 all: deploy
 
-deploy: deploy-client deploy-scripts
+deploy: deploy-client deploy-scripts deploy-docs
 
 deploy-client:
 	if [ ! -d $(SERVICE_DIR) ]; then mkdir -p $(SERVICE_DIR); fi
@@ -23,6 +23,8 @@ deploy-client:
 	cp client/* $(TARGET)/lib
 
 deploy-scripts:
+	if [ ! -d $(TARGET)/bin ]; then mkdir -p $(TARGET)/bin; fi
+	if [ ! -d $(TARGET)/plbin ]; then mkdir -p $(TARGET)/plbin; fi
 	export KB_TOP=$(TARGET); \
 	export KB_RUNTIME=$(DEPLOY_RUNTIME); \
 	export KB_PERL_PATH=$(TARGET)/lib:$(TARGET)/lib/perl5 bash ; \
@@ -33,6 +35,10 @@ deploy-scripts:
 		cp $$src $(TARGET)/plbin ; \
 		$(WRAP_PERL_SCRIPT) "$(TARGET)/plbin/$$basefile" $(TARGET)/bin/$$base ; \
 	done
+
+deploy-docs:
+	if [ ! -d $(TARGET)/services/$(SERVICE_NAME)/webroot/ ]; then mkdir -p $(TARGET)/services/$(SERVICE_NAME)/webroot/; fi
+	cp docs/*.html $(TARGET)/services/$(SERVICE_NAME)/webroot/.
 
 test: test-client
 
