@@ -2,7 +2,6 @@ TARGET = /kb/deployment
 DEPLOY_RUNTIME = /kb/runtime
 SERVICE = communities_api
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
-SERVICE_NAME=$(SERVICE)
 
 # to wrap scripts and deploy them to $(TARGET)/bin using tools in the dev_container
 TOP_DIR = ../..
