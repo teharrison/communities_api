@@ -36,9 +36,13 @@ deploy-scripts:
 		$(WRAP_PERL_SCRIPT) "$(TARGET)/plbin/$$basefile" $(TARGET)/bin/$$base ; \
 	done
 
-deploy-docs:
-	if [ ! -d $(TARGET)/services/$(SERVICE_NAME)/webroot/ ]; then mkdir -p $(TARGET)/services/$(SERVICE_NAME)/webroot/; fi
-	cp docs/*.html $(TARGET)/services/$(SERVICE_NAME)/webroot/.
+deploy-docs: build-docs
+	if [ ! -d $(TARGET)/services/$(SERVICE)/webroot/ ]; then mkdir -p $(TARGET)/services/$(SERVICE)/webroot/; fi
+	cp docs/*.html $(TARGET)/services/$(SERVICE)/webroot
+
+build-docs:
+	perl ../typecomp/scripts/compile_typespec.pl docs/communitiesAPI.typespec client
+	pod2html --infile=Client_test/CommunitiesAPIClient.pm --outfile=docs/CommunitesAPI.html --title="Communities API Client"
 
 test: test-client
 
