@@ -42,7 +42,7 @@ deploy-docs: build-docs
 
 build-docs:
 	perl ../typecomp/scripts/compile_typespec.pl docs/communitiesAPI.typespec client
-	pod2html --infile=Client_test/CommunitiesAPIClient.pm --outfile=docs/CommunitesAPI.html --title="Communities API Client"
+	pod2html --infile=client/CommunitiesAPIClient.pm --outfile=docs/CommunitiesAPI.html --title="Communities API Client"
 
 test: test-client
 
