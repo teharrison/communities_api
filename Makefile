@@ -1,5 +1,5 @@
-TARGET = /kb/deployment
-DEPLOY_RUNTIME = /kb/runtime
+TARGET ?= /kb/deployment
+DEPLOY_RUNTIME ?= /kb/runtime
 SERVICE = communities_api
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 
@@ -13,11 +13,11 @@ SRC_PERL = $(wildcard scripts/*.pl)
 # things needed for testing
 TESTS = $(wildcard test/*.t) 
 
-all: deploy
+deploy: deploy-client
 
-deploy: deploy-client deploy-scripts deploy-docs
+deploy-all: deploy-client
 
-deploy-client:
+deploy-client: deploy-docs deploy-scripts
 	if [ ! -d $(SERVICE_DIR) ]; then mkdir -p $(SERVICE_DIR); fi
 	if [ ! -d $(TARGET)/lib ]; then mkdir -p $(TARGET)/lib; fi
 	cp client/* $(TARGET)/lib
@@ -36,9 +36,13 @@ deploy-scripts:
 		$(WRAP_PERL_SCRIPT) "$(TARGET)/plbin/$$basefile" $(TARGET)/bin/$$base ; \
 	done
 
-deploy-docs:
-	if [ ! -d $(TARGET)/services/$(SERVICE_NAME)/webroot/ ]; then mkdir -p $(TARGET)/services/$(SERVICE_NAME)/webroot/; fi
-	cp docs/*.html $(TARGET)/services/$(SERVICE_NAME)/webroot/.
+deploy-docs: build-docs
+	if [ ! -d $(TARGET)/services/$(SERVICE)/webroot/ ]; then mkdir -p $(TARGET)/services/$(SERVICE)/webroot/; fi
+	cp docs/*.html $(TARGET)/services/$(SERVICE)/webroot
+
+build-docs:
+	perl ../typecomp/scripts/compile_typespec.pl docs/communitiesAPI.typespec client
+	pod2html --infile=client/CommunitiesAPIClient.pm --outfile=docs/CommunitiesAPI.html --title="Communities API Client"
 
 test: test-client
 

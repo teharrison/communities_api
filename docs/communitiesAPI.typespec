@@ -9,72 +9,46 @@ Communities object and resource API
 */
 module CommunitiesAPI : CommunitiesAPI {
 /*
-	environmental package object
+	Environmental package object
+	created: creation date
+	name: name of the package
+	id: unique package identifier
+	type: package type
+	metadata: key value pairs describing metadata
 */
 	typedef structure {
-/*
-	creation date
-*/
 		string created;
-/*
-	name of the package
-*/
 		string name;
-/*
-	unique package identifier
-*/
 		string id;
-/*
-	package type
-*/
 		string type;
-/*
-	key value pairs describing metadata
-*/
 		mapping<string, string> metadata;
 	} get_sample_instance_env_package_object;
-	typedef structure {
+
 /*
 	version of the object
-*/
-		int version;
-/*
 	reference to the project of this sample
-*/
-		list<string> project;
-/*
 	human readable identifier
-*/
-		string name;
-/*
 	a list of references to the related metagenome objects
-*/
-		list<list<string>> metagenomes;
-/*
 	a list of references to the related library objects
-*/
-		list<list<string>> libraries;
-/*
 	time the object was first created
-*/
-		string created;
-/*
 	environmental package object
-*/
-		get_sample_instance_env_package_object env_package;
-/*
 	resource location of this object instance
-*/
-		string url;
-/*
 	unique object identifier
-*/
-		string id;
-/*
 	key value pairs describing metadata
 */
+	typedef structure {
+		int version;
+		list<string> project;
+		string name;
+		list<list<string>> metagenomes;
+		list<list<string>> libraries;
+		string created;
+		get_sample_instance_env_package_object env_package;
+		string url;
+		string id;
 		mapping<string, string> metadata;
 	} SampleInstance;
+
 	typedef structure {
 /*
 	a list of references to the related metagenome objects
