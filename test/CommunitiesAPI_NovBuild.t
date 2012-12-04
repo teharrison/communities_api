@@ -1404,26 +1404,26 @@ sub test_sequences_annotation {
 	##########################################################################
 	# happy path testing
 	# ------------------
-	# foreach my $source (keys %{ $sources }) {
-	# 	foreach my $data_type (@{ $sources->{$source}->{allowed} }) {
-	# 		foreach my $sequence_type (@sequence_types) {
-	# 			my $params = {
-	# 				id => $test_id,
-	# 				source => $source,
-	# 				data_type => $data_type,
-	# 				sequence_type => $sequence_type,
-	# 			};
-	# 			undef $return;
-	# 			undef $error;
-	# 			eval { $return = $client->$test_name($params); };
-	# 			is($@, '', "Calling '$test_name' with valid parameters passed successfully : id = $test_id, source = $source, data_type = $data_type, sequence_type = $sequence_type");
-	# 			$num_tests++;
-	# 			if ($return) {
-	# 				$num_tests += test_result($return, \%attributes, $params);
-	# 			}
-	# 		}
-	# 	}
-	# }
+	foreach my $source (keys %{ $sources }) {
+		foreach my $data_type (@{ $sources->{$source}->{allowed} }) {
+			foreach my $sequence_type (@sequence_types) {
+				my $params = {
+					id => $test_id,
+					source => $source,
+					data_type => $data_type,
+					sequence_type => $sequence_type,
+				};
+				undef $return;
+				undef $error;
+				eval { $return = $client->$test_name($params); };
+				is($@, '', "Calling '$test_name' with valid parameters passed successfully : id = $test_id, source = $source, data_type = $data_type, sequence_type = $sequence_type");
+				$num_tests++;
+				if ($return) {
+					$num_tests += test_result($return, \%attributes, $params);
+				}
+			}
+		}
+	}
 	# id
 	# source
 	# data_type
