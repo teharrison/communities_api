@@ -250,7 +250,7 @@ sub test_abundanceprofile_instance {
             $num_tests++;
 
             if ($error) {
-            	$num_tests += test_error_value($error, 400, qr/Invalid source/);
+            	$num_tests += test_error_value($error, "Bio::KBase::Exceptions::JSONRPC", 400, qr/Invalid source/);
             }
         }
     }
