@@ -11,7 +11,7 @@ WRAP_PERL_SCRIPT = bash $(TOOLS_DIR)/$(WRAP_PERL_TOOL).sh
 SRC_PERL = $(wildcard scripts/*.pl)
 
 # things needed for testing
-TESTS = $(wildcard test/*.t) 
+TESTS = $(wildcard test/client-tests/*.t) 
 
 deploy: deploy-client
 
