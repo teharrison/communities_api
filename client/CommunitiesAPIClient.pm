@@ -397,6 +397,57 @@ sub get_matrix_function
 
 
 
+=head2 $result = get_matrix_feature(get_matrix_feature_params)
+
+A profile in biom format that contains abundance counts
+Returns a single data object.
+
+=cut
+
+sub get_matrix_feature
+{
+    my($self, @args) = @_;
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function get_matrix_feature (received $n, expecting 1)");
+    }
+    {
+	my($get_matrix_feature_params) = @args;
+
+	my @_bad_arguments;
+        (ref($get_matrix_feature_params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"get_matrix_feature_params\" (value was \"$get_matrix_feature_params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to get_matrix_feature:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'get_matrix_feature');
+	}
+    }
+
+    my $result = $self->{client}->call($self->{url}, {
+	method => "CommunitiesAPI.get_matrix_feature",
+	params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{code},
+					       method_name => 'get_matrix_feature',
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method get_matrix_feature",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'get_matrix_feature',
+				       );
+    }
+}
+
+
+
 =head2 $result = get_metagenome_query(get_metagenome_query_params)
 
 A metagenome is an analyzed set sequences from a sample of some environment

@@ -1,6 +1,6 @@
 /*
 
-Communities object and resource API
+Communities resource and object API
 
 */
 module CommunitiesAPI : CommunitiesAPI {
@@ -66,7 +66,7 @@ module CommunitiesAPI : CommunitiesAPI {
 
 	string date: time the output data was generated
 
-	list<list<float> data: the matrix values
+	list<list<float>> data: the matrix values
 
 	list<get_abundanceprofile_instance_rows_object> rows: rows object
 
@@ -143,6 +143,7 @@ module CommunitiesAPI : CommunitiesAPI {
 	int version: version of the object
 	string project: reference to the project object
 	string name: human readable identifier
+	list<string> sequencesets: a list of references to the related sequence sets
 	string metagenome: reference to the related metagenome object
 	string created: time the object was first created
 	string url: resource location of this object instance
@@ -154,6 +155,7 @@ module CommunitiesAPI : CommunitiesAPI {
 		int version;
 		string project;
 		string name;
+		list<string> sequencesets;
 		string metagenome;
 		string created;
 		string url;
@@ -322,7 +324,7 @@ module CommunitiesAPI : CommunitiesAPI {
 
 	string date: time the output data was generated
 
-	list<list<float> data: the matrix values
+	list<list<float>> data: the matrix values
 
 	list<get_matrix_organism_rows_object> rows: rows object
 
@@ -414,7 +416,7 @@ module CommunitiesAPI : CommunitiesAPI {
 
 	string date: time the output data was generated
 
-	list<list<float> data: the matrix values
+	list<list<float>> data: the matrix values
 
 	list<get_matrix_function_rows_object> rows: rows object
 
@@ -499,10 +501,54 @@ module CommunitiesAPI : CommunitiesAPI {
 		string result_type;
 		string id;
 	} get_matrix_feature_params;
+/*
+	string generated_by: identifier of the data generator
 
+	string matrix_type: type of the data encoding matrix (dense or sparse)
+
+	string date: time the output data was generated
+
+	list<list<float>> data: the matrix values
+
+	list<get_matrix_feature_rows_object> rows: rows object
+
+	string matrix_element_value: result_type of the elements in the return matrix
+
+	string matrix_element_type: data type of the elements in the return matrix
+
+	string format_url: url to the format specification
+
+	string format: format specification name
+
+	list<get_matrix_feature_columns_object> columns: columns object
+
+	string id: unique object identifier
+
+	string type: type of the data in the return table (taxon, function or gene)
+
+	list<int> shape: list of the dimension sizes of the return matrix
+*/
+	typedef structure {
+		string generated_by;
+		string matrix_type;
+		string date;
+		list<list<float>> data;
+		list<get_matrix_feature_rows_object> rows;
+		string matrix_element_value;
+		string matrix_element_type;
+		string format_url;
+		string format;
+		list<get_matrix_feature_columns_object> columns;
+		string id;
+		string type;
+		list<int> shape;
+	} MatrixFeature;
 /*
 	list of the metagenome objects
 
+	string status: This is a controlled vocabulary - 
+		public: object is public
+		private: object is private
 	int version: version of the object
 	string project: reference to the project object
 	string name: human readable identifier
@@ -515,6 +561,7 @@ module CommunitiesAPI : CommunitiesAPI {
 	mapping<string, string> metadata: key value pairs describing metadata
 */
 	typedef structure {
+		string status;
 		int version;
 		string project;
 		string name;
@@ -586,6 +633,10 @@ module CommunitiesAPI : CommunitiesAPI {
 		string id;
 	} get_metagenome_instance_params;
 /*
+	string status: This is a controlled vocabulary - 
+		public: object is public
+		private: object is private
+
 	int version: version of the object
 
 	string project: reference to the project object
@@ -607,6 +658,7 @@ module CommunitiesAPI : CommunitiesAPI {
 	mapping<string, string> metadata: key value pairs describing metadata
 */
 	typedef structure {
+		string status;
 		int version;
 		string project;
 		string name;
@@ -699,14 +751,19 @@ module CommunitiesAPI : CommunitiesAPI {
 		mapping<string, string> dereplication_removed;
 		mapping<string, string> family;
 	} Metagenome_statisticsInstance;
-
 /*
 	list of the project objects
 
+	list<string> analyzed: a list of references to the related metagenome objects
+	string status: This is a controlled vocabulary - 
+		public: object is public
+		private: object is private
 	int version: version of the object
 	string name: human readable identifier
 	string description: a short, comprehensive description of the project
+	list<string> libraries: a list of references to the related library objects
 	string created: time the object was first created
+	list<string> samples: a list of references to the related sample objects
 	string funding_source: the official name of the source of funding of this project
 	string url: resource location of this object instance
 	mapping<string, string> metadata: key value pairs describing metadata
@@ -714,10 +771,14 @@ module CommunitiesAPI : CommunitiesAPI {
 	string pi: the first and last name of the principal investigator of the project
 */
 	typedef structure {
+		list<string> analyzed;
+		string status;
 		int version;
 		string name;
 		string description;
+		list<string> libraries;
 		string created;
+		list<string> samples;
 		string funding_source;
 		string url;
 		mapping<string, string> metadata;
@@ -786,6 +847,10 @@ module CommunitiesAPI : CommunitiesAPI {
 /*
 	list<string> analyzed: a list of references to the related metagenome objects
 
+	string status: This is a controlled vocabulary - 
+		public: object is public
+		private: object is private
+
 	int version: version of the object
 
 	string name: human readable identifier
@@ -810,6 +875,7 @@ module CommunitiesAPI : CommunitiesAPI {
 */
 	typedef structure {
 		list<string> analyzed;
+		string status;
 		int version;
 		string name;
 		string description;
@@ -828,7 +894,10 @@ module CommunitiesAPI : CommunitiesAPI {
 	int version: version of the object
 	string project: reference to the project of this sample
 	string name: human readable identifier
+	list<string> metagenomes: a list of references to the related metagenome objects
+	list<string> libraries: a list of references to the related library objects
 	string created: time the object was first created
+	mapping<string, string> env_package: environmental package object
 	string url: resource location of this object instance
 	string id: unique object identifier
 	mapping<string, string> metadata: key value pairs describing metadata
@@ -837,7 +906,10 @@ module CommunitiesAPI : CommunitiesAPI {
 		int version;
 		string project;
 		string name;
+		list<string> metagenomes;
+		list<string> libraries;
 		string created;
+		mapping<string, string> env_package;
 		string url;
 		string id;
 		mapping<string, string> metadata;
@@ -1120,6 +1192,13 @@ Returns a single data object.
 */
 	funcdef get_matrix_function(get_matrix_function_params) returns (MatrixFunction);
 
+
+/* A profile in biom format that contains abundance counts
+Returns a single data object.
+*/
+	funcdef get_matrix_feature(get_matrix_feature_params) returns (MatrixFeature);
+
+
 /* A metagenome is an analyzed set sequences from a sample of some environment
 Returns a set of data matching the query criteria.
 */
@@ -1136,6 +1215,7 @@ Returns a single data object.
 Returns a JSON structure of statistical information.
 */
 	funcdef get_metagenome_statistics_instance(get_metagenome_statistics_instance_params) returns (Metagenome_statisticsInstance);
+
 
 /* A project is a composition of samples, libraries and metagenomes being analyzed in a global context.
 Returns a set of data matching the query criteria.

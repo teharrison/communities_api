@@ -127,6 +127,22 @@ class CommunitiesAPI:
         else:
             return None
 
+    def get_matrix_feature(self, get_matrix_feature_params):
+
+        arg_hash = { 'method': 'CommunitiesAPI.get_matrix_feature',
+                     'params': [get_matrix_feature_params],
+                     'version': '1.1'
+                     }
+
+        body = json.dumps(arg_hash)
+        resp_str = urllib.urlopen(self.url, body).read()
+        resp = json.loads(resp_str)
+
+        if 'result' in resp:
+            return resp['result'][0]
+        else:
+            return None
+
     def get_metagenome_query(self, get_metagenome_query_params):
 
         arg_hash = { 'method': 'CommunitiesAPI.get_metagenome_query',

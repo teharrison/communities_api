@@ -11,7 +11,7 @@ CommunitiesAPI
 
 =head1 DESCRIPTION
 
-Communities object and resource API
+Communities resource and object API
 
 =cut
 
@@ -341,6 +341,7 @@ get_library_query_data_object is a reference to a hash where the following keys 
 	version has a value which is an int
 	project has a value which is a string
 	name has a value which is a string
+	sequencesets has a value which is a reference to a list where each element is a string
 	metagenome has a value which is a string
 	created has a value which is a string
 	url has a value which is a string
@@ -373,6 +374,7 @@ get_library_query_data_object is a reference to a hash where the following keys 
 	version has a value which is an int
 	project has a value which is a string
 	name has a value which is a string
+	sequencesets has a value which is a reference to a list where each element is a string
 	metagenome has a value which is a string
 	created has a value which is a string
 	url has a value which is a string
@@ -753,6 +755,121 @@ sub get_matrix_function
 
 
 
+=head2 get_matrix_feature
+
+  $return = $obj->get_matrix_feature($get_matrix_feature_params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$get_matrix_feature_params is a get_matrix_feature_params
+$return is a MatrixFeature
+get_matrix_feature_params is a reference to a hash where the following keys are defined:
+	source has a value which is a string
+	result_type has a value which is a string
+	id has a value which is a string
+MatrixFeature is a reference to a hash where the following keys are defined:
+	generated_by has a value which is a string
+	matrix_type has a value which is a string
+	date has a value which is a string
+	data has a value which is a reference to a list where each element is a reference to a list where each element is a float
+	rows has a value which is a reference to a list where each element is a get_matrix_feature_rows_object
+	matrix_element_value has a value which is a string
+	matrix_element_type has a value which is a string
+	format_url has a value which is a string
+	format has a value which is a string
+	columns has a value which is a reference to a list where each element is a get_matrix_feature_columns_object
+	id has a value which is a string
+	type has a value which is a string
+	shape has a value which is a reference to a list where each element is an int
+get_matrix_feature_rows_object is a reference to a hash where the following keys are defined:
+	metadata has a value which is a reference to a hash where the key is a string and the value is a string
+	id has a value which is a string
+get_matrix_feature_columns_object is a reference to a hash where the following keys are defined:
+	metadata has a value which is a reference to a hash where the key is a string and the value is a string
+	id has a value which is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$get_matrix_feature_params is a get_matrix_feature_params
+$return is a MatrixFeature
+get_matrix_feature_params is a reference to a hash where the following keys are defined:
+	source has a value which is a string
+	result_type has a value which is a string
+	id has a value which is a string
+MatrixFeature is a reference to a hash where the following keys are defined:
+	generated_by has a value which is a string
+	matrix_type has a value which is a string
+	date has a value which is a string
+	data has a value which is a reference to a list where each element is a reference to a list where each element is a float
+	rows has a value which is a reference to a list where each element is a get_matrix_feature_rows_object
+	matrix_element_value has a value which is a string
+	matrix_element_type has a value which is a string
+	format_url has a value which is a string
+	format has a value which is a string
+	columns has a value which is a reference to a list where each element is a get_matrix_feature_columns_object
+	id has a value which is a string
+	type has a value which is a string
+	shape has a value which is a reference to a list where each element is an int
+get_matrix_feature_rows_object is a reference to a hash where the following keys are defined:
+	metadata has a value which is a reference to a hash where the key is a string and the value is a string
+	id has a value which is a string
+get_matrix_feature_columns_object is a reference to a hash where the following keys are defined:
+	metadata has a value which is a reference to a hash where the key is a string and the value is a string
+	id has a value which is a string
+
+
+=end text
+
+
+
+=item Description
+
+A profile in biom format that contains abundance counts
+Returns a single data object.
+
+=back
+
+=cut
+
+sub get_matrix_feature
+{
+    my $self = shift;
+    my($get_matrix_feature_params) = @_;
+
+    my @_bad_arguments;
+    (ref($get_matrix_feature_params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument \"get_matrix_feature_params\" (value was \"$get_matrix_feature_params\")");
+    if (@_bad_arguments) {
+	my $msg = "Invalid arguments passed to get_matrix_feature:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+							       method_name => 'get_matrix_feature');
+    }
+
+    my $ctx = $CommunitiesAPIServer::CallContext;
+    my($return);
+    #BEGIN get_matrix_feature
+    #END get_matrix_feature
+    my @_bad_returns;
+    (ref($return) eq 'HASH') or push(@_bad_returns, "Invalid type for return variable \"return\" (value was \"$return\")");
+    if (@_bad_returns) {
+	my $msg = "Invalid returns passed to get_matrix_feature:\n" . join("", map { "\t$_\n" } @_bad_returns);
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+							       method_name => 'get_matrix_feature');
+    }
+    return($return);
+}
+
+
+
+
 =head2 get_metagenome_query
 
   $return = $obj->get_metagenome_query($get_metagenome_query_params)
@@ -780,6 +897,7 @@ MetagenomeQuery is a reference to a hash where the following keys are defined:
 	total_count has a value which is an int
 	offset has a value which is an int
 get_metagenome_query_data_object is a reference to a hash where the following keys are defined:
+	status has a value which is a string
 	version has a value which is an int
 	project has a value which is a string
 	name has a value which is a string
@@ -813,6 +931,7 @@ MetagenomeQuery is a reference to a hash where the following keys are defined:
 	total_count has a value which is an int
 	offset has a value which is an int
 get_metagenome_query_data_object is a reference to a hash where the following keys are defined:
+	status has a value which is a string
 	version has a value which is an int
 	project has a value which is a string
 	name has a value which is a string
@@ -885,6 +1004,7 @@ get_metagenome_instance_params is a reference to a hash where the following keys
 	verbosity has a value which is a string
 	id has a value which is a string
 MetagenomeInstance is a reference to a hash where the following keys are defined:
+	status has a value which is a string
 	version has a value which is an int
 	project has a value which is a string
 	name has a value which is a string
@@ -908,6 +1028,7 @@ get_metagenome_instance_params is a reference to a hash where the following keys
 	verbosity has a value which is a string
 	id has a value which is a string
 MetagenomeInstance is a reference to a hash where the following keys are defined:
+	status has a value which is a string
 	version has a value which is an int
 	project has a value which is a string
 	name has a value which is a string
@@ -1111,10 +1232,14 @@ ProjectQuery is a reference to a hash where the following keys are defined:
 	offset has a value which is an int
 	total_count has a value which is an int
 get_project_query_data_object is a reference to a hash where the following keys are defined:
+	analyzed has a value which is a reference to a list where each element is a string
+	status has a value which is a string
 	version has a value which is an int
 	name has a value which is a string
 	description has a value which is a string
+	libraries has a value which is a reference to a list where each element is a string
 	created has a value which is a string
+	samples has a value which is a reference to a list where each element is a string
 	funding_source has a value which is a string
 	url has a value which is a string
 	metadata has a value which is a reference to a hash where the key is a string and the value is a string
@@ -1143,10 +1268,14 @@ ProjectQuery is a reference to a hash where the following keys are defined:
 	offset has a value which is an int
 	total_count has a value which is an int
 get_project_query_data_object is a reference to a hash where the following keys are defined:
+	analyzed has a value which is a reference to a list where each element is a string
+	status has a value which is a string
 	version has a value which is an int
 	name has a value which is a string
 	description has a value which is a string
+	libraries has a value which is a reference to a list where each element is a string
 	created has a value which is a string
+	samples has a value which is a reference to a list where each element is a string
 	funding_source has a value which is a string
 	url has a value which is a string
 	metadata has a value which is a reference to a hash where the key is a string and the value is a string
@@ -1215,6 +1344,7 @@ get_project_instance_params is a reference to a hash where the following keys ar
 	id has a value which is a string
 ProjectInstance is a reference to a hash where the following keys are defined:
 	analyzed has a value which is a reference to a list where each element is a string
+	status has a value which is a string
 	version has a value which is an int
 	name has a value which is a string
 	description has a value which is a string
@@ -1240,6 +1370,7 @@ get_project_instance_params is a reference to a hash where the following keys ar
 	id has a value which is a string
 ProjectInstance is a reference to a hash where the following keys are defined:
 	analyzed has a value which is a reference to a list where each element is a string
+	status has a value which is a string
 	version has a value which is an int
 	name has a value which is a string
 	description has a value which is a string
@@ -1325,7 +1456,10 @@ get_sample_query_data_object is a reference to a hash where the following keys a
 	version has a value which is an int
 	project has a value which is a string
 	name has a value which is a string
+	metagenomes has a value which is a reference to a list where each element is a string
+	libraries has a value which is a reference to a list where each element is a string
 	created has a value which is a string
+	env_package has a value which is a reference to a hash where the key is a string and the value is a string
 	url has a value which is a string
 	id has a value which is a string
 	metadata has a value which is a reference to a hash where the key is a string and the value is a string
@@ -1354,7 +1488,10 @@ get_sample_query_data_object is a reference to a hash where the following keys a
 	version has a value which is an int
 	project has a value which is a string
 	name has a value which is a string
+	metagenomes has a value which is a reference to a list where each element is a string
+	libraries has a value which is a reference to a list where each element is a string
 	created has a value which is a string
+	env_package has a value which is a reference to a hash where the key is a string and the value is a string
 	url has a value which is a string
 	id has a value which is a string
 	metadata has a value which is a reference to a hash where the key is a string and the value is a string
@@ -2046,7 +2183,7 @@ string matrix_type: type of the data encoding matrix (dense or sparse)
 
 string date: time the output data was generated
 
-list<list<float> data: the matrix values
+list<list<float>> data: the matrix values
 
 list<get_abundanceprofile_instance_rows_object> rows: rows object
 
@@ -2284,6 +2421,7 @@ list of the library objects
 int version: version of the object
 string project: reference to the project object
 string name: human readable identifier
+list<string> sequencesets: a list of references to the related sequence sets
 string metagenome: reference to the related metagenome object
 string created: time the object was first created
 string url: resource location of this object instance
@@ -2301,6 +2439,7 @@ a reference to a hash where the following keys are defined:
 version has a value which is an int
 project has a value which is a string
 name has a value which is a string
+sequencesets has a value which is a reference to a list where each element is a string
 metagenome has a value which is a string
 created has a value which is a string
 url has a value which is a string
@@ -2318,6 +2457,7 @@ a reference to a hash where the following keys are defined:
 version has a value which is an int
 project has a value which is a string
 name has a value which is a string
+sequencesets has a value which is a reference to a list where each element is a string
 metagenome has a value which is a string
 created has a value which is a string
 url has a value which is a string
@@ -2727,7 +2867,7 @@ string matrix_type: type of the data encoding matrix (dense or sparse)
 
 string date: time the output data was generated
 
-list<list<float> data: the matrix values
+list<list<float>> data: the matrix values
 
 list<get_matrix_organism_rows_object> rows: rows object
 
@@ -2952,7 +3092,7 @@ string matrix_type: type of the data encoding matrix (dense or sparse)
 
 string date: time the output data was generated
 
-list<list<float> data: the matrix values
+list<list<float>> data: the matrix values
 
 list<get_matrix_function_rows_object> rows: rows object
 
@@ -3162,6 +3302,89 @@ id has a value which is a string
 
 
 
+=head2 MatrixFeature
+
+=over 4
+
+
+
+=item Description
+
+string generated_by: identifier of the data generator
+
+string matrix_type: type of the data encoding matrix (dense or sparse)
+
+string date: time the output data was generated
+
+list<list<float>> data: the matrix values
+
+list<get_matrix_feature_rows_object> rows: rows object
+
+string matrix_element_value: result_type of the elements in the return matrix
+
+string matrix_element_type: data type of the elements in the return matrix
+
+string format_url: url to the format specification
+
+string format: format specification name
+
+list<get_matrix_feature_columns_object> columns: columns object
+
+string id: unique object identifier
+
+string type: type of the data in the return table (taxon, function or gene)
+
+list<int> shape: list of the dimension sizes of the return matrix
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+generated_by has a value which is a string
+matrix_type has a value which is a string
+date has a value which is a string
+data has a value which is a reference to a list where each element is a reference to a list where each element is a float
+rows has a value which is a reference to a list where each element is a get_matrix_feature_rows_object
+matrix_element_value has a value which is a string
+matrix_element_type has a value which is a string
+format_url has a value which is a string
+format has a value which is a string
+columns has a value which is a reference to a list where each element is a get_matrix_feature_columns_object
+id has a value which is a string
+type has a value which is a string
+shape has a value which is a reference to a list where each element is an int
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+generated_by has a value which is a string
+matrix_type has a value which is a string
+date has a value which is a string
+data has a value which is a reference to a list where each element is a reference to a list where each element is a float
+rows has a value which is a reference to a list where each element is a get_matrix_feature_rows_object
+matrix_element_value has a value which is a string
+matrix_element_type has a value which is a string
+format_url has a value which is a string
+format has a value which is a string
+columns has a value which is a reference to a list where each element is a get_matrix_feature_columns_object
+id has a value which is a string
+type has a value which is a string
+shape has a value which is a reference to a list where each element is an int
+
+
+=end text
+
+=back
+
+
+
 =head2 get_metagenome_query_data_object
 
 =over 4
@@ -3172,6 +3395,9 @@ id has a value which is a string
 
 list of the metagenome objects
 
+string status: This is a controlled vocabulary - 
+        public: object is public
+        private: object is private
 int version: version of the object
 string project: reference to the project object
 string name: human readable identifier
@@ -3190,6 +3416,7 @@ mapping<string, string> metadata: key value pairs describing metadata
 
 <pre>
 a reference to a hash where the following keys are defined:
+status has a value which is a string
 version has a value which is an int
 project has a value which is a string
 name has a value which is a string
@@ -3208,6 +3435,7 @@ metadata has a value which is a reference to a hash where the key is a string an
 =begin text
 
 a reference to a hash where the following keys are defined:
+status has a value which is a string
 version has a value which is an int
 project has a value which is a string
 name has a value which is a string
@@ -3390,6 +3618,10 @@ id has a value which is a string
 
 =item Description
 
+string status: This is a controlled vocabulary - 
+        public: object is public
+        private: object is private
+
 int version: version of the object
 
 string project: reference to the project object
@@ -3417,6 +3649,7 @@ mapping<string, string> metadata: key value pairs describing metadata
 
 <pre>
 a reference to a hash where the following keys are defined:
+status has a value which is a string
 version has a value which is an int
 project has a value which is a string
 name has a value which is a string
@@ -3435,6 +3668,7 @@ metadata has a value which is a reference to a hash where the key is a string an
 =begin text
 
 a reference to a hash where the following keys are defined:
+status has a value which is a string
 version has a value which is an int
 project has a value which is a string
 name has a value which is a string
@@ -3625,10 +3859,16 @@ family has a value which is a reference to a hash where the key is a string and 
 
 list of the project objects
 
+list<string> analyzed: a list of references to the related metagenome objects
+string status: This is a controlled vocabulary - 
+        public: object is public
+        private: object is private
 int version: version of the object
 string name: human readable identifier
 string description: a short, comprehensive description of the project
+list<string> libraries: a list of references to the related library objects
 string created: time the object was first created
+list<string> samples: a list of references to the related sample objects
 string funding_source: the official name of the source of funding of this project
 string url: resource location of this object instance
 mapping<string, string> metadata: key value pairs describing metadata
@@ -3642,10 +3882,14 @@ string pi: the first and last name of the principal investigator of the project
 
 <pre>
 a reference to a hash where the following keys are defined:
+analyzed has a value which is a reference to a list where each element is a string
+status has a value which is a string
 version has a value which is an int
 name has a value which is a string
 description has a value which is a string
+libraries has a value which is a reference to a list where each element is a string
 created has a value which is a string
+samples has a value which is a reference to a list where each element is a string
 funding_source has a value which is a string
 url has a value which is a string
 metadata has a value which is a reference to a hash where the key is a string and the value is a string
@@ -3659,10 +3903,14 @@ pi has a value which is a string
 =begin text
 
 a reference to a hash where the following keys are defined:
+analyzed has a value which is a reference to a list where each element is a string
+status has a value which is a string
 version has a value which is an int
 name has a value which is a string
 description has a value which is a string
+libraries has a value which is a reference to a list where each element is a string
 created has a value which is a string
+samples has a value which is a reference to a list where each element is a string
 funding_source has a value which is a string
 url has a value which is a string
 metadata has a value which is a reference to a hash where the key is a string and the value is a string
@@ -3842,6 +4090,10 @@ id has a value which is a string
 
 list<string> analyzed: a list of references to the related metagenome objects
 
+string status: This is a controlled vocabulary - 
+        public: object is public
+        private: object is private
+
 int version: version of the object
 
 string name: human readable identifier
@@ -3872,6 +4124,7 @@ string pi: the first and last name of the principal investigator of the project
 <pre>
 a reference to a hash where the following keys are defined:
 analyzed has a value which is a reference to a list where each element is a string
+status has a value which is a string
 version has a value which is an int
 name has a value which is a string
 description has a value which is a string
@@ -3892,6 +4145,7 @@ pi has a value which is a string
 
 a reference to a hash where the following keys are defined:
 analyzed has a value which is a reference to a list where each element is a string
+status has a value which is a string
 version has a value which is an int
 name has a value which is a string
 description has a value which is a string
@@ -3924,7 +4178,10 @@ list of sample objects
 int version: version of the object
 string project: reference to the project of this sample
 string name: human readable identifier
+list<string> metagenomes: a list of references to the related metagenome objects
+list<string> libraries: a list of references to the related library objects
 string created: time the object was first created
+mapping<string, string> env_package: environmental package object
 string url: resource location of this object instance
 string id: unique object identifier
 mapping<string, string> metadata: key value pairs describing metadata
@@ -3939,7 +4196,10 @@ a reference to a hash where the following keys are defined:
 version has a value which is an int
 project has a value which is a string
 name has a value which is a string
+metagenomes has a value which is a reference to a list where each element is a string
+libraries has a value which is a reference to a list where each element is a string
 created has a value which is a string
+env_package has a value which is a reference to a hash where the key is a string and the value is a string
 url has a value which is a string
 id has a value which is a string
 metadata has a value which is a reference to a hash where the key is a string and the value is a string
@@ -3954,7 +4214,10 @@ a reference to a hash where the following keys are defined:
 version has a value which is an int
 project has a value which is a string
 name has a value which is a string
+metagenomes has a value which is a reference to a list where each element is a string
+libraries has a value which is a reference to a list where each element is a string
 created has a value which is a string
+env_package has a value which is a reference to a hash where the key is a string and the value is a string
 url has a value which is a string
 id has a value which is a string
 metadata has a value which is a reference to a hash where the key is a string and the value is a string

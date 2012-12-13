@@ -89,6 +89,18 @@ function CommunitiesAPI(url) {
 	json_call_ajax_async("CommunitiesAPI.get_matrix_function", [get_matrix_function_params], 1, _callback, _error_callback)
     }
 
+    this.get_matrix_feature = function(get_matrix_feature_params)
+    {
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_matrix_feature", [get_matrix_feature_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_matrix_feature", [get_matrix_feature_params]);
+        return resp[0];
+    }
+
+    this.get_matrix_feature_async = function(get_matrix_feature_params, _callback, _error_callback)
+    {
+	json_call_ajax_async("CommunitiesAPI.get_matrix_feature", [get_matrix_feature_params], 1, _callback, _error_callback)
+    }
+
     this.get_metagenome_query = function(get_metagenome_query_params)
     {
 	var resp = json_call_ajax_sync("CommunitiesAPI.get_metagenome_query", [get_metagenome_query_params]);
