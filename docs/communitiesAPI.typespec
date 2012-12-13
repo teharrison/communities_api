@@ -88,7 +88,7 @@ module CommunitiesAPI : CommunitiesAPI {
 		string generated_by;
 		string matrix_type;
 		string date;
-		list<list<float> data;
+		list<list<float>> data;
 		list<get_abundanceprofile_instance_rows_object> rows;
 		string matrix_element_type;
 		string format_url;
@@ -346,7 +346,7 @@ module CommunitiesAPI : CommunitiesAPI {
 		string generated_by;
 		string matrix_type;
 		string date;
-		list<list<float> data;
+		list<list<float>> data;
 		list<get_matrix_organism_rows_object> rows;
 		string matrix_element_value;
 		string matrix_element_type;
@@ -438,7 +438,7 @@ module CommunitiesAPI : CommunitiesAPI {
 		string generated_by;
 		string matrix_type;
 		string date;
-		list<list<float> data;
+		list<list<float>> data;
 		list<get_matrix_function_rows_object> rows;
 		string matrix_element_value;
 		string matrix_element_type;
@@ -1119,12 +1119,6 @@ Returns a single data object.
 Returns a single data object.
 */
 	funcdef get_matrix_function(get_matrix_function_params) returns (MatrixFunction);
-
-
-/* A profile in biom format that contains abundance counts
-Returns a single data object.
-*/
-	funcdef get_matrix_feature(get_matrix_feature_params) returns (MatrixFeature);
 
 /* A metagenome is an analyzed set sequences from a sample of some environment
 Returns a set of data matching the query criteria.
