@@ -41,7 +41,7 @@ Options
   system "echo '$text' | more";
 }
 
-my $HOST      = 'http://api.metagenomics.anl.gov/api2.cgi//sample/';
+my $HOST      = 'http://www.kbase.us/services/communities/sample/';
 my $id        = '';
 my $user      = '';
 my $pass      = '';
@@ -67,7 +67,7 @@ if ($help) {
 }
 
 if ($id =~/^kb\|/) {
-  my $id_server_url = "http://bio-data-1.mcs.anl.gov:8080/services/idserver";
+  my $id_server_url = "http://www.kbase.us/services/idserver";
   my $idserver = Bio::KBase::IDServer::Client->new($id_server_url);
   my $return = $idserver->kbase_ids_to_external_ids( [ $id ]);
   $id = $return->{$id}->[1] ;
