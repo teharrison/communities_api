@@ -17,6 +17,30 @@ function CommunitiesAPI(url) {
 	json_call_ajax_async("CommunitiesAPI.get_abundanceprofile_instance", [get_abundanceprofile_instance_params], 1, _callback, _error_callback)
     }
 
+    this.get_analysisset_instance = function(get_analysisset_instance_params)
+    {
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_analysisset_instance", [get_analysisset_instance_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_analysisset_instance", [get_analysisset_instance_params]);
+        return resp[0];
+    }
+
+    this.get_analysisset_instance_async = function(get_analysisset_instance_params, _callback, _error_callback)
+    {
+	json_call_ajax_async("CommunitiesAPI.get_analysisset_instance", [get_analysisset_instance_params], 1, _callback, _error_callback)
+    }
+
+    this.get_analysisset_setlist = function(get_analysisset_setlist_params)
+    {
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_analysisset_setlist", [get_analysisset_setlist_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_analysisset_setlist", [get_analysisset_setlist_params]);
+        return resp[0];
+    }
+
+    this.get_analysisset_setlist_async = function(get_analysisset_setlist_params, _callback, _error_callback)
+    {
+	json_call_ajax_async("CommunitiesAPI.get_analysisset_setlist", [get_analysisset_setlist_params], 1, _callback, _error_callback)
+    }
+
     this.get_library_query = function(get_library_query_params)
     {
 	var resp = json_call_ajax_sync("CommunitiesAPI.get_library_query", [get_library_query_params]);
@@ -41,6 +65,42 @@ function CommunitiesAPI(url) {
 	json_call_ajax_async("CommunitiesAPI.get_library_instance", [get_library_instance_params], 1, _callback, _error_callback)
     }
 
+    this.get_matrix_organism = function(get_matrix_organism_params)
+    {
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_matrix_organism", [get_matrix_organism_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_matrix_organism", [get_matrix_organism_params]);
+        return resp[0];
+    }
+
+    this.get_matrix_organism_async = function(get_matrix_organism_params, _callback, _error_callback)
+    {
+	json_call_ajax_async("CommunitiesAPI.get_matrix_organism", [get_matrix_organism_params], 1, _callback, _error_callback)
+    }
+
+    this.get_matrix_function = function(get_matrix_function_params)
+    {
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_matrix_function", [get_matrix_function_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_matrix_function", [get_matrix_function_params]);
+        return resp[0];
+    }
+
+    this.get_matrix_function_async = function(get_matrix_function_params, _callback, _error_callback)
+    {
+	json_call_ajax_async("CommunitiesAPI.get_matrix_function", [get_matrix_function_params], 1, _callback, _error_callback)
+    }
+
+    this.get_matrix_feature = function(get_matrix_feature_params)
+    {
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_matrix_feature", [get_matrix_feature_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_matrix_feature", [get_matrix_feature_params]);
+        return resp[0];
+    }
+
+    this.get_matrix_feature_async = function(get_matrix_feature_params, _callback, _error_callback)
+    {
+	json_call_ajax_async("CommunitiesAPI.get_matrix_feature", [get_matrix_feature_params], 1, _callback, _error_callback)
+    }
+
     this.get_metagenome_query = function(get_metagenome_query_params)
     {
 	var resp = json_call_ajax_sync("CommunitiesAPI.get_metagenome_query", [get_metagenome_query_params]);
@@ -63,6 +123,18 @@ function CommunitiesAPI(url) {
     this.get_metagenome_instance_async = function(get_metagenome_instance_params, _callback, _error_callback)
     {
 	json_call_ajax_async("CommunitiesAPI.get_metagenome_instance", [get_metagenome_instance_params], 1, _callback, _error_callback)
+    }
+
+    this.get_metagenome_statistics_instance = function(get_metagenome_statistics_instance_params)
+    {
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_metagenome_statistics_instance", [get_metagenome_statistics_instance_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_metagenome_statistics_instance", [get_metagenome_statistics_instance_params]);
+        return resp[0];
+    }
+
+    this.get_metagenome_statistics_instance_async = function(get_metagenome_statistics_instance_params, _callback, _error_callback)
+    {
+	json_call_ajax_async("CommunitiesAPI.get_metagenome_statistics_instance", [get_metagenome_statistics_instance_params], 1, _callback, _error_callback)
     }
 
     this.get_project_query = function(get_project_query_params)
@@ -149,16 +221,16 @@ function CommunitiesAPI(url) {
 	json_call_ajax_async("CommunitiesAPI.get_sequenceset_instance", [get_sequenceset_instance_params], 1, _callback, _error_callback)
     }
 
-    this.get_sequenceset_list = function(get_sequenceset_list_params)
+    this.get_sequenceset_setlist = function(get_sequenceset_setlist_params)
     {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_sequenceset_list", [get_sequenceset_list_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_sequenceset_list", [get_sequenceset_list_params]);
+	var resp = json_call_ajax_sync("CommunitiesAPI.get_sequenceset_setlist", [get_sequenceset_setlist_params]);
+//	var resp = json_call_sync("CommunitiesAPI.get_sequenceset_setlist", [get_sequenceset_setlist_params]);
         return resp[0];
     }
 
-    this.get_sequenceset_list_async = function(get_sequenceset_list_params, _callback, _error_callback)
+    this.get_sequenceset_setlist_async = function(get_sequenceset_setlist_params, _callback, _error_callback)
     {
-	json_call_ajax_async("CommunitiesAPI.get_sequenceset_list", [get_sequenceset_list_params], 1, _callback, _error_callback)
+	json_call_ajax_async("CommunitiesAPI.get_sequenceset_setlist", [get_sequenceset_setlist_params], 1, _callback, _error_callback)
     }
 
     function _json_call_prepare(url, method, params, async_flag)

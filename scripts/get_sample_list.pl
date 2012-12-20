@@ -43,7 +43,7 @@ Options
   system "echo '$text' | more";
 }
 
-my $HOST      = 'http://api.metagenomics.anl.gov/api2.cgi/sample/';
+my $HOST      = 'http://www.kbase.us/services/communities/sample/';
 my $user      = '';
 my $pass      = '';
 my $token     = '';
@@ -67,7 +67,6 @@ if ($help) {
   &help();
   exit 0;
 }
-
 if ($user || $pass) {
   if ($user && $pass) {
     my $exec = 'curl -s -u '.$user.':'.$pass.' -X POST "https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials"';
@@ -91,7 +90,7 @@ if ($user || $pass) {
   }
 }
 
-my $url = $HOST."?verbosity=$verbosity&limit=$limit&offset=$offset";
+my $url = $HOST."?verbosity=\$verbosity&limit=$limit&offset=$offset";
 if ($webkey) {
   $url .= "&webkey=".$webkey;
 }
