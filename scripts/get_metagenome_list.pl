@@ -43,7 +43,7 @@ Options
   system "echo '$text' | more";
 }
 
-my $HOST      = 'http://www.kbase.us/services/communities/metagenome/';
+my $HOST      = 'http://api.metagenomics.anl.gov/api2.cgi/metagenome/';
 my $user      = '';
 my $pass      = '';
 my $token     = '';
