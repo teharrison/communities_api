@@ -41,7 +41,7 @@ Options
   system "echo '$text' | more";
 }
 
-my $HOST      = 'http://www.kbase.us/services/communities/metagenome/';
+my $HOST      = 'http://api.metagenomics.anl.gov/api2.cgi/metagenome/';
 my $id        = '';
 my $user      = '';
 my $pass      = '';
@@ -61,7 +61,8 @@ GetOptions ( 'id=s' => \$id,
 if ($help) {
   &help();
   exit 0;
-}nunless ($id) {
+}
+unless ($id) {
   &usage();
   exit 0;
 }
