@@ -13,6 +13,9 @@ SRC_PERL = $(wildcard scripts/*.pl)
 # things needed for testing
 TESTS = $(wildcard test/client-tests/*.t) 
 
+default:
+	@echo "nothing to do for default make"
+
 deploy: deploy-client
 
 deploy-all: deploy-client
@@ -41,7 +44,7 @@ deploy-docs: build-docs
 	cp docs/*.html $(TARGET)/services/$(SERVICE)/webroot
 
 build-docs:
-	perl ../typecomp/scripts/compile_typespec.pl docs/communitiesAPI.typespec client
+	compile_typespec docs/communitiesAPI.typespec client
 	pod2html --infile=client/CommunitiesAPIClient.pm --outfile=docs/CommunitiesAPI.html --title="Communities API Client"
 
 test: test-client
