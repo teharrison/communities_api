@@ -49,87 +49,80 @@ sub test_abundanceprofile_instance {
 	my $test_id = "mgm4440286.3";
 	my @verbosities = ( 'minimal', 'verbose', 'full' );
 	my $sources = {
-		'M5RNA' => {
-			allowed => ['organism'],
-			not_allowed => ['feature', 'function']
-		},
-		'RDP' => {
-			allowed => ['organism', 'feature'],
-			not_allowed => ['function']
-		},
-		'Greengenes' => {
-			allowed => ['organism', 'feature'],
-			not_allowed => ['function']
-		},
-		'LSU' => {
-                        allowed => ['organism', 'feature'],
-                        not_allowed => ['function']
-                },
-		'SSU' => {
-                        allowed => ['organism', 'feature'],
-                        not_allowed => ['function']
-                },
-		'M5NR' => {
-                        allowed => ['organism'],
-                        not_allowed => ['feature', 'function']
-                },
-		'SwissProt' => {
-                        allowed => ['organism', 'feature'],
-                        not_allowed => ['function']
-                },
-		'GenBank' => {
-                        allowed => ['organism', 'feature'],
-                        not_allowed => ['function']
-                },
-		'IMG' => {
-                        allowed => ['organism', 'feature'],
-                        not_allowed => ['function']
-                },
-		'KEGG' => {
-                        allowed => ['organism', 'feature'],
-                        not_allowed => ['function']
-                },
-		'SEED' => {
-                        allowed => ['organism', 'feature'],
-                        not_allowed => ['function']
-                },
-		'TrEMBL' => {
-                        allowed => ['organism', 'feature'],
-                        not_allowed => ['function']
-                },
-		'RefSeq' => {
-                        allowed => ['organism', 'feature'],
-                        not_allowed => ['function']
-                },
-		'PATRIC' => {
-                        allowed => ['organism', 'feature'],
-                        not_allowed => ['function']
-                },
-		'eggNOG' => {
-                        allowed => ['organism', 'feature'],
-                        not_allowed => ['function']
-                },
-		'NOG' => {
-			allowed => ['function'],
-			not_allowed => ['organism', 'feature'],
-		},
-		'COG' => {
-                        allowed => ['function'],
-                        not_allowed => ['organism', 'feature'],
-                },
-		'KO' => {
-                        allowed => ['function'],
-                        not_allowed => ['organism', 'feature'],
-                },
-		'GO' => {
-                        allowed => ['function'],
-                        not_allowed => ['organism', 'feature'],
-                },
-		'Subsystems' => {
-                        allowed => ['function'],
-                        not_allowed => ['organism', 'feature'],
-                },
-	};
+		       'M5NR' => {
+				  allowed => ['organism'],
+				  not_allowed => ['feature', 'function']
+				 },
+		       'SwissProt' => {
+				       allowed => ['organism', 'feature'],
+				       not_allowed => ['function']
+				      },
+		       'GenBank' => {
+				     allowed => ['organism', 'feature'],
+				     not_allowed => ['function']
+				    },
+		       'IMG' => {
+				 allowed => ['organism', 'feature'],
+				 not_allowed => ['function']
+				},
+		       
+		       'SEED' => {
+				  allowed => ['organism', 'feature'],
+				  not_allowed => ['function']
+				 },
+		       'TrEMBL' => {
+				    allowed => ['organism', 'feature'],
+				    not_allowed => ['function']
+				   },
+		       'RefSeq' => {
+				    allowed => ['organism', 'feature'],
+				    not_allowed => ['function']
+				   },
+		       'PATRIC' => {
+				    allowed => ['organism', 'feature'],
+				    not_allowed => ['function']
+				   },
+		       'KEGG' => {
+				  allowed => ['organism', 'feature'],
+				  not_allowed => ['function']
+				 },
+		       'M5RNA' => {
+				   allowed => ['organism'],
+				   not_allowed => ['feature', 'function']
+				  },
+		       'RDP' => {
+				 allowed => ['organism', 'feature'],
+				 not_allowed => ['function']
+				},
+		       'Greengenes' => {
+					allowed => ['organism', 'feature'],
+					not_allowed => ['function']
+				       },
+		       'LSU' => {
+				 allowed => ['organism', 'feature'],
+				 not_allowed => ['function']
+				},
+		       'SSU' => {
+				 allowed => ['organism', 'feature'],
+				 not_allowed => ['function']
+				},
+		       'Subsystems' => {
+					allowed => ['function'],
+					not_allowed => ['organism', 'feature'],
+				       },
+		       'NOG' => {
+				 allowed => ['function'],
+				 not_allowed => ['organism', 'feature'],
+				},
+		       'COG' => {
+				 allowed => ['function'],
+				 not_allowed => ['organism', 'feature'],
+				},
+		       'KO' => {
+				allowed => ['function'],
+				not_allowed => ['organism', 'feature'],
+			       }
+		      };
 
 	# major variable for return values
 	my $return;
