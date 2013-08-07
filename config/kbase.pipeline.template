@@ -1,6 +1,6 @@
     {
         "info": {
-            "pipeline": "mgrast-prod",
+            "pipeline": "kbase-prod",
             "name": "#jobname",
             "project": "#project",
             "user": "#user",
@@ -178,8 +178,8 @@
                      "output": "#jobname.650.superblat.sims"
                 },
                 "taskid": "5",
-                "totalwork": #totalwork
-
+                "totalwork": #totalwork,
+                "maxworksize": 50
             },
             {
                 "cmd": {
@@ -334,3 +334,4 @@
             }
         ]
     }
+

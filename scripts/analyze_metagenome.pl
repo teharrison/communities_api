@@ -1,11 +1,11 @@
 #!/kb/runtime/bin/perl
 
-#Script for submitting workflow to AWE
-#Command name: submit_to_awe.pl
+#Script for submitting metagenome to AWE
+#Command name: analyze_metagenome.pl
 #Parameters:
-#     -jobname=<job name, required>
-#     -shocknode=<input file Shock node ID, required>
-#     -md_shocknode=<metadata file Shock node ID, required>
+#     -metagenome_name=<metagenome/file name for sequence file in datastore, must match any metagenome name in metadata file, required>
+#     -metagenome_datastore_id=<sequence/read file ID in datastore, required>
+#     -metadata_datastore_id=<metadata file ID in datastore, required>
 #     -conf=<configuration file, (default='awe.ini')>
 
 use strict;
@@ -28,9 +28,9 @@ $vars{shocknode} = "";
 $vars{md_shocknode} = "";
 my $conf = "awe.ini";
 my $help = 0;
-my $options = GetOptions ("jobname=s" => \$vars{jobname},
-                          "shocknode=s"   => \$vars{shocknode},
-			  "md_shocknode=s" => \$vars{md_shocknode},
+my $options = GetOptions ("metagenome_name=s" => \$vars{jobname},
+                          "metagenome_datastore_id=s"   => \$vars{shocknode},
+			  "metadata_datastore_id=s" => \$vars{md_shocknode},
                           "conf=s"    => \$conf,
                           "h"  => \$help
 			 );
@@ -264,12 +264,12 @@ print "Done.\n\n";
 
 sub print_usage {
     print "
-Script for submitting workflow to AWE
-Command name: submit_to_awe.pl
+Script for submitting metagenome to AWE
+Command name: analyze_metagenome.pl
 Parameters:
-     -jobname=<job name, required>
-     -shocknode=<input file Shock node ID, required>
-     -md_shocknode=<metadata file Shock node ID, required>
+     -metagenome_name=<metagenome/file name for sequence file in datastore, must match any metagenome name in metadata file, required>
+     -metagenome_datastore_id=<sequence/read file ID in datastore, required>
+     -metadata_datastore_id=<metadata file ID in datastore, required>
      -conf=<configuration file, (default='awe.ini')>
 \n";
 }
