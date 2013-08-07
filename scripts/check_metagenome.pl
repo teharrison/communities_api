@@ -4,7 +4,7 @@
 #Command name: check_metagenome.pl
 #Parameters:
 #     -awe_job_url=<url for AWE job, required>
-#     -task_status=<0 or 1, option to include status of each task (default=0)>
+#     -task_status <option variable to include status of individual tasks>
 #     -conf=<configuration file (default='awe.ini')>
 
 use strict;
@@ -20,11 +20,11 @@ umask 000;
 
 # parameters
 my $awe_job_url = "";
-my $task_status = 0;
+my $task_status;
 my $conf = "awe.ini";
 my $help = 0;
 my $options = GetOptions ("awe_job_url=s" => \$awe_job_url,
-                          "task_status=i" => \$task_status,
+                          "task_status" => \$task_status,
                           "conf=s"    => \$conf,
                           "h"  => \$help
 			 );
@@ -70,8 +70,9 @@ my $get = $ua->get($awe_job_url);
 
 unless ($get->is_success) {
     print STDERR "Could not retrieve AWE job via url: $awe_job_url";
-    next;
+    exit 1;
 }
+
 my $json = new JSON();
 my $res = $json->decode( $get->content );
 my $job_state = "";
@@ -85,7 +86,7 @@ if($job_state eq "") {
 } else {
     print "\nJob status retrieved for AWE job url = $awe_job_url\n";
     print "Job status is: $job_state\n\n";
-    if($task_status == 1 && exists $res->{data}->{tasks}) {
+    if($task_status && exists $res->{data}->{tasks}) {
         foreach my $task (@{$res->{data}->{tasks}}) {
             if(exists $task->{cmd}->{description} && exists $task->{state}) {
                 my $desc = $task->{cmd}->{description};
@@ -103,7 +104,7 @@ Script for checking status of metagenome in AWE
 Command name: check_metagenome.pl
 Parameters:
      -awe_job_url=<url for AWE job, required>
-     -task_status=<0 or 1, option to include status of each task (default=0)>
-     -conf=<configuration file, (default='awe.ini')>
+     -task_status <option variable to include status of individual tasks>
+     -conf=<configuration file (default='awe.ini')>
 \n";
 }
