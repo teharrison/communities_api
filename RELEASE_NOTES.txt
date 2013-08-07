@@ -1,0 +1,9 @@
+Date: 08/08/13
+
+This release contains two new commands:
+
+- metagenome
+  Provides information about single metagenomes or lsit of available metagenomes
+- analyse_metagenome
+  initiates the analysis of an uploaded metagenomic sequence file with metadata
+
