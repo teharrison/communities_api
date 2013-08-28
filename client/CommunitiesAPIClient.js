@@ -1,394 +1,459 @@
 
 
-function CommunitiesAPI(url) {
+function CommunitiesAPI(url, auth, auth_cb) {
 
     var _url = url;
-
-
-    this.get_abundanceprofile_instance = function(get_abundanceprofile_instance_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_abundanceprofile_instance", [get_abundanceprofile_instance_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_abundanceprofile_instance", [get_abundanceprofile_instance_params]);
-        return resp[0];
+    var deprecationWarningSent = false;
+    
+    function deprecationWarning() {
+        if (!deprecationWarningSent) {
+            deprecationWarningSent = true;
+            if (!window.console) return;
+            console.log(
+                "DEPRECATION WARNING: '*_async' method names will be removed",
+                "in a future version. Please use the identical methods without",
+                "the'_async' suffix.");
+        }
     }
 
-    this.get_abundanceprofile_instance_async = function(get_abundanceprofile_instance_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_abundanceprofile_instance", [get_abundanceprofile_instance_params], 1, _callback, _error_callback)
-    }
+    var _auth = auth ? auth : { 'token' : '', 'user_id' : ''};
+    var _auth_cb = auth_cb;
 
-    this.get_analysisset_instance = function(get_analysisset_instance_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_analysisset_instance", [get_analysisset_instance_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_analysisset_instance", [get_analysisset_instance_params]);
-        return resp[0];
-    }
 
-    this.get_analysisset_instance_async = function(get_analysisset_instance_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_analysisset_instance", [get_analysisset_instance_params], 1, _callback, _error_callback)
-    }
+    this.post_compute_normalize = function (PostComputeNormalizeParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.post_compute_normalize",
+        [PostComputeNormalizeParams], 1, _callback, _errorCallback);
+};
 
-    this.get_analysisset_setlist = function(get_analysisset_setlist_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_analysisset_setlist", [get_analysisset_setlist_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_analysisset_setlist", [get_analysisset_setlist_params]);
-        return resp[0];
-    }
+    this.post_compute_normalize_async = function (PostComputeNormalizeParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.post_compute_normalize", [PostComputeNormalizeParams], 1, _callback, _error_callback);
+    };
 
-    this.get_analysisset_setlist_async = function(get_analysisset_setlist_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_analysisset_setlist", [get_analysisset_setlist_params], 1, _callback, _error_callback)
-    }
+    this.post_compute_heatmap = function (PostComputeHeatmapParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.post_compute_heatmap",
+        [PostComputeHeatmapParams], 1, _callback, _errorCallback);
+};
 
-    this.get_library_query = function(get_library_query_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_library_query", [get_library_query_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_library_query", [get_library_query_params]);
-        return resp[0];
-    }
+    this.post_compute_heatmap_async = function (PostComputeHeatmapParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.post_compute_heatmap", [PostComputeHeatmapParams], 1, _callback, _error_callback);
+    };
 
-    this.get_library_query_async = function(get_library_query_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_library_query", [get_library_query_params], 1, _callback, _error_callback)
-    }
+    this.post_compute_pcoa = function (PostComputePcoaParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.post_compute_pcoa",
+        [PostComputePcoaParams], 1, _callback, _errorCallback);
+};
 
-    this.get_library_instance = function(get_library_instance_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_library_instance", [get_library_instance_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_library_instance", [get_library_instance_params]);
-        return resp[0];
-    }
+    this.post_compute_pcoa_async = function (PostComputePcoaParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.post_compute_pcoa", [PostComputePcoaParams], 1, _callback, _error_callback);
+    };
 
-    this.get_library_instance_async = function(get_library_instance_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_library_instance", [get_library_instance_params], 1, _callback, _error_callback)
-    }
+    this.get_download_instance = function (GetDownloadInstanceParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_download_instance",
+        [GetDownloadInstanceParams], 1, _callback, _errorCallback);
+};
 
-    this.get_matrix_organism = function(get_matrix_organism_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_matrix_organism", [get_matrix_organism_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_matrix_organism", [get_matrix_organism_params]);
-        return resp[0];
-    }
+    this.get_download_instance_async = function (GetDownloadInstanceParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_download_instance", [GetDownloadInstanceParams], 1, _callback, _error_callback);
+    };
 
-    this.get_matrix_organism_async = function(get_matrix_organism_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_matrix_organism", [get_matrix_organism_params], 1, _callback, _error_callback)
-    }
+    this.get_download_setlist = function (GetDownloadSetlistParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_download_setlist",
+        [GetDownloadSetlistParams], 1, _callback, _errorCallback);
+};
 
-    this.get_matrix_function = function(get_matrix_function_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_matrix_function", [get_matrix_function_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_matrix_function", [get_matrix_function_params]);
-        return resp[0];
-    }
+    this.get_download_setlist_async = function (GetDownloadSetlistParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_download_setlist", [GetDownloadSetlistParams], 1, _callback, _error_callback);
+    };
 
-    this.get_matrix_function_async = function(get_matrix_function_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_matrix_function", [get_matrix_function_params], 1, _callback, _error_callback)
-    }
+    this.get_inbox_view = function (GetInboxViewParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_inbox_view",
+        [GetInboxViewParams], 1, _callback, _errorCallback);
+};
 
-    this.get_matrix_feature = function(get_matrix_feature_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_matrix_feature", [get_matrix_feature_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_matrix_feature", [get_matrix_feature_params]);
-        return resp[0];
-    }
+    this.get_inbox_view_async = function (GetInboxViewParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_inbox_view", [GetInboxViewParams], 1, _callback, _error_callback);
+    };
 
-    this.get_matrix_feature_async = function(get_matrix_feature_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_matrix_feature", [get_matrix_feature_params], 1, _callback, _error_callback)
-    }
+    this.post_inbox_upload = function (PostInboxUploadParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.post_inbox_upload",
+        [PostInboxUploadParams], 1, _callback, _errorCallback);
+};
 
-    this.get_metagenome_query = function(get_metagenome_query_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_metagenome_query", [get_metagenome_query_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_metagenome_query", [get_metagenome_query_params]);
-        return resp[0];
-    }
+    this.post_inbox_upload_async = function (PostInboxUploadParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.post_inbox_upload", [PostInboxUploadParams], 1, _callback, _error_callback);
+    };
 
-    this.get_metagenome_query_async = function(get_metagenome_query_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_metagenome_query", [get_metagenome_query_params], 1, _callback, _error_callback)
-    }
+    this.get_library_query = function (GetLibraryQueryParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_library_query",
+        [GetLibraryQueryParams], 1, _callback, _errorCallback);
+};
 
-    this.get_metagenome_instance = function(get_metagenome_instance_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_metagenome_instance", [get_metagenome_instance_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_metagenome_instance", [get_metagenome_instance_params]);
-        return resp[0];
-    }
+    this.get_library_query_async = function (GetLibraryQueryParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_library_query", [GetLibraryQueryParams], 1, _callback, _error_callback);
+    };
 
-    this.get_metagenome_instance_async = function(get_metagenome_instance_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_metagenome_instance", [get_metagenome_instance_params], 1, _callback, _error_callback)
-    }
+    this.get_library_instance = function (GetLibraryInstanceParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_library_instance",
+        [GetLibraryInstanceParams], 1, _callback, _errorCallback);
+};
 
-    this.get_metagenome_statistics_instance = function(get_metagenome_statistics_instance_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_metagenome_statistics_instance", [get_metagenome_statistics_instance_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_metagenome_statistics_instance", [get_metagenome_statistics_instance_params]);
-        return resp[0];
-    }
+    this.get_library_instance_async = function (GetLibraryInstanceParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_library_instance", [GetLibraryInstanceParams], 1, _callback, _error_callback);
+    };
 
-    this.get_metagenome_statistics_instance_async = function(get_metagenome_statistics_instance_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_metagenome_statistics_instance", [get_metagenome_statistics_instance_params], 1, _callback, _error_callback)
-    }
+    this.get_m5nr_ontology = function (GetM5nrOntologyParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_m5nr_ontology",
+        [GetM5nrOntologyParams], 1, _callback, _errorCallback);
+};
 
-    this.get_project_query = function(get_project_query_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_project_query", [get_project_query_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_project_query", [get_project_query_params]);
-        return resp[0];
-    }
+    this.get_m5nr_ontology_async = function (GetM5nrOntologyParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_m5nr_ontology", [GetM5nrOntologyParams], 1, _callback, _error_callback);
+    };
 
-    this.get_project_query_async = function(get_project_query_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_project_query", [get_project_query_params], 1, _callback, _error_callback)
-    }
+    this.get_m5nr_taxonomy = function (GetM5nrTaxonomyParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_m5nr_taxonomy",
+        [GetM5nrTaxonomyParams], 1, _callback, _errorCallback);
+};
 
-    this.get_project_instance = function(get_project_instance_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_project_instance", [get_project_instance_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_project_instance", [get_project_instance_params]);
-        return resp[0];
-    }
+    this.get_m5nr_taxonomy_async = function (GetM5nrTaxonomyParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_m5nr_taxonomy", [GetM5nrTaxonomyParams], 1, _callback, _error_callback);
+    };
 
-    this.get_project_instance_async = function(get_project_instance_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_project_instance", [get_project_instance_params], 1, _callback, _error_callback)
-    }
+    this.get_m5nr_sources = function (_callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_m5nr_sources",
+        [], 1, _callback, _errorCallback);
+};
 
-    this.get_sample_query = function(get_sample_query_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_sample_query", [get_sample_query_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_sample_query", [get_sample_query_params]);
-        return resp[0];
-    }
+    this.get_m5nr_sources_async = function (_callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_m5nr_sources", [], 1, _callback, _error_callback);
+    };
 
-    this.get_sample_query_async = function(get_sample_query_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_sample_query", [get_sample_query_params], 1, _callback, _error_callback)
-    }
+    this.get_m5nr_accession = function (GetM5nrAccessionParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_m5nr_accession",
+        [GetM5nrAccessionParams], 1, _callback, _errorCallback);
+};
 
-    this.get_sample_instance = function(get_sample_instance_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_sample_instance", [get_sample_instance_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_sample_instance", [get_sample_instance_params]);
-        return resp[0];
-    }
+    this.get_m5nr_accession_async = function (GetM5nrAccessionParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_m5nr_accession", [GetM5nrAccessionParams], 1, _callback, _error_callback);
+    };
 
-    this.get_sample_instance_async = function(get_sample_instance_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_sample_instance", [get_sample_instance_params], 1, _callback, _error_callback)
-    }
+    this.get_m5nr_md5 = function (GetM5nrMd5Params, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_m5nr_md5",
+        [GetM5nrMd5Params], 1, _callback, _errorCallback);
+};
 
-    this.get_sequences_md5 = function(get_sequences_md5_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_sequences_md5", [get_sequences_md5_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_sequences_md5", [get_sequences_md5_params]);
-        return resp[0];
-    }
+    this.get_m5nr_md5_async = function (GetM5nrMd5Params, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_m5nr_md5", [GetM5nrMd5Params], 1, _callback, _error_callback);
+    };
 
-    this.get_sequences_md5_async = function(get_sequences_md5_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_sequences_md5", [get_sequences_md5_params], 1, _callback, _error_callback)
-    }
+    this.get_m5nr_function = function (GetM5nrFunctionParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_m5nr_function",
+        [GetM5nrFunctionParams], 1, _callback, _errorCallback);
+};
 
-    this.get_sequences_annotation = function(get_sequences_annotation_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_sequences_annotation", [get_sequences_annotation_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_sequences_annotation", [get_sequences_annotation_params]);
-        return resp[0];
-    }
+    this.get_m5nr_function_async = function (GetM5nrFunctionParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_m5nr_function", [GetM5nrFunctionParams], 1, _callback, _error_callback);
+    };
 
-    this.get_sequences_annotation_async = function(get_sequences_annotation_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_sequences_annotation", [get_sequences_annotation_params], 1, _callback, _error_callback)
-    }
+    this.get_m5nr_organism = function (GetM5nrOrganismParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_m5nr_organism",
+        [GetM5nrOrganismParams], 1, _callback, _errorCallback);
+};
 
-    this.get_sequenceset_instance = function(get_sequenceset_instance_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_sequenceset_instance", [get_sequenceset_instance_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_sequenceset_instance", [get_sequenceset_instance_params]);
-        return resp[0];
-    }
+    this.get_m5nr_organism_async = function (GetM5nrOrganismParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_m5nr_organism", [GetM5nrOrganismParams], 1, _callback, _error_callback);
+    };
 
-    this.get_sequenceset_instance_async = function(get_sequenceset_instance_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_sequenceset_instance", [get_sequenceset_instance_params], 1, _callback, _error_callback)
-    }
+    this.get_m5nr_sequence = function (GetM5nrSequenceParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_m5nr_sequence",
+        [GetM5nrSequenceParams], 1, _callback, _errorCallback);
+};
 
-    this.get_sequenceset_setlist = function(get_sequenceset_setlist_params)
-    {
-	var resp = json_call_ajax_sync("CommunitiesAPI.get_sequenceset_setlist", [get_sequenceset_setlist_params]);
-//	var resp = json_call_sync("CommunitiesAPI.get_sequenceset_setlist", [get_sequenceset_setlist_params]);
-        return resp[0];
-    }
+    this.get_m5nr_sequence_async = function (GetM5nrSequenceParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_m5nr_sequence", [GetM5nrSequenceParams], 1, _callback, _error_callback);
+    };
 
-    this.get_sequenceset_setlist_async = function(get_sequenceset_setlist_params, _callback, _error_callback)
-    {
-	json_call_ajax_async("CommunitiesAPI.get_sequenceset_setlist", [get_sequenceset_setlist_params], 1, _callback, _error_callback)
-    }
+    this.post_m5nr_accession = function (PostM5nrAccessionParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.post_m5nr_accession",
+        [PostM5nrAccessionParams], 1, _callback, _errorCallback);
+};
 
-    function _json_call_prepare(url, method, params, async_flag)
-    {
-	var rpc = { 'params' : params,
-		    'method' : method,
-		    'version': "1.1",
-	};
-	
-	var body = JSON.stringify(rpc);
-	
-	var http = new XMLHttpRequest();
-	
-	http.open("POST", url, async_flag);
-	
-	//Send the proper header information along with the request
-	http.setRequestHeader("Content-type", "application/json");
-	//http.setRequestHeader("Content-length", body.length);
-	//http.setRequestHeader("Connection", "close");
-	return [http, body];
-    }
+    this.post_m5nr_accession_async = function (PostM5nrAccessionParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.post_m5nr_accession", [PostM5nrAccessionParams], 1, _callback, _error_callback);
+    };
+
+    this.post_m5nr_md5 = function (PostM5nrMd5Params, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.post_m5nr_md5",
+        [PostM5nrMd5Params], 1, _callback, _errorCallback);
+};
+
+    this.post_m5nr_md5_async = function (PostM5nrMd5Params, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.post_m5nr_md5", [PostM5nrMd5Params], 1, _callback, _error_callback);
+    };
+
+    this.post_m5nr_function = function (PostM5nrFunctionParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.post_m5nr_function",
+        [PostM5nrFunctionParams], 1, _callback, _errorCallback);
+};
+
+    this.post_m5nr_function_async = function (PostM5nrFunctionParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.post_m5nr_function", [PostM5nrFunctionParams], 1, _callback, _error_callback);
+    };
+
+    this.post_m5nr_organism = function (PostM5nrOrganismParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.post_m5nr_organism",
+        [PostM5nrOrganismParams], 1, _callback, _errorCallback);
+};
+
+    this.post_m5nr_organism_async = function (PostM5nrOrganismParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.post_m5nr_organism", [PostM5nrOrganismParams], 1, _callback, _error_callback);
+    };
+
+    this.post_m5nr_sequence = function (PostM5nrSequenceParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.post_m5nr_sequence",
+        [PostM5nrSequenceParams], 1, _callback, _errorCallback);
+};
+
+    this.post_m5nr_sequence_async = function (PostM5nrSequenceParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.post_m5nr_sequence", [PostM5nrSequenceParams], 1, _callback, _error_callback);
+    };
+
+    this.get_matrix_organism = function (GetMatrixOrganismParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_matrix_organism",
+        [GetMatrixOrganismParams], 1, _callback, _errorCallback);
+};
+
+    this.get_matrix_organism_async = function (GetMatrixOrganismParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_matrix_organism", [GetMatrixOrganismParams], 1, _callback, _error_callback);
+    };
+
+    this.get_matrix_function = function (GetMatrixFunctionParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_matrix_function",
+        [GetMatrixFunctionParams], 1, _callback, _errorCallback);
+};
+
+    this.get_matrix_function_async = function (GetMatrixFunctionParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_matrix_function", [GetMatrixFunctionParams], 1, _callback, _error_callback);
+    };
+
+    this.get_matrix_feature = function (GetMatrixFeatureParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_matrix_feature",
+        [GetMatrixFeatureParams], 1, _callback, _errorCallback);
+};
+
+    this.get_matrix_feature_async = function (GetMatrixFeatureParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_matrix_feature", [GetMatrixFeatureParams], 1, _callback, _error_callback);
+    };
+
+    this.get_metadata_template = function (_callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_metadata_template",
+        [], 1, _callback, _errorCallback);
+};
+
+    this.get_metadata_template_async = function (_callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_metadata_template", [], 1, _callback, _error_callback);
+    };
+
+    this.get_metadata_cv = function (_callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_metadata_cv",
+        [], 1, _callback, _errorCallback);
+};
+
+    this.get_metadata_cv_async = function (_callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_metadata_cv", [], 1, _callback, _error_callback);
+    };
+
+    this.get_metadata_export = function (GetMetadataExportParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_metadata_export",
+        [GetMetadataExportParams], 1, _callback, _errorCallback);
+};
+
+    this.get_metadata_export_async = function (GetMetadataExportParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_metadata_export", [GetMetadataExportParams], 1, _callback, _error_callback);
+    };
+
+    this.post_metadata_validate = function (PostMetadataValidateParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.post_metadata_validate",
+        [PostMetadataValidateParams], 1, _callback, _errorCallback);
+};
+
+    this.post_metadata_validate_async = function (PostMetadataValidateParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.post_metadata_validate", [PostMetadataValidateParams], 1, _callback, _error_callback);
+    };
+
+    this.get_metadata_validate = function (GetMetadataValidateParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_metadata_validate",
+        [GetMetadataValidateParams], 1, _callback, _errorCallback);
+};
+
+    this.get_metadata_validate_async = function (GetMetadataValidateParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_metadata_validate", [GetMetadataValidateParams], 1, _callback, _error_callback);
+    };
+
+    this.get_metagenome_query = function (GetMetagenomeQueryParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_metagenome_query",
+        [GetMetagenomeQueryParams], 1, _callback, _errorCallback);
+};
+
+    this.get_metagenome_query_async = function (GetMetagenomeQueryParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_metagenome_query", [GetMetagenomeQueryParams], 1, _callback, _error_callback);
+    };
+
+    this.get_metagenome_instance = function (GetMetagenomeInstanceParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_metagenome_instance",
+        [GetMetagenomeInstanceParams], 1, _callback, _errorCallback);
+};
+
+    this.get_metagenome_instance_async = function (GetMetagenomeInstanceParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_metagenome_instance", [GetMetagenomeInstanceParams], 1, _callback, _error_callback);
+    };
+
+    this.get_project_query = function (GetProjectQueryParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_project_query",
+        [GetProjectQueryParams], 1, _callback, _errorCallback);
+};
+
+    this.get_project_query_async = function (GetProjectQueryParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_project_query", [GetProjectQueryParams], 1, _callback, _error_callback);
+    };
+
+    this.get_project_instance = function (GetProjectInstanceParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_project_instance",
+        [GetProjectInstanceParams], 1, _callback, _errorCallback);
+};
+
+    this.get_project_instance_async = function (GetProjectInstanceParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_project_instance", [GetProjectInstanceParams], 1, _callback, _error_callback);
+    };
+
+    this.get_sample_query = function (GetSampleQueryParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_sample_query",
+        [GetSampleQueryParams], 1, _callback, _errorCallback);
+};
+
+    this.get_sample_query_async = function (GetSampleQueryParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_sample_query", [GetSampleQueryParams], 1, _callback, _error_callback);
+    };
+
+    this.get_sample_instance = function (GetSampleInstanceParams, _callback, _errorCallback) {
+    return json_call_ajax("CommunitiesAPI.get_sample_instance",
+        [GetSampleInstanceParams], 1, _callback, _errorCallback);
+};
+
+    this.get_sample_instance_async = function (GetSampleInstanceParams, _callback, _error_callback) {
+        deprecationWarning();
+        return json_call_ajax("CommunitiesAPI.get_sample_instance", [GetSampleInstanceParams], 1, _callback, _error_callback);
+    };
+ 
 
     /*
      * JSON call using jQuery method.
      */
+    function json_call_ajax(method, params, numRets, callback, errorCallback) {
+        var deferred = $.Deferred();
 
-    function json_call_ajax_sync(method, params)
-    {
-        var rpc = { 'params' : params,
-                    'method' : method,
-                    'version': "1.1",
-        };
-        
-        var body = JSON.stringify(rpc);
-        var resp_txt;
-	var code;
-        
-        var x = jQuery.ajax({       "async": false,
-                                    dataType: "text",
-                                    url: _url,
-                                    success: function (data, status, xhr) { resp_txt = data; code = xhr.status },
-				    error: function(xhr, textStatus, errorThrown) { resp_txt = xhr.responseText, code = xhr.status },
-                                    data: body,
-                                    processData: false,
-                                    type: 'POST',
-				    });
-
-        var result;
-
-        if (resp_txt)
-        {
-	    var resp = JSON.parse(resp_txt);
-	    
-	    if (code >= 500)
-	    {
-		throw resp.error;
-	    }
-	    else
-	    {
-		return resp.result;
-	    }
+        if (typeof callback === 'function') {
+           deferred.done(callback);
         }
-	else
-	{
-	    return null;
-	}
-    }
 
-    function json_call_ajax_async(method, params, num_rets, callback, error_callback)
-    {
-        var rpc = { 'params' : params,
-                    'method' : method,
-                    'version': "1.1",
+        if (typeof errorCallback === 'function') {
+           deferred.fail(errorCallback);
+        }
+
+        var rpc = {
+            params : params,
+            method : method,
+            version: "1.1",
+            id: String(Math.random()).slice(2),
         };
         
-        var body = JSON.stringify(rpc);
-        var resp_txt;
-	var code;
-        
-        var x = jQuery.ajax({       "async": true,
-                                    dataType: "text",
-                                    url: _url,
-                                    success: function (data, status, xhr)
-				{
-				    resp = JSON.parse(data);
-				    var result = resp["result"];
-				    if (num_rets == 1)
-				    {
-					callback(result[0]);
-				    }
-				    else
-				    {
-					callback(result);
-				    }
-				    
-				},
-				    error: function(xhr, textStatus, errorThrown)
-				{
-				    if (xhr.responseText)
-				    {
-					resp = JSON.parse(xhr.responseText);
-					if (error_callback)
-					{
-					    error_callback(resp.error);
-					}
-					else
-					{
-					    throw resp.error;
-					}
-				    }
-				},
-                                    data: body,
-                                    processData: false,
-                                    type: 'POST',
-				    });
+        var beforeSend = null;
+        var token = (_auth_cb && typeof _auth_cb === 'function') ? _auth_cb()
+            : (_auth.token ? _auth.token : null);
+        if (token != null) {
+            beforeSend = function (xhr) {
+                xhr.setRequestHeader("Authorization", token);
+            }
+        }
 
-    }
-
-    function json_call_async(method, params, num_rets, callback)
-    {
-	var tup = _json_call_prepare(_url, method, params, true);
-	var http = tup[0];
-	var body = tup[1];
-	
-	http.onreadystatechange = function() {
-	    if (http.readyState == 4 && http.status == 200) {
-		var resp_txt = http.responseText;
-		var resp = JSON.parse(resp_txt);
-		var result = resp["result"];
-		if (num_rets == 1)
-		{
-		    callback(result[0]);
-		}
-		else
-		{
-		    callback(result);
-		}
-	    }
-	}
-	
-	http.send(body);
-	
-    }
-    
-    function json_call_sync(method, params)
-    {
-	var tup = _json_call_prepare(url, method, params, false);
-	var http = tup[0];
-	var body = tup[1];
-	
-	http.send(body);
-	
-	var resp_txt = http.responseText;
-	
-	var resp = JSON.parse(resp_txt);
-	var result = resp["result"];
-	    
-	return result;
+        jQuery.ajax({
+            url: _url,
+            dataType: "text",
+            type: 'POST',
+            processData: false,
+            data: JSON.stringify(rpc),
+            beforeSend: beforeSend,
+            success: function (data, status, xhr) {
+                var result;
+                try {
+                    var resp = JSON.parse(data);
+                    result = (numRets === 1 ? resp.result[0] : resp.result);
+                } catch (err) {
+                    deferred.reject({
+                        status: 503,
+                        error: err,
+                        url: _url,
+                        resp: data
+                    });
+                    return;
+                }
+                deferred.resolve(result);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                var error;
+                if (xhr.responseText) {
+                    try {
+                        var resp = JSON.parse(xhr.responseText);
+                        error = resp.error;
+                    } catch (err) { // Not JSON
+                        error = "Unknown error - " + xhr.responseText;
+                    }
+                } else {
+                    error = "Unknown Error";
+                }
+                deferred.reject({
+                    status: 500,
+                    error: error
+                });
+            }
+        });
+        return deferred.promise();
     }
 }
+
 

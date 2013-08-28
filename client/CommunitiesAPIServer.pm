@@ -13,51 +13,87 @@ has 'valid_methods' => (is => 'ro', isa => 'HashRef', lazy => 1,
 our $CallContext;
 
 our %return_counts = (
-        'get_abundanceprofile_instance' => 1,
-        'get_analysisset_instance' => 1,
-        'get_analysisset_setlist' => 1,
+        'post_compute_normalize' => 1,
+        'post_compute_heatmap' => 1,
+        'post_compute_pcoa' => 1,
+        'get_download_instance' => 1,
+        'get_download_setlist' => 1,
+        'get_inbox_view' => 1,
+        'post_inbox_upload' => 1,
         'get_library_query' => 1,
         'get_library_instance' => 1,
+        'get_m5nr_ontology' => 1,
+        'get_m5nr_taxonomy' => 1,
+        'get_m5nr_sources' => 1,
+        'get_m5nr_accession' => 1,
+        'get_m5nr_md5' => 1,
+        'get_m5nr_function' => 1,
+        'get_m5nr_organism' => 1,
+        'get_m5nr_sequence' => 1,
+        'post_m5nr_accession' => 1,
+        'post_m5nr_md5' => 1,
+        'post_m5nr_function' => 1,
+        'post_m5nr_organism' => 1,
+        'post_m5nr_sequence' => 1,
         'get_matrix_organism' => 1,
         'get_matrix_function' => 1,
         'get_matrix_feature' => 1,
+        'get_metadata_template' => 1,
+        'get_metadata_cv' => 1,
+        'get_metadata_export' => 1,
+        'post_metadata_validate' => 1,
+        'get_metadata_validate' => 1,
         'get_metagenome_query' => 1,
         'get_metagenome_instance' => 1,
-        'get_metagenome_statistics_instance' => 1,
         'get_project_query' => 1,
         'get_project_instance' => 1,
         'get_sample_query' => 1,
         'get_sample_instance' => 1,
-        'get_sequences_md5' => 1,
-        'get_sequences_annotation' => 1,
-        'get_sequenceset_instance' => 1,
-        'get_sequenceset_setlist' => 1,
         'version' => 1,
 );
+
+
 
 sub _build_valid_methods
 {
     my($self) = @_;
     my $methods = {
-        'get_abundanceprofile_instance' => 1,
-        'get_analysisset_instance' => 1,
-        'get_analysisset_setlist' => 1,
+        'post_compute_normalize' => 1,
+        'post_compute_heatmap' => 1,
+        'post_compute_pcoa' => 1,
+        'get_download_instance' => 1,
+        'get_download_setlist' => 1,
+        'get_inbox_view' => 1,
+        'post_inbox_upload' => 1,
         'get_library_query' => 1,
         'get_library_instance' => 1,
+        'get_m5nr_ontology' => 1,
+        'get_m5nr_taxonomy' => 1,
+        'get_m5nr_sources' => 1,
+        'get_m5nr_accession' => 1,
+        'get_m5nr_md5' => 1,
+        'get_m5nr_function' => 1,
+        'get_m5nr_organism' => 1,
+        'get_m5nr_sequence' => 1,
+        'post_m5nr_accession' => 1,
+        'post_m5nr_md5' => 1,
+        'post_m5nr_function' => 1,
+        'post_m5nr_organism' => 1,
+        'post_m5nr_sequence' => 1,
         'get_matrix_organism' => 1,
         'get_matrix_function' => 1,
         'get_matrix_feature' => 1,
+        'get_metadata_template' => 1,
+        'get_metadata_cv' => 1,
+        'get_metadata_export' => 1,
+        'post_metadata_validate' => 1,
+        'get_metadata_validate' => 1,
         'get_metagenome_query' => 1,
         'get_metagenome_instance' => 1,
-        'get_metagenome_statistics_instance' => 1,
         'get_project_query' => 1,
         'get_project_instance' => 1,
         'get_sample_query' => 1,
         'get_sample_instance' => 1,
-        'get_sequences_md5' => 1,
-        'get_sequences_annotation' => 1,
-        'get_sequenceset_instance' => 1,
-        'get_sequenceset_setlist' => 1,
         'version' => 1,
     };
     return $methods;
@@ -65,14 +101,15 @@ sub _build_valid_methods
 
 sub call_method {
     my ($self, $data, $method_info) = @_;
+
     my ($module, $method) = @$method_info{qw(module method)};
     
     my $ctx = CommunitiesAPIServerContext->new(client_ip => $self->_plack_req->address);
     
     my $args = $data->{arguments};
 
-        # Service CommunitiesAPI does not require authentication.
-        
+    # Service CommunitiesAPI does not require authentication.
+    
     my $new_isa = $self->get_package_isa($module);
     no strict 'refs';
     local @{"${module}::ISA"} = @$new_isa;
@@ -176,7 +213,7 @@ is available via $context->client_ip.
 
 use base 'Class::Accessor';
 
-__PACKAGE__->mk_accessors(qw(user client_ip));
+__PACKAGE__->mk_accessors(qw(user_id client_ip authenticated token));
 
 sub new
 {
