@@ -13,16 +13,16 @@ use Bio::KBase::IDServer::Client;
 sub help {
   my $text = qq~
 NAME
-    can_get_analysisset.pl -- retrieve an analysisset from the communities API
+    can-get-sample.pl -- retrieve a sample from the communities API
 
 VERSION
     2
 
 SYNOPSIS
-    can_get_analysisset.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level> --id <analysisset id>]
+    can-get-sample.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level> --id <sample id>]
 
 DESCRIPTION
-    retrieve an analysisset from the communities API
+    retrieve a sample from the communities API
 
   Options
     help - display this message
@@ -50,7 +50,7 @@ AUTHORS
   system "echo '$text' | more";
 }
 
-my $HOST      = 'http://api.metagenomics.anl.gov/1/analysisset/';
+my $HOST      = 'http://api.metagenomics.anl.gov/1/sample/';
 my $user      = '';
 my $pass      = '';
 my $token     = '';

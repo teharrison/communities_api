@@ -13,16 +13,16 @@ use Bio::KBase::IDServer::Client;
 sub help {
   my $text = qq~
 NAME
-    can_get_metagenome_list.pl -- retrieve a list of metagenomes from the communities API
+    can-get-sequenceset-instance.pl -- retrieve a sequenceset from the communities API
 
 VERSION
     2
 
 SYNOPSIS
-    can_get_metagenome_list.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level>##optionlist##]
+    can-get-sequenceset-instance.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level> --id <sequenceset id>]
 
 DESCRIPTION
-    retrieve a list of metagenomes from the communities API
+    retrieve a sequenceset from the communities API
 
   Options
     help - display this message
@@ -50,7 +50,7 @@ AUTHORS
   system "echo '$text' | more";
 }
 
-my $HOST      = 'http://api.metagenomics.anl.gov/1/metagenome/';
+my $HOST      = 'http://api.metagenomics.anl.gov/1/sequenceset/';
 my $user      = '';
 my $pass      = '';
 my $token     = '';

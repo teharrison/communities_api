@@ -13,13 +13,13 @@ use Bio::KBase::IDServer::Client;
 sub help {
   my $text = qq~
 NAME
-    can_get_abundanceprofile.pl -- retrieve an abundanceprofile from the communities API
+    can-get-abundanceprofile.pl -- retrieve an abundanceprofile from the communities API
 
 VERSION
     2
 
 SYNOPSIS
-    can_get_abundanceprofile.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level> --id <metagenome id>]
+    can-get-abundanceprofile.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level> --id <metagenome id>]
 
 DESCRIPTION
     retrieve an abundanceprofile from the communities API

@@ -13,16 +13,16 @@ use Bio::KBase::IDServer::Client;
 sub help {
   my $text = qq~
 NAME
-    can_get_library_query.pl -- retrieve a list of libraries from the communities API
+    can-get-metagenome.pl -- retrieve a metagenome from the communities API
 
 VERSION
     2
 
 SYNOPSIS
-    can_get_library_query.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level>##optionlist##]
+    can-get-metagenome.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level> --id <metagenome id>]
 
 DESCRIPTION
-    retrieve a list of libraries from the communities API
+    retrieve a metagenome from the communities API
 
   Options
     help - display this message
@@ -50,7 +50,7 @@ AUTHORS
   system "echo '$text' | more";
 }
 
-my $HOST      = 'http://api.metagenomics.anl.gov/1/library/';
+my $HOST      = 'http://api.metagenomics.anl.gov/1/metagenome/';
 my $user      = '';
 my $pass      = '';
 my $token     = '';

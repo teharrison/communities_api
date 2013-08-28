@@ -13,16 +13,16 @@ use Bio::KBase::IDServer::Client;
 sub help {
   my $text = qq~
 NAME
-    can_get_sample_list.pl -- retrieve a list of samples from the communities API
+    can-get-project-query.pl -- retrieve a list of projects from the communities API
 
 VERSION
     2
 
 SYNOPSIS
-    can_get_sample_list.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level>##optionlist##]
+    can-get-project-query.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level>##optionlist##]
 
 DESCRIPTION
-    retrieve a list of samples from the communities API
+    retrieve a list of projects from the communities API
 
   Options
     help - display this message
@@ -50,7 +50,7 @@ AUTHORS
   system "echo '$text' | more";
 }
 
-my $HOST      = 'http://api.metagenomics.anl.gov/1/sample/';
+my $HOST      = 'http://api.metagenomics.anl.gov/1/project/';
 my $user      = '';
 my $pass      = '';
 my $token     = '';

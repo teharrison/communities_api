@@ -13,13 +13,13 @@ use Bio::KBase::IDServer::Client;
 sub help {
   my $text = qq~
 NAME
-    can_get_library.pl -- retrieve a library from the communities API
+    can-get-library.pl -- retrieve a library from the communities API
 
 VERSION
     2
 
 SYNOPSIS
-    can_get_library.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level> --id <library id>]
+    can-get-library.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level> --id <library id>]
 
 DESCRIPTION
     retrieve a library from the communities API
