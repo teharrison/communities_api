@@ -50,7 +50,7 @@ AUTHORS
   system "echo '$text' | more";
 }
 
-my $HOST      = 'http://api.metagenomics.anl.gov/1/library/';
+my $HOST      = 'http://kbase.us/services/communities//library/';
 my $user      = '';
 my $pass      = '';
 my $token     = '';
