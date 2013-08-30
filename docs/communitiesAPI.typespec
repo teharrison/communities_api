@@ -1743,7 +1743,7 @@ This parameter value can be chosen from the following (the first being default):
 /*
 	number of samples in project
 */
-		int sampleNum;
+		int sample_num;
 /*
 	sample object containing sample metadata, sample libraries, sample envPackage
 */
