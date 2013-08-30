@@ -13,7 +13,7 @@ use Bio::KBase::IDServer::Client;
 sub help {
   my $text = qq~
 NAME
-    can-get-metagenome_instance.pl -- retrieve a metagenome from the communities API
+    can-get-metagenome-instance.pl -- retrieve a metagenome from the communities API
 
 VERSION
     2
