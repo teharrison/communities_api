@@ -1,11 +1,14 @@
+#!/usr/bin/env python
+
 import sys
 import urllib
+from operator import itemgetter
 from optparse import OptionParser
 from communities import *
 
 API_URL = "http://kbase.us/services/communities/1"
 
-__doc__ = """
+prehelp = """
 NAME
     mg-abundant-taxa
 
@@ -17,12 +20,10 @@ SYNOPSIS
 
 DESCRIPTION
     Retrieve top abuntant taxa for metagenome from communities API.
+"""
 
-  Options
-    ##options detailed default##
-    ##options detailed##
-
-  Output
+posthelp = """
+Output
     ##outputs##
 
 EXAMPLES
@@ -36,11 +37,13 @@ AUTHORS
 """
 
 def main(args):
-    parser = OptionParser(usage=__doc__)
+    OptionParser.format_description = lambda self, formatter: self.description
+    OptionParser.format_epilog = lambda self, formatter: self.epilog
+    parser = OptionParser(usage='', description=prehelp, epilog=posthelp)
     parser.add_option("", "--id", dest="id", default=None, help="KBase Metagenome ID")
     parser.add_option("", "--url", dest="url", default=API_URL, help="communities API url")
     parser.add_option("", "--user", dest="user", default=None, help="username")
-    parser.add_option("", "--pass", dest="pass", default=None, help="password")
+    parser.add_option("", "--passwd", dest="passwd", default=None, help="password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
     parser.add_option("", "--level", dest="level", default='species', help="Taxon level to retrieve abundaces for")
     parser.add_option("", "--source", dest="source", default='SEED', help="datasource to filter results by")
@@ -50,13 +53,13 @@ def main(args):
     parser.add_option("", "--length", dest="length", default=15, help="value for minimum alignment length cutoff")
     
     # get inputs
-    (opts, _) = parser.parse_args()
+    (opts, args) = parser.parse_args()
     if not opts.id:
         sys.stderr.write("ERROR: id required\n")
         sys.exit(1)
     
     # get auth
-    
+    token = get_auth_token(opts)
     
     # build matrix url
     params = [ ('id', opts.id),
@@ -67,7 +70,23 @@ def main(args):
                ('length', opts.length),
                ('result_type', 'abundance') ]
     url = opts.url+'/matrix/organism?'+urllib.urlencode(params, True)
+
+    # retrieve data
+    num = 0
+    top_taxa = []
+    biom = obj_from_url(url, auth=token)
+    for d in sorted(biom['data'], key=itemgetter(2), reverse=True):
+        name = biom['rows'][d[0]]['id']
+        if num > opts.top:
+            break
+        top_taxa.append([name, d[2]])
+        num += 1
     
+    # output data
+    for t in top_taxa:
+        sys.stdout.write("%s\t%d\n" %(t[0], t[1]))
+    
+    return 0
     
 
 if __name__ == "__main__":
