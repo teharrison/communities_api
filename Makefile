@@ -2,7 +2,7 @@ TARGET ?= /kb/deployment
 DEPLOY_RUNTIME ?= /kb/runtime
 SERVICE = communities_api
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
-SERVICE_URL = http://kbase.us/services/communities
+SERVICE_URL = http://kbase.us/services/communities/1
 
 # to wrap scripts and deploy them to $(TARGET)/bin using tools in the dev_container
 TOP_DIR = ../..
