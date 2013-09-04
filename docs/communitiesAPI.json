@@ -1,0 +1,4661 @@
+{
+   "resources" : [
+      {
+         "requests" : [
+            {
+               "request" : "http://kbase.us/services/communities/1/annotation",
+               "parameters" : {
+                  "body" : {},
+                  "required" : {},
+                  "options" : {}
+               },
+               "name" : "info",
+               "method" : "GET",
+               "type" : "synchronous",
+               "description" : "Returns description of parameters and attributes.",
+               "attributes" : "self"
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/annotation/sequence/{ID}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/annotation/sequence/mgm4447943.3?evalue=10&type=organism&source=SwissProt",
+                  "all annotated read sequences from mgm4447943.3 with hits in SwissProt organisms at evaule < e-10"
+               ],
+               "name" : "sequence",
+               "description" : "tab deliminted annotated sequence stream",
+               "parameters" : {
+                  "body" : {},
+                  "required" : {
+                     "id" : [
+                        "string",
+                        "unique metagenome identifier"
+                     ]
+                  },
+                  "options" : {
+                     "source" : [
+                        "cv",
+                        [
+                           [
+                              "RefSeq",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "GenBank",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "IMG",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "SEED",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "TrEMBL",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "SwissProt",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "PATRIC",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "KEGG",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "RDP",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "Greengenes",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "LSU",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "SSU",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "Subsystems",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "NOG",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "COG",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "KO",
+                              "ontology database, type ontology only"
+                           ]
+                        ]
+                     ],
+                     "length" : [
+                        "int",
+                        "value for minimum alignment length cutoff: default is 15"
+                     ],
+                     "evalue" : [
+                        "int",
+                        "negative exponent value for maximum e-value cutoff: default is 5"
+                     ],
+                     "identity" : [
+                        "int",
+                        "percent value for minimum % identity cutoff: default is 60"
+                     ],
+                     "filter" : [
+                        "string",
+                        "text string to filter annotations by: only return those that contain text"
+                     ],
+                     "type" : [
+                        "cv",
+                        [
+                           [
+                              "organism",
+                              "return organism data"
+                           ],
+                           [
+                              "function",
+                              "return function data"
+                           ],
+                           [
+                              "ontology",
+                              "return ontology data"
+                           ],
+                           [
+                              "feature",
+                              "return feature data"
+                           ]
+                        ]
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "stream",
+               "attributes" : {
+                  "streaming text" : [
+                     "object",
+                     [
+                        {
+                           "col_02" : [
+                              "string",
+                              "m5nr id (md5sum)"
+                           ],
+                           "col_04" : [
+                              "string",
+                              "dna sequence"
+                           ],
+                           "col_03" : [
+                              "string",
+                              "semicolon seperated list of annotations"
+                           ],
+                           "col_01" : [
+                              "string",
+                              "sequence id"
+                           ]
+                        },
+                        "tab deliminted annotated sequence stream"
+                     ]
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/annotation/similarity/{ID}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/annotation/similarity/mgm4447943.3?identity=80&type=function&source=KO",
+                  "all annotated read blat stats from mgm4447943.3 with hits in KO functions at % identity > 80"
+               ],
+               "name" : "similarity",
+               "description" : "tab deliminted blast m8 with annotation",
+               "parameters" : {
+                  "body" : {},
+                  "required" : {
+                     "id" : [
+                        "string",
+                        "unique metagenome identifier"
+                     ]
+                  },
+                  "options" : {
+                     "source" : [
+                        "cv",
+                        [
+                           [
+                              "RefSeq",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "GenBank",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "IMG",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "SEED",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "TrEMBL",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "SwissProt",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "PATRIC",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "KEGG",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "RDP",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "Greengenes",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "LSU",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "SSU",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "Subsystems",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "NOG",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "COG",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "KO",
+                              "ontology database, type ontology only"
+                           ]
+                        ]
+                     ],
+                     "length" : [
+                        "int",
+                        "value for minimum alignment length cutoff: default is 15"
+                     ],
+                     "evalue" : [
+                        "int",
+                        "negative exponent value for maximum e-value cutoff: default is 5"
+                     ],
+                     "identity" : [
+                        "int",
+                        "percent value for minimum % identity cutoff: default is 60"
+                     ],
+                     "filter" : [
+                        "string",
+                        "text string to filter annotations by: only return those that contain text"
+                     ],
+                     "type" : [
+                        "cv",
+                        [
+                           [
+                              "organism",
+                              "return organism data"
+                           ],
+                           [
+                              "function",
+                              "return function data"
+                           ],
+                           [
+                              "ontology",
+                              "return ontology data"
+                           ],
+                           [
+                              "feature",
+                              "return feature data"
+                           ]
+                        ]
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "stream",
+               "attributes" : {
+                  "streaming text" : [
+                     "object",
+                     [
+                        {
+                           "col_08" : [
+                              "int",
+                              "query end"
+                           ],
+                           "col_02" : [
+                              "string",
+                              "hit m5nr id (md5sum)"
+                           ],
+                           "col_12" : [
+                              "float",
+                              "bit score"
+                           ],
+                           "col_05" : [
+                              "int",
+                              "number of mismatches"
+                           ],
+                           "col_07" : [
+                              "int",
+                              "query start"
+                           ],
+                           "col_11" : [
+                              "float",
+                              "e-value"
+                           ],
+                           "col_10" : [
+                              "int",
+                              "hit end"
+                           ],
+                           "col_04" : [
+                              "int",
+                              "alignment length,"
+                           ],
+                           "col_06" : [
+                              "int",
+                              "number of gap openings"
+                           ],
+                           "col_09" : [
+                              "int",
+                              "hit start"
+                           ],
+                           "col_03" : [
+                              "float",
+                              "percentage identity"
+                           ],
+                           "col_01" : [
+                              "string",
+                              "query sequence id"
+                           ],
+                           "col_13" : [
+                              "string",
+                              "semicolon seperated list of annotations"
+                           ]
+                        },
+                        "tab deliminted blast m8 with annotation"
+                     ]
+                  ]
+               }
+            }
+         ],
+         "name" : "annotation",
+         "url" : "http://kbase.us/services/communities/1/annotation",
+         "documentation" : "http://kbase.us/services/communities/1/api.html#annotation",
+         "type" : "object",
+         "description" : "All annotations of a metagenome for a specific annotation type and source"
+      },
+      {
+         "requests" : [
+            {
+               "request" : "http://kbase.us/services/communities/1/compute",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "name" : "info",
+               "method" : "GET",
+               "type" : "synchronous",
+               "description" : "Returns description of parameters and attributes.",
+               "attributes" : "self"
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/compute/normalize",
+               "example" : [
+                  "curl -X POST -d '{\"columns\":[\"mgm4441619.3\",\"mgm4441656.4\"],\"rows\":[\"Eukaryota\",\"Bacteria\",\"Archaea\"],\"data\":[[135,410],[4397,6529],[1422,2156]]}' \"http://kbase.us/services/communities/1/compute/normalize\"",
+                  "retrieve normalized values for inputed abundaces"
+               ],
+               "name" : "normalize",
+               "description" : "Calculate normalized values for given input data.",
+               "parameters" : {
+                  "body" : {
+                     "columns" : [
+                        "list",
+                        [
+                           "string",
+                           "column id"
+                        ]
+                     ],
+                     "data" : [
+                        "list",
+                        [
+                           "list",
+                           "raw value"
+                        ]
+                     ],
+                     "rows" : [
+                        "list",
+                        [
+                           "string",
+                           "row id"
+                        ]
+                     ]
+                  },
+                  "options" : {},
+                  "required" : {}
+               },
+               "method" : "POST",
+               "type" : "synchronous",
+               "attributes" : {
+                  "columns" : [
+                     "list",
+                     [
+                        "string",
+                        "column id"
+                     ]
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "list",
+                        [
+                           "float",
+                           "normalized value"
+                        ]
+                     ]
+                  ],
+                  "rows" : [
+                     "list",
+                     [
+                        "string",
+                        "row id"
+                     ]
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/compute/heatmap",
+               "example" : [
+                  "curl -X POST -d '{\"raw\":0,\"cluster\":\"mcquitty\"\"columns\":[\"mgm4441619.3\",\"mgm4441656.4\"],\"rows\":[\"Eukaryota\",\"Bacteria\",\"Archaea\"],\"data\":[[135,410],[4397,6529],[1422,2156]]}' \"http://kbase.us/services/communities/1/compute/heatmap\"",
+                  "retrieve dendogram of normalized inputed abundances using 'mcquitty' cluster method"
+               ],
+               "name" : "heatmap",
+               "description" : "Calculate a dendogram for given input data.",
+               "parameters" : {
+                  "body" : {
+                     "cluster" : [
+                        "cv",
+                        [
+                           [
+                              "ward",
+                              "ward cluster method"
+                           ],
+                           [
+                              "single",
+                              "single cluster method"
+                           ],
+                           [
+                              "complete",
+                              "complete cluster method"
+                           ],
+                           [
+                              "mcquitty",
+                              "mcquitty cluster method"
+                           ],
+                           [
+                              "median",
+                              "median cluster method"
+                           ],
+                           [
+                              "centroid",
+                              "centroid cluster method"
+                           ]
+                        ]
+                     ],
+                     "distance" : [
+                        "cv",
+                        [
+                           [
+                              "bray-curtis",
+                              "bray-curtis distance method"
+                           ],
+                           [
+                              "euclidean",
+                              "euclidean distance method"
+                           ],
+                           [
+                              "maximum",
+                              "maximum distance method"
+                           ],
+                           [
+                              "manhattan",
+                              "manhattan distance method"
+                           ],
+                           [
+                              "canberra",
+                              "canberra distance method"
+                           ],
+                           [
+                              "minkowski",
+                              "minkowski distance method"
+                           ],
+                           [
+                              "difference",
+                              "difference distance method"
+                           ]
+                        ]
+                     ],
+                     "columns" : [
+                        "list",
+                        [
+                           "string",
+                           "column id"
+                        ]
+                     ],
+                     "data" : [
+                        "list",
+                        [
+                           "list",
+                           "raw or normalized value"
+                        ]
+                     ],
+                     "rows" : [
+                        "list",
+                        [
+                           "string",
+                           "row id"
+                        ]
+                     ],
+                     "raw" : [
+                        "boolean",
+                        "option to use raw data (not normalize)"
+                     ]
+                  },
+                  "options" : {},
+                  "required" : {}
+               },
+               "method" : "POST",
+               "type" : "synchronous",
+               "attributes" : {
+                  "colindex" : [
+                     "list",
+                     [
+                        "float",
+                        "column id index"
+                     ]
+                  ],
+                  "coldend" : [
+                     "object",
+                     "dendogram object for columns"
+                  ],
+                  "columns" : [
+                     "list",
+                     [
+                        "string",
+                        "column id"
+                     ]
+                  ],
+                  "rowindex" : [
+                     "list",
+                     [
+                        "float",
+                        "row id index"
+                     ]
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "list",
+                        [
+                           "float",
+                           "normalized value"
+                        ]
+                     ]
+                  ],
+                  "rows" : [
+                     "list",
+                     [
+                        "string",
+                        "row id"
+                     ]
+                  ],
+                  "rowdend" : [
+                     "object",
+                     "dendogram object for rows"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/compute/pcoa",
+               "example" : [
+                  "curl -X POST -d '{\"raw\":1,\"distance\":\"euclidean\"\"columns\":[\"mgm4441619.3\",\"mgm4441656.4\"],\"rows\":[\"Eukaryota\",\"Bacteria\",\"Archaea\"],\"data\":[[135,410],[4397,6529],[1422,2156]]}' \"http://kbase.us/services/communities/1/compute/pcoa\"",
+                  "retrieve PCO of raw inputed abundances using 'euclidean' distance method"
+               ],
+               "name" : "pcoa",
+               "description" : "Calculate a PCoA for given input data.",
+               "parameters" : {
+                  "body" : {
+                     "distance" : [
+                        "cv",
+                        [
+                           [
+                              "bray-curtis",
+                              "bray-curtis distance method"
+                           ],
+                           [
+                              "euclidean",
+                              "euclidean distance method"
+                           ],
+                           [
+                              "maximum",
+                              "maximum distance method"
+                           ],
+                           [
+                              "manhattan",
+                              "manhattan distance method"
+                           ],
+                           [
+                              "canberra",
+                              "canberra distance method"
+                           ],
+                           [
+                              "minkowski",
+                              "minkowski distance method"
+                           ],
+                           [
+                              "difference",
+                              "difference distance method"
+                           ]
+                        ]
+                     ],
+                     "columns" : [
+                        "list",
+                        [
+                           "string",
+                           "column id"
+                        ]
+                     ],
+                     "data" : [
+                        "list",
+                        [
+                           "list",
+                           "raw or normalized value"
+                        ]
+                     ],
+                     "rows" : [
+                        "list",
+                        [
+                           "string",
+                           "row id"
+                        ]
+                     ],
+                     "raw" : [
+                        "boolean",
+                        "option to use raw data (not normalize)"
+                     ]
+                  },
+                  "options" : {},
+                  "required" : {}
+               },
+               "method" : "POST",
+               "type" : "synchronous",
+               "attributes" : {
+                  "pco" : [
+                     "list",
+                     [
+                        "float",
+                        "average principal component value"
+                     ]
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "pco" : [
+                                 "list",
+                                 [
+                                    "float",
+                                    "principal component value"
+                                 ]
+                              ],
+                              "id" : [
+                                 "string",
+                                 "column id"
+                              ]
+                           },
+                           "pcoa object"
+                        ]
+                     ]
+                  ]
+               }
+            }
+         ],
+         "name" : "compute",
+         "url" : "http://kbase.us/services/communities/1/compute",
+         "documentation" : "http://kbase.us/services/communities/1/api.html#compute",
+         "type" : "object",
+         "description" : "Calculate a PCoA for given input data."
+      },
+      {
+         "requests" : [
+            {
+               "request" : "http://kbase.us/services/communities/1/download",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "name" : "info",
+               "method" : "GET",
+               "type" : "synchronous",
+               "description" : "Returns description of parameters and attributes.",
+               "attributes" : "self"
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/download/{ID}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/download/mgm4447943.3?file=350.1",
+                  "download fasta file of genecalled protein sequences (from stage 350)"
+               ],
+               "name" : "instance",
+               "description" : "Returns a single sequence file.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "file" : [
+                        "string",
+                        "file name or identifier"
+                     ]
+                  },
+                  "required" : {
+                     "id" : [
+                        "string",
+                        "unique metagenome identifier"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "data" : [
+                     "file",
+                     "requested analysis file"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/download/{ID}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/download/mgm4447943.3?stage=650",
+                  "view all available files from stage 650"
+               ],
+               "name" : "setlist",
+               "description" : "Returns a list of sets of sequence files for the given id.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "stage" : [
+                        "string",
+                        "stage name or identifier"
+                     ]
+                  },
+                  "required" : {
+                     "id" : [
+                        "string",
+                        "unique metagenome identifier"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "stage_name" : [
+                     "string",
+                     "name of the stage in processing of this file"
+                  ],
+                  "file_name" : [
+                     "string",
+                     "name of the analysis file"
+                  ],
+                  "url" : [
+                     "string",
+                     "url for retrieving this analysis file"
+                  ],
+                  "stage_type" : [
+                     "string",
+                     "type of the analysis file within a stage, i.e. passed or removed for quality control steps"
+                  ],
+                  "file_id" : [
+                     "string",
+                     "unique identifier of file in stage"
+                  ],
+                  "id" : [
+                     "string",
+                     "unique metagenome identifier"
+                  ],
+                  "stage_id" : [
+                     "string",
+                     "three digit numerical identifier of the stage"
+                  ]
+               }
+            }
+         ],
+         "name" : "download",
+         "url" : "http://kbase.us/services/communities/1/download",
+         "documentation" : "http://kbase.us/services/communities/1/api.html#download",
+         "type" : "object",
+         "description" : "An analysis file from the processing of a metagenome from a specific stage in its analysis"
+      },
+      {
+         "requests" : [
+            {
+               "request" : "http://kbase.us/services/communities/1/inbox",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "name" : "info",
+               "method" : "GET",
+               "type" : "synchronous",
+               "description" : "Returns description of parameters and attributes.",
+               "attributes" : "self"
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/inbox",
+               "example" : [
+                  "curl -X GET -H \"auth: auth_key\" \"http://kbase.us/services/communities/1/inbox\"",
+                  "lists the contents of the user inbox, auth is required"
+               ],
+               "name" : "view",
+               "description" : "lists the contents of the user inbox",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {
+                     "auth" : [
+                        "string",
+                        "unique string of text generated by MG-RAST for your account"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "timestamp" : [
+                     "string",
+                     "timestamp for return of this query"
+                  ],
+                  "files" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "filesize" : [
+                                 "string",
+                                 "disk size of file in bytes"
+                              ],
+                              "filename" : [
+                                 "string",
+                                 "path of file from within user inbox"
+                              ],
+                              "timestamp" : [
+                                 "string",
+                                 "timestamp of file"
+                              ]
+                           },
+                           "list of file objects"
+                        ]
+                     ]
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "id" : [
+                     "string",
+                     "user login"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/inbox",
+               "example" : [
+                  "curl -X POST -H \"auth: auth_key\" -F \"upload=@sequences.fastq\" \"http://kbase.us/services/communities/1/inbox\"",
+                  "upload file 'sequences.fastq' to user inbox, auth is required"
+               ],
+               "name" : "upload",
+               "description" : "receives user inbox data upload",
+               "parameters" : {
+                  "body" : {
+                     "auth" : [
+                        "string",
+                        "unique string of text generated by MG-RAST for your account"
+                     ],
+                     "upload" : [
+                        "file",
+                        "file to upload to inbox"
+                     ]
+                  },
+                  "options" : {},
+                  "required" : {}
+               },
+               "method" : "POST",
+               "type" : "synchronous",
+               "attributes" : {
+                  "timestamp" : [
+                     "string",
+                     "timestamp for return of this query"
+                  ],
+                  "status" : [
+                     "string",
+                     "status message"
+                  ],
+                  "id" : [
+                     "string",
+                     "user login"
+                  ]
+               }
+            }
+         ],
+         "name" : "inbox",
+         "url" : "http://kbase.us/services/communities/1/inbox",
+         "documentation" : "http://kbase.us/services/communities/1/api.html#inbox",
+         "type" : "object",
+         "description" : "inbox receives user inbox data upload, requires authentication, see http://blog.metagenomics.anl.gov/mg-rast-v3-2-faq/#api_submission for details"
+      },
+      {
+         "requests" : [
+            {
+               "request" : "http://kbase.us/services/communities/1/library",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "name" : "info",
+               "method" : "GET",
+               "type" : "synchronous",
+               "description" : "Returns description of parameters and attributes.",
+               "attributes" : "self"
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/library",
+               "example" : [
+                  "http://kbase.us/services/communities/1/library?limit=20&order=name",
+                  "retrieve the first 20 libraries ordered by name"
+               ],
+               "name" : "query",
+               "description" : "Returns a set of data matching the query criteria.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "verbosity" : [
+                        "cv",
+                        [
+                           [
+                              "minimal",
+                              "returns only minimal information"
+                           ]
+                        ]
+                     ],
+                     "order" : [
+                        "cv",
+                        [
+                           [
+                              "id",
+                              "return data objects ordered by id"
+                           ],
+                           [
+                              "name",
+                              "return data objects ordered by name"
+                           ]
+                        ]
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "order" : [
+                     "string",
+                     "name of the attribute the returned data is ordered by"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "project" : [
+                                 "reference project",
+                                 "reference to the project object"
+                              ],
+                              "version" : [
+                                 "integer",
+                                 "version of the object"
+                              ],
+                              "name" : [
+                                 "string",
+                                 "human readable identifier"
+                              ],
+                              "sequencesets" : [
+                                 "list",
+                                 [
+                                    "reference sequenceset",
+                                    "a list of references to the related sequence sets"
+                                 ]
+                              ],
+                              "metagenome" : [
+                                 "reference metagenome",
+                                 "reference to the related metagenome object"
+                              ],
+                              "created" : [
+                                 "date",
+                                 "time the object was first created"
+                              ],
+                              "url" : [
+                                 "uri",
+                                 "resource location of this object instance"
+                              ],
+                              "metadata" : [
+                                 "hash",
+                                 "key value pairs describing metadata"
+                              ],
+                              "sample" : [
+                                 "reference sample",
+                                 "reference to the related sample object"
+                              ],
+                              "id" : [
+                                 "string",
+                                 "unique object identifier"
+                              ]
+                           },
+                           "list of the library objects"
+                        ]
+                     ]
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/library/{ID}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/library/mgl52924?verbosity=full",
+                  "retrieve all data for library mgl52924"
+               ],
+               "name" : "instance",
+               "description" : "Returns a single data object.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "verbosity" : [
+                        "cv",
+                        [
+                           [
+                              "minimal",
+                              "returns only minimal information"
+                           ],
+                           [
+                              "verbose",
+                              "returns a standard subselection of metadata"
+                           ],
+                           [
+                              "full",
+                              "returns all connected metadata"
+                           ]
+                        ]
+                     ]
+                  },
+                  "required" : {
+                     "id" : [
+                        "string",
+                        "unique object identifier"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "project" : [
+                     "reference project",
+                     "reference to the project object"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "name" : [
+                     "string",
+                     "human readable identifier"
+                  ],
+                  "sequencesets" : [
+                     "list",
+                     [
+                        "reference sequenceset",
+                        "a list of references to the related sequence sets"
+                     ]
+                  ],
+                  "metagenome" : [
+                     "reference metagenome",
+                     "reference to the related metagenome object"
+                  ],
+                  "created" : [
+                     "date",
+                     "time the object was first created"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "metadata" : [
+                     "hash",
+                     "key value pairs describing metadata"
+                  ],
+                  "sample" : [
+                     "reference sample",
+                     "reference to the related sample object"
+                  ],
+                  "id" : [
+                     "string",
+                     "unique object identifier"
+                  ]
+               }
+            }
+         ],
+         "name" : "library",
+         "url" : "http://kbase.us/services/communities/1/library",
+         "documentation" : "http://kbase.us/services/communities/1/api.html#library",
+         "type" : "object",
+         "description" : "A library of metagenomic samples from some environment"
+      },
+      {
+         "requests" : [
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "name" : "info",
+               "method" : "GET",
+               "type" : "synchronous",
+               "description" : "Returns description of parameters and attributes.",
+               "attributes" : "self"
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/ontology",
+               "example" : [
+                  "http://kbase.us/services/communities/1/m5nr/ontology?source=Subsystems&min_level=level3",
+                  "retrieve subsystems hierarchy for the top 3 levels"
+               ],
+               "name" : "ontology",
+               "description" : "Return functional hierarchy",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "source" : [
+                        "cv",
+                        [
+                           [
+                              "Subsystems",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "NOG",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "COG",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "KO",
+                              "ontology database, type ontology only"
+                           ]
+                        ]
+                     ],
+                     "parent_name" : [
+                        "string",
+                        "name of ontology group to retrieve children of"
+                     ],
+                     "id_map" : [
+                        "boolean",
+                        "if true overrides other options and returns a map { ontology ID: [ontology levels] }"
+                     ],
+                     "min_level" : [
+                        "cv",
+                        [
+                           [
+                              "function",
+                              "bottom ontology level"
+                           ],
+                           [
+                              "level3",
+                              "ontology level"
+                           ],
+                           [
+                              "level2",
+                              "ontology level"
+                           ],
+                           [
+                              "level1",
+                              "top ontology level"
+                           ]
+                        ]
+                     ]
+                  },
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "list",
+                        "requested ontology levels, from highest to lowest"
+                     ]
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/taxonomy",
+               "example" : [
+                  "http://kbase.us/services/communities/1/m5nr/taxonomy?parent_name=Bacteroidetes&min_level=class",
+                  "retrieve all class level taxa that belong to Bacteroidetes"
+               ],
+               "name" : "taxonomy",
+               "description" : "Return organism hierarchy",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "parent_name" : [
+                        "string",
+                        "name of taxanomy group to retrieve children of"
+                     ],
+                     "id_map" : [
+                        "boolean",
+                        "if true overrides other options and returns a map { NCBI tax ID: [taxonomy levels] }"
+                     ],
+                     "min_level" : [
+                        "cv",
+                        [
+                           [
+                              "species",
+                              "taxonomy level"
+                           ],
+                           [
+                              "genus",
+                              "taxonomy level"
+                           ],
+                           [
+                              "family",
+                              "taxonomy level"
+                           ],
+                           [
+                              "order",
+                              " taxonomy level"
+                           ],
+                           [
+                              "class",
+                              " taxonomy level"
+                           ],
+                           [
+                              "phylum",
+                              "taxonomy level"
+                           ],
+                           [
+                              "domain",
+                              "top taxonomy level"
+                           ]
+                        ]
+                     ]
+                  },
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "list",
+                        "requested taxonomy levels, from highest to lowest"
+                     ]
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/sources",
+               "example" : [
+                  "http://kbase.us/services/communities/1/m5nr/sources",
+                  "retrieve all data sources for M5NR"
+               ],
+               "name" : "sources",
+               "description" : "Return all sources in M5NR",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "data" : [
+                     "hash",
+                     [
+                        {
+                           "value" : [
+                              "object",
+                              "source object"
+                           ],
+                           "key" : [
+                              "string",
+                              "source name"
+                           ]
+                        },
+                        "source object hash"
+                     ]
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/accession/{id}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/m5nr/accession/YP_003268079.1",
+                  "retrieve M5NR data for accession ID 'YP_003268079.1'"
+               ],
+               "name" : "accession",
+               "description" : "Return annotation or sequence of given source protein ID",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "sequence" : [
+                        "boolean",
+                        "if true return sequence output, else return annotation output, default is false"
+                     ],
+                     "order" : [
+                        "string",
+                        "name of the attribute the returned data is ordered by"
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {
+                     "id" : [
+                        "string",
+                        "unique identifier from source DB"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "source" : [
+                                 "string",
+                                 "source name"
+                              ],
+                              "function" : [
+                                 "string",
+                                 "function annotation"
+                              ],
+                              "ncbi_tax_id" : [
+                                 "int",
+                                 "organism ncbi tax_id"
+                              ],
+                              "type" : [
+                                 "string",
+                                 "source type"
+                              ],
+                              "md5" : [
+                                 "string",
+                                 "md5 checksum - M5NR ID"
+                              ],
+                              "organism" : [
+                                 "string",
+                                 "organism annotation"
+                              ],
+                              "accession" : [
+                                 "string",
+                                 "unique identifier given by source"
+                              ]
+                           },
+                           "annotation object"
+                        ]
+                     ]
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/md5/{id}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/m5nr/md5/000821a2e2f63df1a3873e4b280002a8?source=InterPro",
+                  "retrieve InterPro M5NR data for md5sum '000821a2e2f63df1a3873e4b280002a8'"
+               ],
+               "name" : "md5",
+               "description" : "Return annotation(s) or sequence of given md5sum (M5NR ID)",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "source" : [
+                        "string",
+                        "source name to restrict search by"
+                     ],
+                     "sequence" : [
+                        "boolean",
+                        "if true return sequence output, else return annotation output, default is false"
+                     ],
+                     "order" : [
+                        "string",
+                        "name of the attribute the returned data is ordered by"
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {
+                     "id" : [
+                        "string",
+                        "unique identifier in form of md5 checksum"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "source" : [
+                                 "string",
+                                 "source name"
+                              ],
+                              "function" : [
+                                 "string",
+                                 "function annotation"
+                              ],
+                              "ncbi_tax_id" : [
+                                 "int",
+                                 "organism ncbi tax_id"
+                              ],
+                              "type" : [
+                                 "string",
+                                 "source type"
+                              ],
+                              "md5" : [
+                                 "string",
+                                 "md5 checksum - M5NR ID"
+                              ],
+                              "organism" : [
+                                 "string",
+                                 "organism annotation"
+                              ],
+                              "accession" : [
+                                 "string",
+                                 "unique identifier given by source"
+                              ]
+                           },
+                           "annotation object"
+                        ]
+                     ]
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/function/{text}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/m5nr/function/sulfatase?source=GenBank",
+                  "retrieve GenBank M5NR data for function names containing string 'sulfatase'"
+               ],
+               "name" : "function",
+               "description" : "Return annotations for function names containing the given text",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "source" : [
+                        "string",
+                        "source name to restrict search by"
+                     ],
+                     "order" : [
+                        "string",
+                        "name of the attribute the returned data is ordered by"
+                     ],
+                     "exact" : [
+                        "boolean",
+                        "if true return only those annotations that exactly match input text, default is false"
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {
+                     "text" : [
+                        "string",
+                        "text string of partial function name"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "source" : [
+                                 "string",
+                                 "source name"
+                              ],
+                              "function" : [
+                                 "string",
+                                 "function annotation"
+                              ],
+                              "ncbi_tax_id" : [
+                                 "int",
+                                 "organism ncbi tax_id"
+                              ],
+                              "type" : [
+                                 "string",
+                                 "source type"
+                              ],
+                              "md5" : [
+                                 "string",
+                                 "md5 checksum - M5NR ID"
+                              ],
+                              "organism" : [
+                                 "string",
+                                 "organism annotation"
+                              ],
+                              "accession" : [
+                                 "string",
+                                 "unique identifier given by source"
+                              ]
+                           },
+                           "annotation object"
+                        ]
+                     ]
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/organism/{text}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/m5nr/organism/akkermansia?source=KEGG",
+                  "retrieve KEGG M5NR data for organism names containing string 'akkermansia'"
+               ],
+               "name" : "organism",
+               "description" : "Return annotations for organism names containing the given text",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "source" : [
+                        "string",
+                        "source name to restrict search by"
+                     ],
+                     "order" : [
+                        "string",
+                        "name of the attribute the returned data is ordered by"
+                     ],
+                     "exact" : [
+                        "boolean",
+                        "if true return only those annotations that exactly match input text, default is false"
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {
+                     "text" : [
+                        "string",
+                        "text string of partial organism name"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "source" : [
+                                 "string",
+                                 "source name"
+                              ],
+                              "function" : [
+                                 "string",
+                                 "function annotation"
+                              ],
+                              "ncbi_tax_id" : [
+                                 "int",
+                                 "organism ncbi tax_id"
+                              ],
+                              "type" : [
+                                 "string",
+                                 "source type"
+                              ],
+                              "md5" : [
+                                 "string",
+                                 "md5 checksum - M5NR ID"
+                              ],
+                              "organism" : [
+                                 "string",
+                                 "organism annotation"
+                              ],
+                              "accession" : [
+                                 "string",
+                                 "unique identifier given by source"
+                              ]
+                           },
+                           "annotation object"
+                        ]
+                     ]
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/sequence/{text}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/m5nr/sequence/MAGENHQWQGSIL?source=TrEMBL",
+                  "retrieve TrEMBL M5NR data for md5sum of sequence 'MAGENHQWQGSIL'"
+               ],
+               "name" : "sequence",
+               "description" : "Return annotation(s) for md5sum (M5NR ID) of given sequence",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "source" : [
+                        "string",
+                        "source name to restrict search by"
+                     ],
+                     "order" : [
+                        "string",
+                        "name of the attribute the returned data is ordered by"
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {
+                     "text" : [
+                        "string",
+                        "text string of protein sequence"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "source" : [
+                                 "string",
+                                 "source name"
+                              ],
+                              "function" : [
+                                 "string",
+                                 "function annotation"
+                              ],
+                              "ncbi_tax_id" : [
+                                 "int",
+                                 "organism ncbi tax_id"
+                              ],
+                              "type" : [
+                                 "string",
+                                 "source type"
+                              ],
+                              "md5" : [
+                                 "string",
+                                 "md5 checksum - M5NR ID"
+                              ],
+                              "organism" : [
+                                 "string",
+                                 "organism annotation"
+                              ],
+                              "accession" : [
+                                 "string",
+                                 "unique identifier given by source"
+                              ]
+                           },
+                           "annotation object"
+                        ]
+                     ]
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/accession",
+               "example" : [
+                  "curl -X POST -d '{\"order\":\"function\",\"data\":[\"YP_003268079.1\",\"COG1764\"]}' \"http://kbase.us/services/communities/1/m5nr/accession\"",
+                  "retrieve M5NR data for accession IDs 'YP_003268079.1' and 'COG1764' ordered by function"
+               ],
+               "name" : "accession",
+               "description" : "Return annotations of given source protein IDs",
+               "parameters" : {
+                  "body" : {
+                     "order" : [
+                        "string",
+                        "name of the attribute the returned data is ordered by"
+                     ],
+                     "data" : [
+                        "list",
+                        [
+                           "string",
+                           "unique identifier from source DB"
+                        ]
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {},
+                  "options" : {}
+               },
+               "method" : "POST",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "source" : [
+                                 "string",
+                                 "source name"
+                              ],
+                              "function" : [
+                                 "string",
+                                 "function annotation"
+                              ],
+                              "ncbi_tax_id" : [
+                                 "int",
+                                 "organism ncbi tax_id"
+                              ],
+                              "type" : [
+                                 "string",
+                                 "source type"
+                              ],
+                              "md5" : [
+                                 "string",
+                                 "md5 checksum - M5NR ID"
+                              ],
+                              "organism" : [
+                                 "string",
+                                 "organism annotation"
+                              ],
+                              "accession" : [
+                                 "string",
+                                 "unique identifier given by source"
+                              ]
+                           },
+                           "annotation object"
+                        ]
+                     ]
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/md5",
+               "example" : [
+                  "curl -X POST -d '{\"source\":\"InterPro\",\"data\":[\"000821a2e2f63df1a3873e4b280002a8\",\"15bf1950bd9867099e72ea6516e3d602\"]}' \"http://kbase.us/services/communities/1/m5nr/md5\"",
+                  "retrieve InterPro M5NR data for md5s '000821a2e2f63df1a3873e4b280002a8' and '15bf1950bd9867099e72ea6516e3d602'"
+               ],
+               "name" : "md5",
+               "description" : "Return annotations of given md5sums (M5NR ID)",
+               "parameters" : {
+                  "body" : {
+                     "source" : [
+                        "string",
+                        "source name to restrict search by"
+                     ],
+                     "order" : [
+                        "string",
+                        "name of the attribute the returned data is ordered by"
+                     ],
+                     "data" : [
+                        "list",
+                        [
+                           "string",
+                           "unique identifier in form of md5 checksum"
+                        ]
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {},
+                  "options" : {}
+               },
+               "method" : "POST",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "source" : [
+                                 "string",
+                                 "source name"
+                              ],
+                              "function" : [
+                                 "string",
+                                 "function annotation"
+                              ],
+                              "ncbi_tax_id" : [
+                                 "int",
+                                 "organism ncbi tax_id"
+                              ],
+                              "type" : [
+                                 "string",
+                                 "source type"
+                              ],
+                              "md5" : [
+                                 "string",
+                                 "md5 checksum - M5NR ID"
+                              ],
+                              "organism" : [
+                                 "string",
+                                 "organism annotation"
+                              ],
+                              "accession" : [
+                                 "string",
+                                 "unique identifier given by source"
+                              ]
+                           },
+                           "annotation object"
+                        ]
+                     ]
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/function",
+               "example" : [
+                  "curl -X POST -d '{\"source\":\"GenBank\",\"limit\":50,\"data\":[\"sulfatase\",\"phosphatase\"]}' \"http://kbase.us/services/communities/1/m5nr/function\"",
+                  "retrieve top 50 GenBank M5NR data for function names containing string 'sulfatase' or 'phosphatase'"
+               ],
+               "name" : "function",
+               "description" : "Return annotations for function names containing the given texts",
+               "parameters" : {
+                  "body" : {
+                     "source" : [
+                        "string",
+                        "source name to restrict search by"
+                     ],
+                     "order" : [
+                        "string",
+                        "name of the attribute the returned data is ordered by"
+                     ],
+                     "exact" : [
+                        "boolean",
+                        "if true return only those annotations that exactly match input text, default is false"
+                     ],
+                     "data" : [
+                        "list",
+                        [
+                           "string",
+                           "text string of partial function name"
+                        ]
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {},
+                  "options" : {}
+               },
+               "method" : "POST",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "source" : [
+                                 "string",
+                                 "source name"
+                              ],
+                              "function" : [
+                                 "string",
+                                 "function annotation"
+                              ],
+                              "ncbi_tax_id" : [
+                                 "int",
+                                 "organism ncbi tax_id"
+                              ],
+                              "type" : [
+                                 "string",
+                                 "source type"
+                              ],
+                              "md5" : [
+                                 "string",
+                                 "md5 checksum - M5NR ID"
+                              ],
+                              "organism" : [
+                                 "string",
+                                 "organism annotation"
+                              ],
+                              "accession" : [
+                                 "string",
+                                 "unique identifier given by source"
+                              ]
+                           },
+                           "annotation object"
+                        ]
+                     ]
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/organism",
+               "example" : [
+                  "curl -X POST -d '{\"source\":\"KEGG\",\"order\":\"accession\",\"data\":[\"akkermansia\",\"yersinia\"]}' \"http://kbase.us/services/communities/1/m5nr/organism\"",
+                  "retrieve KEGG M5NR data (ordered by accession ID) for organism names containing string 'akkermansia' or 'yersinia'"
+               ],
+               "name" : "organism",
+               "description" : "Return annotations for organism names containing the given texts",
+               "parameters" : {
+                  "body" : {
+                     "source" : [
+                        "string",
+                        "source name to restrict search by"
+                     ],
+                     "order" : [
+                        "string",
+                        "name of the attribute the returned data is ordered by"
+                     ],
+                     "exact" : [
+                        "boolean",
+                        "if true return only those annotations that exactly match input text, default is false"
+                     ],
+                     "data" : [
+                        "list",
+                        [
+                           "string",
+                           "text string of partial organism name"
+                        ]
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {},
+                  "options" : {}
+               },
+               "method" : "POST",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "source" : [
+                                 "string",
+                                 "source name"
+                              ],
+                              "function" : [
+                                 "string",
+                                 "function annotation"
+                              ],
+                              "ncbi_tax_id" : [
+                                 "int",
+                                 "organism ncbi tax_id"
+                              ],
+                              "type" : [
+                                 "string",
+                                 "source type"
+                              ],
+                              "md5" : [
+                                 "string",
+                                 "md5 checksum - M5NR ID"
+                              ],
+                              "organism" : [
+                                 "string",
+                                 "organism annotation"
+                              ],
+                              "accession" : [
+                                 "string",
+                                 "unique identifier given by source"
+                              ]
+                           },
+                           "annotation object"
+                        ]
+                     ]
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/m5nr/sequence",
+               "example" : [
+                  "curl -X POST -d '{\"source\":\"KEGG\",\"order\":\"source\",\"data\":[\"MAGENHQWQGSIL\",\"MAGENHQWQGSIL\"]}' \"http://kbase.us/services/communities/1/m5nr/sequence\"",
+                  "retrieve M5NR data ordered by source for sequences 'MAGENHQWQGSIL' and 'MAGENHQWQGSIL'"
+               ],
+               "name" : "sequence",
+               "description" : "Return annotations for md5s (M5NR ID) of given sequences",
+               "parameters" : {
+                  "body" : {
+                     "source" : [
+                        "string",
+                        "source name to restrict search by"
+                     ],
+                     "order" : [
+                        "string",
+                        "name of the attribute the returned data is ordered by"
+                     ],
+                     "data" : [
+                        "list",
+                        [
+                           "string",
+                           "text string of protein sequence"
+                        ]
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {},
+                  "options" : {}
+               },
+               "method" : "POST",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "source" : [
+                                 "string",
+                                 "source name"
+                              ],
+                              "function" : [
+                                 "string",
+                                 "function annotation"
+                              ],
+                              "ncbi_tax_id" : [
+                                 "int",
+                                 "organism ncbi tax_id"
+                              ],
+                              "type" : [
+                                 "string",
+                                 "source type"
+                              ],
+                              "md5" : [
+                                 "string",
+                                 "md5 checksum - M5NR ID"
+                              ],
+                              "organism" : [
+                                 "string",
+                                 "organism annotation"
+                              ],
+                              "accession" : [
+                                 "string",
+                                 "unique identifier given by source"
+                              ]
+                           },
+                           "annotation object"
+                        ]
+                     ]
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            }
+         ],
+         "name" : "m5nr",
+         "url" : "http://kbase.us/services/communities/1/m5nr",
+         "documentation" : "http://kbase.us/services/communities/1/api.html#m5nr",
+         "type" : "object",
+         "description" : "M5NR provides data through a comprehensive non-redundant protein / rRNA database"
+      },
+      {
+         "requests" : [
+            {
+               "request" : "http://kbase.us/services/communities/1/matrix",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "name" : "info",
+               "method" : "GET",
+               "type" : "synchronous",
+               "description" : "Returns description of parameters and attributes.",
+               "attributes" : "self"
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/matrix/organism",
+               "example" : [
+                  "http://kbase.us/services/communities/1/matrix/organism?id=mgm4447943.3&id=mgm4447192.3&id=mgm4447102.3&id=mgm4447103.3&group_level=family&source=RefSeq&result_type=abundance&evalue=15",
+                  "retrieve abundance matrix of RefSeq organism annotations at family taxa for listed metagenomes at evaule < e-15"
+               ],
+               "name" : "organism",
+               "description" : "Returns a BIOM object.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "source" : [
+                        "cv",
+                        [
+                           [
+                              "M5NR",
+                              "comprehensive protein database"
+                           ],
+                           [
+                              "M5RNA",
+                              "comprehensive RNA database"
+                           ],
+                           [
+                              "RefSeq",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "GenBank",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "IMG",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "SEED",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "TrEMBL",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "SwissProt",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "PATRIC",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "KEGG",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "RDP",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "Greengenes",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "LSU",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "SSU",
+                              "RNA database, type organism, function, feature"
+                           ]
+                        ]
+                     ],
+                     "asynchronous" : [
+                        "boolean",
+                        "if true, return process id to query status resource for results.  default is false."
+                     ],
+                     "result_type" : [
+                        "cv",
+                        [
+                           [
+                              "abundance",
+                              "number of reads with hits in annotation"
+                           ],
+                           [
+                              "evalue",
+                              "average e-value exponent of hits in annotation"
+                           ],
+                           [
+                              "identity",
+                              "average percent identity of hits in annotation"
+                           ],
+                           [
+                              "length",
+                              "average alignment length of hits in annotation"
+                           ]
+                        ]
+                     ],
+                     "filter" : [
+                        "string",
+                        "filter the return results to only include abundances based on genes with this function"
+                     ],
+                     "group_level" : [
+                        "cv",
+                        [
+                           [
+                              "strain",
+                              "bottom organism taxanomic level"
+                           ],
+                           [
+                              "species",
+                              "organism type level"
+                           ],
+                           [
+                              "genus",
+                              "organism taxanomic level"
+                           ],
+                           [
+                              "family",
+                              "organism taxanomic level"
+                           ],
+                           [
+                              "order",
+                              "organism taxanomic level"
+                           ],
+                           [
+                              "class",
+                              "organism taxanomic level"
+                           ],
+                           [
+                              "phylum",
+                              "organism taxanomic level"
+                           ],
+                           [
+                              "domain",
+                              "top organism taxanomic level"
+                           ]
+                        ]
+                     ],
+                     "taxid" : [
+                        "boolean",
+                        "if true, return annotation ID as NCBI tax id. Only for group_levels with a tax_id"
+                     ],
+                     "grep" : [
+                        "string",
+                        "filter the return results to only include annotations that contain this text"
+                     ],
+                     "length" : [
+                        "int",
+                        "value for minimum alignment length cutoff: default is 15"
+                     ],
+                     "identity" : [
+                        "int",
+                        "percent value for minimum % identity cutoff: default is 60"
+                     ],
+                     "evalue" : [
+                        "int",
+                        "negative exponent value for maximum e-value cutoff: default is 5"
+                     ],
+                     "filter_source" : [
+                        "cv",
+                        [
+                           [
+                              "Subsystems",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "NOG",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "COG",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "KO",
+                              "ontology database, type ontology only"
+                           ]
+                        ]
+                     ],
+                     "id" : [
+                        "string",
+                        "one or more metagenome or project unique identifier"
+                     ],
+                     "hide_metadata" : [
+                        "boolean",
+                        "if false, return metagenome metadata set in 'columns' object.  default is false."
+                     ],
+                     "hit_type" : [
+                        "cv",
+                        [
+                           [
+                              "all",
+                              "returns results based on all organisms that map to top hit per read-feature"
+                           ],
+                           [
+                              "single",
+                              "returns results based on a single organism for top hit per read-feature"
+                           ],
+                           [
+                              "lca",
+                              "returns results based on the Least Common Ancestor for all organisms (M5NR+M5RNA only) that map to hits from a read-feature"
+                           ]
+                        ]
+                     ],
+                     "filter_level" : [
+                        "cv",
+                        [
+                           [
+                              "function",
+                              "bottom function ontology level"
+                           ],
+                           [
+                              "level3",
+                              "function ontology level"
+                           ],
+                           [
+                              "level2",
+                              "function ontology level"
+                           ],
+                           [
+                              "level1",
+                              "top function ontology level"
+                           ]
+                        ]
+                     ]
+                  },
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous or asynchronous",
+               "attributes" : {
+                  "generated_by" : [
+                     "string",
+                     "identifier of the data generator"
+                  ],
+                  "date" : [
+                     "date",
+                     "time the output data was generated"
+                  ],
+                  "matrix_type" : [
+                     "string",
+                     "type of the data encoding matrix (dense or sparse)"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "list",
+                        [
+                           "float",
+                           "the matrix values"
+                        ]
+                     ]
+                  ],
+                  "matrix_element_value" : [
+                     "string",
+                     "result_type of the elements in the return matrix"
+                  ],
+                  "rows" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "id" : [
+                                 "string",
+                                 "unique annotation text"
+                              ],
+                              "metadata" : [
+                                 "hash",
+                                 "key value pairs describing metadata"
+                              ]
+                           },
+                           "rows object"
+                        ]
+                     ]
+                  ],
+                  "matrix_element_type" : [
+                     "string",
+                     "data type of the elements in the return matrix"
+                  ],
+                  "format_url" : [
+                     "string",
+                     "url to the format specification"
+                  ],
+                  "format" : [
+                     "string",
+                     "format specification name"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "columns" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "id" : [
+                                 "string",
+                                 "unique metagenome identifier"
+                              ],
+                              "metadata" : [
+                                 "hash",
+                                 "key value pairs describing metadata"
+                              ]
+                           },
+                           "columns object"
+                        ]
+                     ]
+                  ],
+                  "type" : [
+                     "string",
+                     "type of the data in the return table (taxon, function or gene)"
+                  ],
+                  "id" : [
+                     "string",
+                     "unique object identifier"
+                  ],
+                  "shape" : [
+                     "list",
+                     [
+                        "integer",
+                        "list of the dimension sizes of the return matrix"
+                     ]
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/matrix/function",
+               "example" : [
+                  "http://kbase.us/services/communities/1/matrix/function?id=mgm4447943.3&id=mgm4447192.3&id=mgm4447102.3&id=mgm4447103.3&group_level=level3&source=Subsystems&result_type=abundance&identity=80&filter_level=phylum&filter=Firmicutes",
+                  "retrieve abundance matrix of Subsystem annotations at level3 for listed metagenomes at % identity > 80, filtered to return annotations only in phylum Firmicutes"
+               ],
+               "name" : "function",
+               "description" : "Returns a BIOM object.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "source" : [
+                        "cv",
+                        [
+                           [
+                              "Subsystems",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "NOG",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "COG",
+                              "ontology database, type ontology only"
+                           ],
+                           [
+                              "KO",
+                              "ontology database, type ontology only"
+                           ]
+                        ]
+                     ],
+                     "asynchronous" : [
+                        "boolean",
+                        "if true, return process id to query status resource for results.  default is false."
+                     ],
+                     "result_type" : [
+                        "cv",
+                        [
+                           [
+                              "abundance",
+                              "number of reads with hits in annotation"
+                           ],
+                           [
+                              "evalue",
+                              "average e-value exponent of hits in annotation"
+                           ],
+                           [
+                              "identity",
+                              "average percent identity of hits in annotation"
+                           ],
+                           [
+                              "length",
+                              "average alignment length of hits in annotation"
+                           ]
+                        ]
+                     ],
+                     "filter" : [
+                        "string",
+                        "filter the return results to only include abundances based on genes with this organism"
+                     ],
+                     "group_level" : [
+                        "cv",
+                        [
+                           [
+                              "function",
+                              "bottom function ontology level"
+                           ],
+                           [
+                              "level3",
+                              "function ontology level"
+                           ],
+                           [
+                              "level2",
+                              "function ontology level"
+                           ],
+                           [
+                              "level1",
+                              "top function ontology level"
+                           ]
+                        ]
+                     ],
+                     "grep" : [
+                        "string",
+                        "filter the return results to only include annotations that contain this text"
+                     ],
+                     "length" : [
+                        "int",
+                        "value for minimum alignment length cutoff: default is 15"
+                     ],
+                     "identity" : [
+                        "int",
+                        "percent value for minimum % identity cutoff: default is 60"
+                     ],
+                     "evalue" : [
+                        "int",
+                        "negative exponent value for maximum e-value cutoff: default is 5"
+                     ],
+                     "filter_source" : [
+                        "cv",
+                        [
+                           [
+                              "M5NR",
+                              "comprehensive protein database"
+                           ],
+                           [
+                              "M5RNA",
+                              "comprehensive RNA database"
+                           ],
+                           [
+                              "RefSeq",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "GenBank",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "IMG",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "SEED",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "TrEMBL",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "SwissProt",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "PATRIC",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "KEGG",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "RDP",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "Greengenes",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "LSU",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "SSU",
+                              "RNA database, type organism, function, feature"
+                           ]
+                        ]
+                     ],
+                     "id" : [
+                        "string",
+                        "one or more metagenome or project unique identifier"
+                     ],
+                     "hide_metadata" : [
+                        "boolean",
+                        "if false return metagenome metadata set in 'columns' object"
+                     ],
+                     "filter_level" : [
+                        "cv",
+                        [
+                           [
+                              "strain",
+                              "bottom organism taxanomic level"
+                           ],
+                           [
+                              "species",
+                              "organism type level"
+                           ],
+                           [
+                              "genus",
+                              "organism taxanomic level"
+                           ],
+                           [
+                              "family",
+                              "organism taxanomic level"
+                           ],
+                           [
+                              "order",
+                              "organism taxanomic level"
+                           ],
+                           [
+                              "class",
+                              "organism taxanomic level"
+                           ],
+                           [
+                              "phylum",
+                              "organism taxanomic level"
+                           ],
+                           [
+                              "domain",
+                              "top organism taxanomic level"
+                           ]
+                        ]
+                     ]
+                  },
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous or asynchronous",
+               "attributes" : {
+                  "generated_by" : [
+                     "string",
+                     "identifier of the data generator"
+                  ],
+                  "date" : [
+                     "date",
+                     "time the output data was generated"
+                  ],
+                  "matrix_type" : [
+                     "string",
+                     "type of the data encoding matrix (dense or sparse)"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "list",
+                        [
+                           "float",
+                           "the matrix values"
+                        ]
+                     ]
+                  ],
+                  "matrix_element_value" : [
+                     "string",
+                     "result_type of the elements in the return matrix"
+                  ],
+                  "rows" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "id" : [
+                                 "string",
+                                 "unique annotation text"
+                              ],
+                              "metadata" : [
+                                 "hash",
+                                 "key value pairs describing metadata"
+                              ]
+                           },
+                           "rows object"
+                        ]
+                     ]
+                  ],
+                  "matrix_element_type" : [
+                     "string",
+                     "data type of the elements in the return matrix"
+                  ],
+                  "format_url" : [
+                     "string",
+                     "url to the format specification"
+                  ],
+                  "format" : [
+                     "string",
+                     "format specification name"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "columns" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "id" : [
+                                 "string",
+                                 "unique metagenome identifier"
+                              ],
+                              "metadata" : [
+                                 "hash",
+                                 "key value pairs describing metadata"
+                              ]
+                           },
+                           "columns object"
+                        ]
+                     ]
+                  ],
+                  "type" : [
+                     "string",
+                     "type of the data in the return table (taxon, function or gene)"
+                  ],
+                  "id" : [
+                     "string",
+                     "unique object identifier"
+                  ],
+                  "shape" : [
+                     "list",
+                     [
+                        "integer",
+                        "list of the dimension sizes of the return matrix"
+                     ]
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/matrix/feature",
+               "example" : [
+                  "http://kbase.us/services/communities/1/matrix/feature?id=mgm4447943.3&id=mgm4447192.3&id=mgm4447102.3&id=mgm4447103.3&source=KEGG&result_type=evalue&length=25",
+                  "retrieve e-value matrix of KEGG protein annotations for listed metagenomes at alignment length > 25"
+               ],
+               "name" : "feature",
+               "description" : "Returns a BIOM object.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "source" : [
+                        "cv",
+                        [
+                           [
+                              "RefSeq",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "GenBank",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "IMG",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "SEED",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "TrEMBL",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "SwissProt",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "PATRIC",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "KEGG",
+                              "protein database, type organism, function, feature"
+                           ],
+                           [
+                              "RDP",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "Greengenes",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "LSU",
+                              "RNA database, type organism, function, feature"
+                           ],
+                           [
+                              "SSU",
+                              "RNA database, type organism, function, feature"
+                           ]
+                        ]
+                     ],
+                     "asynchronous" : [
+                        "boolean",
+                        "if true, return process id to query status resource for results.  default is false."
+                     ],
+                     "result_type" : [
+                        "cv",
+                        [
+                           [
+                              "abundance",
+                              "number of reads with hits in annotation"
+                           ],
+                           [
+                              "evalue",
+                              "average e-value exponent of hits in annotation"
+                           ],
+                           [
+                              "identity",
+                              "average percent identity of hits in annotation"
+                           ],
+                           [
+                              "length",
+                              "average alignment length of hits in annotation"
+                           ]
+                        ]
+                     ],
+                     "grep" : [
+                        "string",
+                        "filter the return results to only include annotations that contain this text"
+                     ],
+                     "length" : [
+                        "int",
+                        "value for minimum alignment length cutoff: default is 15"
+                     ],
+                     "evalue" : [
+                        "int",
+                        "negative exponent value for maximum e-value cutoff: default is 5"
+                     ],
+                     "identity" : [
+                        "int",
+                        "percent value for minimum % identity cutoff: default is 60"
+                     ],
+                     "id" : [
+                        "string",
+                        "one or more metagenome or project unique identifier"
+                     ],
+                     "hide_metadata" : [
+                        "boolean",
+                        "if false return metagenome metadata set in 'columns' object"
+                     ]
+                  },
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous or asynchronous",
+               "attributes" : {
+                  "generated_by" : [
+                     "string",
+                     "identifier of the data generator"
+                  ],
+                  "date" : [
+                     "date",
+                     "time the output data was generated"
+                  ],
+                  "matrix_type" : [
+                     "string",
+                     "type of the data encoding matrix (dense or sparse)"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "list",
+                        [
+                           "float",
+                           "the matrix values"
+                        ]
+                     ]
+                  ],
+                  "matrix_element_value" : [
+                     "string",
+                     "result_type of the elements in the return matrix"
+                  ],
+                  "rows" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "id" : [
+                                 "string",
+                                 "unique annotation text"
+                              ],
+                              "metadata" : [
+                                 "hash",
+                                 "key value pairs describing metadata"
+                              ]
+                           },
+                           "rows object"
+                        ]
+                     ]
+                  ],
+                  "matrix_element_type" : [
+                     "string",
+                     "data type of the elements in the return matrix"
+                  ],
+                  "format_url" : [
+                     "string",
+                     "url to the format specification"
+                  ],
+                  "format" : [
+                     "string",
+                     "format specification name"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "columns" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "id" : [
+                                 "string",
+                                 "unique metagenome identifier"
+                              ],
+                              "metadata" : [
+                                 "hash",
+                                 "key value pairs describing metadata"
+                              ]
+                           },
+                           "columns object"
+                        ]
+                     ]
+                  ],
+                  "type" : [
+                     "string",
+                     "type of the data in the return table (taxon, function or gene)"
+                  ],
+                  "id" : [
+                     "string",
+                     "unique object identifier"
+                  ],
+                  "shape" : [
+                     "list",
+                     [
+                        "integer",
+                        "list of the dimension sizes of the return matrix"
+                     ]
+                  ]
+               }
+            }
+         ],
+         "name" : "matrix",
+         "url" : "http://kbase.us/services/communities/1/matrix",
+         "documentation" : "http://kbase.us/services/communities/1/api.html#matrix",
+         "type" : "object",
+         "description" : "A profile in biom format that contains abundance counts"
+      },
+      {
+         "requests" : [
+            {
+               "request" : "http://kbase.us/services/communities/1/metadata",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "name" : "info",
+               "method" : "GET",
+               "type" : "synchronous",
+               "description" : "Returns description of parameters and attributes.",
+               "attributes" : "self"
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/metadata/template",
+               "example" : [
+                  "http://kbase.us/services/communities/1/metadata/template",
+                  "metadata template"
+               ],
+               "name" : "template",
+               "description" : "Returns static template for metadata object relationships and types",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "ep" : [
+                     "hash",
+                     [
+                        {
+                           "value" : [
+                              "hash",
+                              "hash of metadata objects by label"
+                           ],
+                           "key" : [
+                              "string",
+                              "enviromental package type"
+                           ]
+                        },
+                        "eps and their metadata"
+                     ]
+                  ],
+                  "project" : [
+                     "hash",
+                     [
+                        {
+                           "value" : [
+                              "hash",
+                              "hash of metadata objects by label"
+                           ],
+                           "key" : [
+                              "string",
+                              "project type"
+                           ]
+                        },
+                        "projects and their metadata"
+                     ]
+                  ],
+                  "sample" : [
+                     "hash",
+                     [
+                        {
+                           "value" : [
+                              "hash",
+                              "hash of metadata objects by label"
+                           ],
+                           "key" : [
+                              "string",
+                              "sample type"
+                           ]
+                        },
+                        "samples and their metadata"
+                     ]
+                  ],
+                  "library" : [
+                     "hash",
+                     [
+                        {
+                           "value" : [
+                              "hash",
+                              "hash of metadata objects by label"
+                           ],
+                           "key" : [
+                              "string",
+                              "library type"
+                           ]
+                        },
+                        "libraries and their metadata"
+                     ]
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/metadata/cv",
+               "example" : [
+                  "http://kbase.us/services/communities/1/metadata/cv",
+                  "metadata controlled vobularies"
+               ],
+               "name" : "cv",
+               "description" : "Returns static controlled vocabularies used in metadata",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "ontology" : [
+                     "hash",
+                     [
+                        {
+                           "value" : [
+                              "int",
+                              "bioportal ontology ID"
+                           ],
+                           "key" : [
+                              "string",
+                              "metadata label"
+                           ]
+                        },
+                        "ontology IDs for metadata"
+                     ]
+                  ],
+                  "ont_id" : [
+                     "hash",
+                     [
+                        {
+                           "value" : [
+                              "int",
+                              "bioportal term ID"
+                           ],
+                           "key" : [
+                              "string",
+                              "metadata label"
+                           ]
+                        },
+                        "term IDs for metadata"
+                     ]
+                  ],
+                  "select" : [
+                     "hash",
+                     [
+                        {
+                           "value" : [
+                              "list",
+                              [
+                                 "string",
+                                 "CV term"
+                              ]
+                           ],
+                           "key" : [
+                              "string",
+                              "metadata label"
+                           ]
+                        },
+                        "list of CV terms for metadata"
+                     ]
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/metadata/export/{ID}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/metadata/export/mgp128",
+                  "all metadata for project mgp128"
+               ],
+               "name" : "export",
+               "description" : "Returns full nested metadata for a project in same format as template",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {
+                     "id" : [
+                        "string",
+                        "unique object identifier"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "samples" : [
+                     "list",
+                     [
+                        "object",
+                        "sample object containing sample metadata, sample libraries, sample envPackage"
+                     ]
+                  ],
+                  "sampleNum" : [
+                     "int",
+                     "number of samples in project"
+                  ],
+                  "name" : [
+                     "string",
+                     "human readable identifier"
+                  ],
+                  "id" : [
+                     "string",
+                     "unique object identifier"
+                  ],
+                  "data" : [
+                     "hash",
+                     [
+                        {
+                           "value" : [
+                              "object",
+                              "project metadata objects"
+                           ],
+                           "key" : [
+                              "string",
+                              "metadata label"
+                           ]
+                        },
+                        "hash of metadata by label"
+                     ]
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/metadata/validate",
+               "example" : [
+                  "curl -X POST -F \"upload=@metadata.xlsx\" \"http://kbase.us/services/communities/1/metadata/validate\"",
+                  "validate file 'metadata.xlsx' against MG-RAST metadata template"
+               ],
+               "name" : "validate",
+               "description" : "Validate given metadata spreadsheet",
+               "parameters" : {
+                  "body" : {
+                     "upload" : [
+                        "file",
+                        "xlsx or xls format spreadsheet with metadata"
+                     ]
+                  },
+                  "options" : {},
+                  "required" : {}
+               },
+               "method" : "POST",
+               "type" : "synchronous",
+               "attributes" : {
+                  "metadata" : [
+                     "object",
+                     "valid metadata object for project and its samples and libraries"
+                  ],
+                  "is_valid" : [
+                     "boolean",
+                     "the metadata sheet is valid"
+                  ],
+                  "message" : [
+                     "string",
+                     "if not valid, reason why"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/metadata/validate",
+               "example" : [
+                  "http://kbase.us/services/communities/1/metadata/validate?category=sample&label=material&value=soil",
+                  "check if 'soil' is a vaild term for sample material"
+               ],
+               "name" : "validate",
+               "description" : "Validate given metadata value",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "group" : [
+                        "cv",
+                        [
+                           [
+                              "mixs",
+                              "label is part of MIxS (minimal) metadata"
+                           ],
+                           [
+                              "mims",
+                              "label is part of MIMS (metagenome) metadata"
+                           ],
+                           [
+                              "migs",
+                              "label is part of MIGS (genome) metadata"
+                           ]
+                        ]
+                     ],
+                     "value" : [
+                        "string",
+                        "metadata value"
+                     ],
+                     "category" : [
+                        "cv",
+                        [
+                           [
+                              "project",
+                              "label belongs to project metadata"
+                           ],
+                           [
+                              "sample",
+                              "label belongs to sample metadata"
+                           ],
+                           [
+                              "library",
+                              "label belongs to library metadata"
+                           ],
+                           [
+                              "env_package",
+                              "label belongs to env_package metadata"
+                           ]
+                        ]
+                     ],
+                     "label" : [
+                        "string",
+                        "metadata label"
+                     ]
+                  },
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "is_valid" : [
+                     "boolean",
+                     "the inputed value is valid for the given category and label"
+                  ],
+                  "message" : [
+                     "string",
+                     "if not valid, reason why"
+                  ]
+               }
+            }
+         ],
+         "name" : "metadata",
+         "url" : "http://kbase.us/services/communities/1/metadata",
+         "documentation" : "http://kbase.us/services/communities/1/api.html#metadata",
+         "type" : "object",
+         "description" : "Metagenomic metadata is data providing information about one or more aspects of a set sequences from a sample of some environment"
+      },
+      {
+         "requests" : [
+            {
+               "request" : "http://kbase.us/services/communities/1/metagenome",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "name" : "info",
+               "method" : "GET",
+               "type" : "synchronous",
+               "description" : "Returns description of parameters and attributes.",
+               "attributes" : "self"
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/metagenome",
+               "example" : [
+                  "http://kbase.us/services/communities/1/metagenome?limit=20&order=name",
+                  "retrieve the first 20 metagenomes ordered by name"
+               ],
+               "name" : "query",
+               "description" : "Returns a set of data matching the query criteria.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "verbosity" : [
+                        "cv",
+                        [
+                           [
+                              "minimal",
+                              "returns only minimal information"
+                           ],
+                           [
+                              "mixs",
+                              "returns all GSC MIxS metadata"
+                           ],
+                           [
+                              "metadata",
+                              "returns minimal with metadata"
+                           ],
+                           [
+                              "stats",
+                              "returns minimal with statistics"
+                           ],
+                           [
+                              "full",
+                              "returns all metadata and statistics"
+                           ]
+                        ]
+                     ],
+                     "function" : [
+                        "string",
+                        "search parameter: query string for function"
+                     ],
+                     "status" : [
+                        "cv",
+                        [
+                           [
+                              "both",
+                              "returns all data (public and private) user has access to view"
+                           ],
+                           [
+                              "public",
+                              "returns all public data"
+                           ],
+                           [
+                              "private",
+                              "returns private data user has access to view"
+                           ]
+                        ]
+                     ],
+                     "match" : [
+                        "cv",
+                        [
+                           [
+                              "all",
+                              "return metagenomes that match all search parameters"
+                           ],
+                           [
+                              "any",
+                              "return metagenomes that match any search parameters"
+                           ]
+                        ]
+                     ],
+                     "direction" : [
+                        "cv",
+                        [
+                           [
+                              "asc",
+                              "sort by ascending order"
+                           ],
+                           [
+                              "desc",
+                              "sort by descending order"
+                           ]
+                        ]
+                     ],
+                     "order" : [
+                        "string",
+                        "metagenome object field to sort by (default is id)"
+                     ],
+                     "metadata" : [
+                        "string",
+                        "search parameter: query string for any metadata field"
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "organism" : [
+                        "string",
+                        "search parameter: query string for organism"
+                     ],
+                     "md5" : [
+                        "string",
+                        "search parameter: md5 checksum of feature sequence"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "status" : [
+                                 "cv",
+                                 [
+                                    [
+                                       "public",
+                                       "metagenome is public"
+                                    ],
+                                    [
+                                       "private",
+                                       "metagenome is private"
+                                    ]
+                                 ]
+                              ],
+                              "PI_firstname" : [
+                                 "string",
+                                 "principal investigator's first name"
+                              ],
+                              "sequence_type" : [
+                                 "string",
+                                 "sequencing type"
+                              ],
+                              "collection_date" : [
+                                 "string",
+                                 "date sample collected"
+                              ],
+                              "feature" : [
+                                 "string",
+                                 "environmental feature, EnvO term"
+                              ],
+                              "PI_lastname" : [
+                                 "string",
+                                 "principal investigator's last name"
+                              ],
+                              "latitude" : [
+                                 "string",
+                                 "latitude where sample taken"
+                              ],
+                              "url" : [
+                                 "uri",
+                                 "resource location of this object instance"
+                              ],
+                              "biome" : [
+                                 "string",
+                                 "environmental biome, EnvO term"
+                              ],
+                              "id" : [
+                                 "string",
+                                 "unique metagenome identifier"
+                              ],
+                              "project_name" : [
+                                 "string",
+                                 "name of project containing metagenome"
+                              ],
+                              "project_id" : [
+                                 "string",
+                                 "id of project containing metagenome"
+                              ],
+                              "country" : [
+                                 "string",
+                                 "country where sample taken"
+                              ],
+                              "env_package_type" : [
+                                 "string",
+                                 "enviromental package of sample, GSC term"
+                              ],
+                              "longitude" : [
+                                 "string",
+                                 "longitude where sample taken"
+                              ],
+                              "location" : [
+                                 "string",
+                                 "location where sample taken"
+                              ],
+                              "name" : [
+                                 "string",
+                                 "name of metagenome"
+                              ],
+                              "seq_method" : [
+                                 "string",
+                                 "sequencing method"
+                              ],
+                              "created" : [
+                                 "date",
+                                 "time the metagenome was first created"
+                              ],
+                              "material" : [
+                                 "string",
+                                 "environmental material, EnvO term"
+                              ]
+                           },
+                           "metagenome object"
+                        ]
+                     ]
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "order" : [
+                     "string",
+                     "name of the attribute the returned data is ordered by"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/metagenome/{ID}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/metagenome/mgm4447943.3?verbosity=metadata",
+                  "retrieve all metadata for metagenome mgm4447943.3"
+               ],
+               "name" : "instance",
+               "description" : "Returns a single data object.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "verbosity" : [
+                        "cv",
+                        [
+                           [
+                              "minimal",
+                              "returns only minimal information"
+                           ],
+                           [
+                              "metadata",
+                              "returns minimal with metadata"
+                           ],
+                           [
+                              "stats",
+                              "returns minimal with statistics"
+                           ],
+                           [
+                              "full",
+                              "returns all metadata and statistics"
+                           ]
+                        ]
+                     ]
+                  },
+                  "required" : {
+                     "id" : [
+                        "string",
+                        "unique object identifier"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "project" : [
+                     "reference project",
+                     "reference to the project object"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the metagenome"
+                  ],
+                  "status" : [
+                     "cv",
+                     [
+                        [
+                           "public",
+                           "metagenome is public"
+                        ],
+                        [
+                           "private",
+                           "metagenome is private"
+                        ]
+                     ]
+                  ],
+                  "statistics" : [
+                     "hash",
+                     "key value pairs describing statistics"
+                  ],
+                  "name" : [
+                     "string",
+                     "name of metagenome"
+                  ],
+                  "library" : [
+                     "reference library",
+                     "reference to the related library object"
+                  ],
+                  "sequence_type" : [
+                     "string",
+                     "sequencing type"
+                  ],
+                  "created" : [
+                     "date",
+                     "time the metagenome was first created"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "metadata" : [
+                     "hash",
+                     "key value pairs describing all metadata"
+                  ],
+                  "sample" : [
+                     "reference sample",
+                     "reference to the related sample object"
+                  ],
+                  "id" : [
+                     "string",
+                     "unique metagenome identifier"
+                  ],
+                  "mixs" : [
+                     "hash",
+                     "key value pairs describing MIxS metadata"
+                  ]
+               }
+            }
+         ],
+         "name" : "metagenome",
+         "url" : "http://kbase.us/services/communities/1/metagenome",
+         "documentation" : "http://kbase.us/services/communities/1/api.html#metagenome",
+         "type" : "object",
+         "description" : "A metagenome is an analyzed set sequences from a sample of some environment"
+      },
+      {
+         "requests" : [
+            {
+               "request" : "http://kbase.us/services/communities/1/project",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "name" : "info",
+               "method" : "GET",
+               "type" : "synchronous",
+               "description" : "Returns description of parameters and attributes.",
+               "attributes" : "self"
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/project",
+               "example" : [
+                  "http://kbase.us/services/communities/1/project?limit=20&order=name",
+                  "retrieve the first 20 projects ordered by name"
+               ],
+               "name" : "query",
+               "description" : "Returns a set of data matching the query criteria.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "verbosity" : [
+                        "cv",
+                        [
+                           [
+                              "minimal",
+                              "returns only minimal information"
+                           ],
+                           [
+                              "verbose",
+                              "returns all metadata"
+                           ],
+                           [
+                              "full",
+                              "returns all metadata and references"
+                           ]
+                        ]
+                     ],
+                     "order" : [
+                        "cv",
+                        [
+                           [
+                              "id",
+                              "return data objects ordered by id"
+                           ],
+                           [
+                              "name",
+                              "return data objects ordered by name"
+                           ]
+                        ]
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "order" : [
+                     "string",
+                     "name of the attribute the returned data is ordered by"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "version" : [
+                                 "integer",
+                                 "version of the object"
+                              ],
+                              "status" : [
+                                 "cv",
+                                 [
+                                    [
+                                       "public",
+                                       "object is public"
+                                    ],
+                                    [
+                                       "private",
+                                       "object is private"
+                                    ]
+                                 ]
+                              ],
+                              "name" : [
+                                 "string",
+                                 "human readable identifier"
+                              ],
+                              "libraries" : [
+                                 "list",
+                                 [
+                                    "reference library",
+                                    "a list of references to the related library objects"
+                                 ]
+                              ],
+                              "metagenomes" : [
+                                 "list",
+                                 [
+                                    "reference metagenome",
+                                    "a list of references to the related metagenome objects"
+                                 ]
+                              ],
+                              "description" : [
+                                 "string",
+                                 "a short, comprehensive description of the project"
+                              ],
+                              "created" : [
+                                 "date",
+                                 "time the object was first created"
+                              ],
+                              "samples" : [
+                                 "list",
+                                 [
+                                    "reference sample",
+                                    "a list of references to the related sample objects"
+                                 ]
+                              ],
+                              "funding_source" : [
+                                 "string",
+                                 "the official name of the source of funding of this project"
+                              ],
+                              "url" : [
+                                 "uri",
+                                 "resource location of this object instance"
+                              ],
+                              "pi" : [
+                                 "string",
+                                 "the first and last name of the principal investigator of the project"
+                              ],
+                              "id" : [
+                                 "string",
+                                 "unique object identifier"
+                              ],
+                              "metadata" : [
+                                 "hash",
+                                 "key value pairs describing metadata"
+                              ]
+                           },
+                           "list of the project objects"
+                        ]
+                     ]
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/project/{ID}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/project/mgp128?verbosity=full",
+                  "retrieve all data for project mgp128"
+               ],
+               "name" : "instance",
+               "description" : "Returns a single data object.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "verbosity" : [
+                        "cv",
+                        [
+                           [
+                              "minimal",
+                              "returns only minimal information"
+                           ],
+                           [
+                              "verbose",
+                              "returns all metadata"
+                           ],
+                           [
+                              "full",
+                              "returns all metadata and references"
+                           ]
+                        ]
+                     ]
+                  },
+                  "required" : {
+                     "id" : [
+                        "string",
+                        "unique object identifier"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "status" : [
+                     "cv",
+                     [
+                        [
+                           "public",
+                           "object is public"
+                        ],
+                        [
+                           "private",
+                           "object is private"
+                        ]
+                     ]
+                  ],
+                  "name" : [
+                     "string",
+                     "human readable identifier"
+                  ],
+                  "libraries" : [
+                     "list",
+                     [
+                        "reference library",
+                        "a list of references to the related library objects"
+                     ]
+                  ],
+                  "metagenomes" : [
+                     "list",
+                     [
+                        "reference metagenome",
+                        "a list of references to the related metagenome objects"
+                     ]
+                  ],
+                  "description" : [
+                     "string",
+                     "a short, comprehensive description of the project"
+                  ],
+                  "created" : [
+                     "date",
+                     "time the object was first created"
+                  ],
+                  "samples" : [
+                     "list",
+                     [
+                        "reference sample",
+                        "a list of references to the related sample objects"
+                     ]
+                  ],
+                  "funding_source" : [
+                     "string",
+                     "the official name of the source of funding of this project"
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "pi" : [
+                     "string",
+                     "the first and last name of the principal investigator of the project"
+                  ],
+                  "id" : [
+                     "string",
+                     "unique object identifier"
+                  ],
+                  "metadata" : [
+                     "hash",
+                     "key value pairs describing metadata"
+                  ]
+               }
+            }
+         ],
+         "name" : "project",
+         "url" : "http://kbase.us/services/communities/1/project",
+         "documentation" : "http://kbase.us/services/communities/1/api.html#project",
+         "type" : "object",
+         "description" : "A project is a composition of samples, libraries and metagenomes being analyzed in a global context."
+      },
+      {
+         "requests" : [
+            {
+               "request" : "http://kbase.us/services/communities/1/sample",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {},
+                  "required" : {}
+               },
+               "name" : "info",
+               "method" : "GET",
+               "type" : "synchronous",
+               "description" : "Returns description of parameters and attributes.",
+               "attributes" : "self"
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/sample",
+               "example" : [
+                  "http://kbase.us/services/communities/1/sample?limit=20&order=name",
+                  "retrieve the first 20 samples ordered by name"
+               ],
+               "name" : "query",
+               "description" : "Returns a set of data matching the query criteria.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "order" : [
+                        "cv",
+                        [
+                           [
+                              "id",
+                              "return data objects ordered by id"
+                           ],
+                           [
+                              "name",
+                              "return data objects ordered by name"
+                           ]
+                        ]
+                     ],
+                     "limit" : [
+                        "integer",
+                        "maximum number of items requested"
+                     ],
+                     "offset" : [
+                        "integer",
+                        "zero based index of the first data object to be returned"
+                     ]
+                  },
+                  "required" : {}
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "next" : [
+                     "uri",
+                     "link to the previous set or null if this is the first set"
+                  ],
+                  "prev" : [
+                     "uri",
+                     "link to the next set or null if this is the last set"
+                  ],
+                  "order" : [
+                     "string",
+                     "name of the attribute the returned data is ordered by"
+                  ],
+                  "data" : [
+                     "list",
+                     [
+                        "object",
+                        [
+                           {
+                              "project" : [
+                                 "reference project",
+                                 "reference to the project of this sample"
+                              ],
+                              "version" : [
+                                 "integer",
+                                 "version of the object"
+                              ],
+                              "name" : [
+                                 "string",
+                                 "human readable identifier"
+                              ],
+                              "libraries" : [
+                                 "list",
+                                 [
+                                    "reference library",
+                                    "a list of references to the related library objects"
+                                 ]
+                              ],
+                              "metagenomes" : [
+                                 "list",
+                                 [
+                                    "reference metagenome",
+                                    "a list of references to the related metagenome objects"
+                                 ]
+                              ],
+                              "created" : [
+                                 "date",
+                                 "time the object was first created"
+                              ],
+                              "env_package" : [
+                                 "object",
+                                 [
+                                    {
+                                       "created" : [
+                                          "date",
+                                          "creation date"
+                                       ],
+                                       "name" : [
+                                          "string",
+                                          "name of the package"
+                                       ],
+                                       "metadata" : [
+                                          "hash",
+                                          "key value pairs describing metadata"
+                                       ],
+                                       "type" : [
+                                          "string",
+                                          "package type"
+                                       ],
+                                       "id" : [
+                                          "string",
+                                          "unique package identifier"
+                                       ]
+                                    },
+                                    "environmental package object"
+                                 ]
+                              ],
+                              "url" : [
+                                 "uri",
+                                 "resource location of this object instance"
+                              ],
+                              "metadata" : [
+                                 "hash",
+                                 "key value pairs describing metadata"
+                              ],
+                              "id" : [
+                                 "string",
+                                 "unique object identifier"
+                              ]
+                           },
+                           "list of sample objects"
+                        ]
+                     ]
+                  ],
+                  "limit" : [
+                     "integer",
+                     "maximum number of data items returned, default is 10"
+                  ],
+                  "total_count" : [
+                     "integer",
+                     "total number of available data items"
+                  ],
+                  "offset" : [
+                     "integer",
+                     "zero based index of the first returned data item"
+                  ]
+               }
+            },
+            {
+               "request" : "http://kbase.us/services/communities/1/sample/{ID}",
+               "example" : [
+                  "http://kbase.us/services/communities/1/sample/mgs25823?verbosity=full",
+                  "retrieve all data for sample mgs25823"
+               ],
+               "name" : "instance",
+               "description" : "Returns a single data object.",
+               "parameters" : {
+                  "body" : {},
+                  "options" : {
+                     "verbosity" : [
+                        "cv",
+                        [
+                           [
+                              "minimal",
+                              "returns only minimal information"
+                           ],
+                           [
+                              "verbose",
+                              "returns all metadata"
+                           ],
+                           [
+                              "full",
+                              "returns all metadata and references"
+                           ]
+                        ]
+                     ]
+                  },
+                  "required" : {
+                     "id" : [
+                        "string",
+                        "unique object identifier"
+                     ]
+                  }
+               },
+               "method" : "GET",
+               "type" : "synchronous",
+               "attributes" : {
+                  "project" : [
+                     "reference project",
+                     "reference to the project of this sample"
+                  ],
+                  "version" : [
+                     "integer",
+                     "version of the object"
+                  ],
+                  "name" : [
+                     "string",
+                     "human readable identifier"
+                  ],
+                  "libraries" : [
+                     "list",
+                     [
+                        "reference library",
+                        "a list of references to the related library objects"
+                     ]
+                  ],
+                  "metagenomes" : [
+                     "list",
+                     [
+                        "reference metagenome",
+                        "a list of references to the related metagenome objects"
+                     ]
+                  ],
+                  "created" : [
+                     "date",
+                     "time the object was first created"
+                  ],
+                  "env_package" : [
+                     "object",
+                     [
+                        {
+                           "created" : [
+                              "date",
+                              "creation date"
+                           ],
+                           "name" : [
+                              "string",
+                              "name of the package"
+                           ],
+                           "metadata" : [
+                              "hash",
+                              "key value pairs describing metadata"
+                           ],
+                           "type" : [
+                              "string",
+                              "package type"
+                           ],
+                           "id" : [
+                              "string",
+                              "unique package identifier"
+                           ]
+                        },
+                        "environmental package object"
+                     ]
+                  ],
+                  "url" : [
+                     "uri",
+                     "resource location of this object instance"
+                  ],
+                  "metadata" : [
+                     "hash",
+                     "key value pairs describing metadata"
+                  ],
+                  "id" : [
+                     "string",
+                     "unique object identifier"
+                  ]
+               }
+            }
+         ],
+         "name" : "sample",
+         "url" : "http://kbase.us/services/communities/1/sample",
+         "documentation" : "http://kbase.us/services/communities/1/api.html#sample",
+         "type" : "object",
+         "description" : "A metagenomic sample from some environment."
+      }
+   ],
+   "service" : {
+      "version" : 1,
+      "name" : "MG-RAST",
+      "url" : "http://kbase.us/services/communities/1",
+      "description" : "RESTful Metagenomics RAST object and resource API\nFor usage note that required parameters need to be passed as path parameters, optional parameters need to be query parameters. If an optional parameter has a list of option values, the first displayed will be used as default."
+   }
+}
