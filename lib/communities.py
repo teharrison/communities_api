@@ -68,8 +68,20 @@ def biom_to_tab(biom, hdl):
     for i, row in enumerate(matrix):
         hdl.write( "%s\t%s\n" %(biom['rows'][i], "\t".join([str(r) for r in row])) )
 
-def token_from_login(username, password, url=OAUTH_URL):
-    base64string = base64.b64encode('%s:%s' %(username, password)).replace('\n', '')
+def get_auth_token(opts):
+    if opts.token:
+        return opts.token
+    elif opts.user or opts.passwd:
+        if opts.user and opts.passwd:
+            return token_from_login(opts.user, opts.passwd)
+        else:
+            sys.stderr.write("ERROR: both username and password are required\n")
+            sys.exit(1)
+    else:
+        return None        
+
+def token_from_login(user, passwd, url=OAUTH_URL):
+    base64string = base64.b64encode('%s:%s' %(user, passwd)).replace('\n', '')
     header = {'Authorization': 'Basic %s'%base64string}
     try:
         req = urllib2.Request(url, headers=header)
@@ -78,11 +90,11 @@ def token_from_login(username, password, url=OAUTH_URL):
         sys.stderr.write("ERROR (%s):%s, %s\n" %(url, error.code, error.read()))
         sys.exit(1)
     if not res:
-        sys.stderr.write("ERROR (%s): could not reach auth server\n")
+        sys.stderr.write("ERROR: could not reach auth server\n")
         sys.exit(1)
     obj = json.loads(res.read())
     if (obj is None) or (len(obj.keys()) == 0) or ('access_token' not in obj):
-        sys.stderr.write("ERROR (%s): authentication failed\n")
+        sys.stderr.write("ERROR: authentication failed\n")
         sys.exit(1)
     return obj['access_token']
 
