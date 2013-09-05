@@ -16,7 +16,7 @@ VERSION
     1
 
 SYNOPSIS
-    mg-display-statistics --id [ --help, --user <user>, --pass <password>, --token <oAuth token> ]
+    mg-display-statistics [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --stat <cv: 'sequence', taxa_level> ]
 
 DESCRIPTION
     Retrieve statistical overview data for a metagenome from the communities API.
@@ -45,6 +45,7 @@ def main(args):
     parser.add_option("", "--user", dest="user", default=None, help="username")
     parser.add_option("", "--passwd", dest="passwd", default=None, help="password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
+    parser.add_option("", "--stat", dest="stat", default='sequence', help="type of stat to display, use keyword 'sequence' or taxa level name")
     
     # get inputs
     (opts, args) = parser.parse_args()
@@ -56,18 +57,21 @@ def main(args):
     token = get_auth_token(opts)
     
     # build call url
-    url = opts.url+'/metagenome/'+opts.id+'?verbosity=stats';
+    if opts.id.startswith('kb|'):
+        opts.id = opts.id.split('|')[1]
+    url = opts.url+'/metagenome/'+opts.id+'?verbosity=stats'
 
-    # retrieve data
+    # retrieve / output data
     result = obj_from_url(url, auth=token)
-    selected = {};
-    selected['ontology'] = result['statistics']['ontology'];
-    selected['taxonomy'] = result['statistics']['taxonomy'];
-    selected['sequence_stats'] = result['statistics']['sequence_stats'];
-    
-    # output data
-    for d in result['statistics']['ontology']:
-        sys.stdout.write(json.dumps(selected));
+    if opts.stat == 'sequence':
+        for s in sorted(result['statistics']['sequence_stats'].iterkeys()):
+            sys.stdout.write("%s\t%s\n" %(s, result['statistics']['sequence_stats'][s]))
+    elif opts.stat in result['statistics']['taxonomy']:
+        for s in result['statistics']['taxonomy'][opts.stat]:
+            sys.stdout.write("%s\t%s\n" %(s[0], s[1]))
+    else:
+        sys.stderr.write("ERROR: invalid stat type\n")
+        return 1
     
     return 0
     
