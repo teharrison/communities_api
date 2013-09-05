@@ -16,21 +16,21 @@ VERSION
     1
 
 SYNOPSIS
-    mg-abundant-taxa --id [ --help, --user <user>, --pass <password>, --token <oAuth token>, --level, --source, --top, --evalue, --identity, --length ]
+    mg-abundant-taxa [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --level <taxon level>, --source <datasource>, --top <N lines to return>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
 
 DESCRIPTION
-    Retrieve top abuntant taxa for metagenome from communities API.
+    Retrieve top abundant taxa for metagenome from communities API.
 """
 
 posthelp = """
 Output
-    ##outputs##
+    Tab-delimited list of taxon and abundance sorted by abundance (largest first). 'top' option controls number of rows returned.
 
 EXAMPLES
-    ##example##
+    mg-abundant-taxa --id kb|mgm4441680.3 --level genus --source RefSeq --top 20 --evalue 15
 
 SEE ALSO
-    ##related##
+    -
 
 AUTHORS
     Jared Bischof, Travis Harrison, Tobias Paczian, Andreas Wilke
@@ -45,7 +45,7 @@ def main(args):
     parser.add_option("", "--user", dest="user", default=None, help="username")
     parser.add_option("", "--passwd", dest="passwd", default=None, help="password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
-    parser.add_option("", "--level", dest="level", default='species', help="Taxon level to retrieve abundaces for")
+    parser.add_option("", "--level", dest="level", default='species', help="taxon level to retrieve abundaces for")
     parser.add_option("", "--source", dest="source", default='SEED', help="datasource to filter results by")
     parser.add_option("", "--top", dest="top", default=10, help="display only the top N taxa")
     parser.add_option("", "--evalue", dest="evalue", default=5, help="negative exponent value for maximum e-value cutoff")
@@ -54,6 +54,7 @@ def main(args):
     
     # get inputs
     (opts, args) = parser.parse_args()
+    opts.top = int(opts.top)
     if not opts.id:
         sys.stderr.write("ERROR: id required\n")
         sys.exit(1)
@@ -61,29 +62,32 @@ def main(args):
     # get auth
     token = get_auth_token(opts)
     
-    # build matrix url
+    # build url
+    if opts.id.startswith('kb|'):
+        opts.id = opts.id.split('|')[1]
     params = [ ('id', opts.id),
                ('group_level', opts.level), 
                ('source', opts.source),
                ('evalue', opts.evalue),
                ('identity', opts.identity),
                ('length', opts.length),
-               ('result_type', 'abundance') ]
+               ('result_type', 'abundance'),
+               ('hide_metadata', '1') ]
     url = opts.url+'/matrix/organism?'+urllib.urlencode(params, True)
 
     # retrieve data
     num = 0
-    top_taxa = []
+    top_ann = []
     biom = obj_from_url(url, auth=token)
     for d in sorted(biom['data'], key=itemgetter(2), reverse=True):
         name = biom['rows'][d[0]]['id']
         if num > opts.top:
             break
-        top_taxa.append([name, d[2]])
+        top_ann.append([name, d[2]])
         num += 1
     
     # output data
-    for t in top_taxa:
+    for t in top_ann:
         sys.stdout.write("%s\t%d\n" %(t[0], t[1]))
     
     return 0
