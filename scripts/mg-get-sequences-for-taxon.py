@@ -27,7 +27,7 @@ Output
     Tab-delimited list of:
 
 EXAMPLES
-    mg-get-sequences-for-taxon --id "kb|mgm4441680.3" --name Lachnospiraceae --level family --source RefSeq --evalue 15
+    mg-get-sequences-for-taxon --id "kb|mg.287" --name Lachnospiraceae --level family --source RefSeq --evalue 15
 
 SEE ALSO
     -

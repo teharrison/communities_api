@@ -27,7 +27,7 @@ Output
     -
 
 EXAMPLES
-    mg-display-statistics --id "kb|mgm4440026.3"
+    mg-display-statistics --id "kb|mg.287" --stat sequence
 
 SEE ALSO
     -

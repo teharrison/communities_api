@@ -27,7 +27,7 @@ Output
     Tab-delimited list of:
 
 EXAMPLES
-    mg-get-sequences-for-function --id "kb|mgm4441680.3" --name "Lysine Biosynthesis" --level level2 --source Subsystems --evalue 15
+    mg-get-sequences-for-function --id "kb|mg.287" --name "Lysine Biosynthesis" --level level2 --source Subsystems --evalue 15
 
 SEE ALSO
     -
