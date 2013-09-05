@@ -1,7 +1,7 @@
 #!/kb/runtime/bin/perl
 
 #Script for submitting metagenome to AWE
-#Command name: analyze_metagenome.pl
+#Command name: can-analyze-metagenome.pl
 #Parameters:
 #     -metagenome_name=<metagenome/file name for sequence file in datastore, must match any metagenome name in metadata file, required>
 #     -metagenome_datastore_id=<sequence/read file ID in datastore, required>
@@ -32,7 +32,7 @@ my $options = GetOptions ("metagenome_name=s" => \$vars{jobname},
                           "metagenome_datastore_id=s"   => \$vars{shocknode},
 			  "metadata_datastore_id=s" => \$vars{md_shocknode},
                           "conf=s"    => \$conf,
-                          "h"  => \$help
+                          "help"  => \$help
 			 );
 
 ###############################################################################
@@ -263,13 +263,43 @@ print "INFO, AWE url = http://".$vars{aweurl}."/job/$awe_id\n";
 print "Done.\n\n";
 
 sub print_usage {
-    print "
-Script for submitting metagenome to AWE
-Command name: analyze_metagenome.pl
-Parameters:
-     -metagenome_name=<metagenome/file name for sequence file in datastore, must match any metagenome name in metadata file, required>
-     -metagenome_datastore_id=<sequence/read file ID in datastore, required>
-     -metadata_datastore_id=<metadata file ID in datastore, required>
-     -conf=<configuration file, (default='awe.ini')>
-\n";
+  my $text = qq~
+NAME
+    can-analyze-metagenome -- submit a metagenome to be analyzed by the microbial communities pipeline
+
+VERSION
+    2
+
+SYNOPSIS
+    can-analyze-metagenome --metagenome_name=<metagenome/file name> --metagenome_datastore_id=<sequence/read file ID>, --metadata_datastore_id=<metadata file ID> [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --conf=<configuration file, (default='awe.ini')> ]
+
+DESCRIPTION
+    retrieve a metagenome from the communities API
+
+  Parameters
+    metagenome_name - metagenome/file name for sequence file in datastore, must match any metagenome name in metadata file
+    metagenome_datastore_id - sequence/read file ID in datastore
+    metadata_datastore_id - metadata file ID in datastore
+
+  Options
+    help - display this message
+    user - username to authenticate against the API, requires a password to be set as well
+    pass - password to authenticate against the API, requires a username to be set as well
+    token - Globus Online authentication token
+    webkey - MG-RAST webkey to synch with the passed Globus Online authentication
+
+  Output
+    JSON structure that contains the result data
+
+EXAMPLES
+    -
+
+SEE ALSO
+    -
+
+AUTHORS
+    Jared Bishop, Travis Harrison, Tobias Paczian, Andreas Wilke
+
+~;
+  system "echo '$text' | more";
 }
