@@ -27,7 +27,7 @@ Output
     -
 
 EXAMPLES
-    mg-display-statistics --id mgm4440026.3
+    mg-display-statistics --id "kb|mgm4440026.3"
 
 SEE ALSO
     -
@@ -51,14 +51,14 @@ def main(args):
     (opts, args) = parser.parse_args()
     if not opts.id:
         sys.stderr.write("ERROR: id required\n")
-        sys.exit(1)
+        return 1
     
     # get auth
     token = get_auth_token(opts)
     
     # build call url
     if opts.id.startswith('kb|'):
-        opts.id = opts.id.split('|')[1]
+        opts.id = kbid_to_mgid(opts.id)
     url = opts.url+'/metagenome/'+opts.id+'?verbosity=stats'
 
     # retrieve / output data

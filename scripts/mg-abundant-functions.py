@@ -27,7 +27,7 @@ Output
     Tab-delimited list of function and abundance sorted by abundance (largest first). 'top' option controls number of rows returned.
 
 EXAMPLES
-    mg-abundant-functions --id kb|mgm4441680.3 --level level3 --source Subsystems --top 20 --evalue 15
+    mg-abundant-functions --id "kb|mgm4441680.3" --level level3 --source Subsystems --top 20 --evalue 15
 
 SEE ALSO
     -
@@ -57,14 +57,14 @@ def main(args):
     opts.top = int(opts.top)
     if not opts.id:
         sys.stderr.write("ERROR: id required\n")
-        sys.exit(1)
+        return 1
     
     # get auth
     token = get_auth_token(opts)
     
     # build url
     if opts.id.startswith('kb|'):
-        opts.id = opts.id.split('|')[1]
+        opts.id = kbid_to_mgid(opts.id)
     params = [ ('id', opts.id),
                ('group_level', opts.level), 
                ('source', opts.source),

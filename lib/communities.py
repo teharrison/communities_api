@@ -3,6 +3,7 @@ import urllib2
 import base64
 import json
 
+ID_URL = 'http://www.kbase.us/services/idserver'
 OAUTH_URL = 'https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials'
 
 def obj_from_url(url, auth=None, debug=False):
@@ -67,6 +68,31 @@ def biom_to_tab(biom, hdl):
     hdl.write( "\t%s\n" %"\t".join([c['id'] for c in biom['columns']]) )
     for i, row in enumerate(matrix):
         hdl.write( "%s\t%s\n" %(biom['rows'][i], "\t".join([str(r) for r in row])) )
+
+def kbid_to_mgid(kbid):
+    id_map = kbid_lookup([kbid])
+    if kbid not in id_map:
+        sys.stderr.write("ERROR: (%s) not a valid KBase ID\n" %kbid)
+        sys.exit(1)
+    return id_map[kbid]
+
+def kbid_lookup(kbids):
+    params = {'method': 'IDServerAPI.kbase_ids_to_external_ids', 'params': [kbids], 'version': '1.1'}
+    data = json.dumps(params)
+    try:
+        req = urllib2.Request(ID_URL, data)
+        res = urllib2.urlopen(req)
+    except urllib2.HTTPError, error:
+        sys.stderr.write("ERROR (%s):%s, %s\n" %(ID_URL, error.code, error.read()))
+        sys.exit(1)
+    if not res:
+        sys.stderr.write("ERROR (%s): no results returned for ids (%s)\n" %(ID_URL, ','.join(kbids)))
+        sys.exit(1)
+    obj = json.loads(res.read())
+    if (obj is None) or ('result' not in obj):
+        sys.stderr.write("ERROR (%s): return structure not valid format for ids (%s)\n" %(ID_URL, ','.join(kbids)))
+        sys.exit(1)
+    return dict([(k, obj['result'][0][k][1]) for k in obj['result'][0].keys()])
 
 def get_auth_token(opts):
     if opts.token:
