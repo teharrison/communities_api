@@ -24,13 +24,13 @@ DESCRIPTION
 
 posthelp = """
 Output
-    ##outputs##
+    tab separated table of taxon and abundance
 
 EXAMPLES
-    ##example##
+    mg-abundant-taxa --id mgm4440026.3 --top 15 --source KEGG
 
 SEE ALSO
-    ##related##
+    -
 
 AUTHORS
     Jared Bischof, Travis Harrison, Tobias Paczian, Andreas Wilke
