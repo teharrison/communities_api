@@ -89,8 +89,14 @@ def kbid_lookup(kbids):
         sys.stderr.write("ERROR (%s): no results returned for ids (%s)\n" %(ID_URL, ','.join(kbids)))
         sys.exit(1)
     obj = json.loads(res.read())
-    if (obj is None) or ('result' not in obj):
-        sys.stderr.write("ERROR (%s): return structure not valid format for ids (%s)\n" %(ID_URL, ','.join(kbids)))
+    if obj is None:
+        sys.stderr.write("ERROR (%s): return structure not valid json format\n" %ID_URL)
+        sys.exit(1)
+    if 'error' in obj:
+        sys.stderr.write("ERROR: %s\n" %obj['error']['message'])
+        sys.exit(1)
+    if ('result' not in obj) or (len(obj['result'][0].keys()) == 0):
+        sys.stderr.write("ERROR (%s): no results returned for ids (%s)\n" %(ID_URL, ','.join(kbids)))
         sys.exit(1)
     return dict([(k, obj['result'][0][k][1]) for k in obj['result'][0].keys()])
 
