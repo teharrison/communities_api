@@ -14,7 +14,7 @@ VERSION
     %s
 
 SYNOPSIS
-    mg-get-sequences-for-function [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --name <function name>, --level <function level>, --source <datasource>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
+    mg-get-sequences-for-function [ --help, --user <user>, --passwd <password>, --token <oAuth token>, --id <metagenome id>, --name <function name>, --level <function level>, --source <datasource>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
 
 DESCRIPTION
     Retrieve taxa annotated sequences for metagenome (filtered by taxon containing inputted name) from communities API.

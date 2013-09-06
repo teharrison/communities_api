@@ -14,7 +14,7 @@ VERSION
     %s
 
 SYNOPSIS
-    mg-display-metadata [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --verbosity <cv: 'mixs', 'full'> ]
+    mg-display-metadata [ --help, --user <user>, --passwd <password>, --token <oAuth token>, --id <metagenome id>, --verbosity <cv: 'mixs', 'full'> ]
 
 DESCRIPTION
     Retrieve metadata for a metagenome from the communities API.

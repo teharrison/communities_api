@@ -14,7 +14,7 @@ VERSION
     %s
 
 SYNOPSIS
-    mg-compare-functions [ --help, --user <user>, --pass <password>, --token <oAuth token>, --ids <metagenome ids>, --level <functional level>, --source <datasource>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length>, --format <cv: 'text' or 'biom'> ]
+    mg-compare-functions [ --help, --user <user>, --passwd <password>, --token <oAuth token>, --ids <metagenome ids>, --level <functional level>, --source <datasource>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length>, --format <cv: 'text' or 'biom'> ]
 
 DESCRIPTION
     Retrieve matrix of functional abundance profiles for multiple metagenomes.

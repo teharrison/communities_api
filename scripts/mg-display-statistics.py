@@ -14,7 +14,7 @@ VERSION
     %s
 
 SYNOPSIS
-    mg-display-statistics [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --stat <cv: 'sequence', 'bp_profile', 'drisee', 'kmer', 'rarefaction', taxa_level> ]
+    mg-display-statistics [ --help, --user <user>, --passwd <password>, --token <oAuth token>, --id <metagenome id>, --stat <cv: 'sequence', 'bp_profile', 'drisee', 'kmer', 'rarefaction', taxa_level> ]
 
 DESCRIPTION
     Retrieve statistical overview data for a metagenome from the communities API.
