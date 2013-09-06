@@ -8,24 +8,25 @@ from communities import *
 
 prehelp = """
 NAME
-    mg-abundant-functions
+    mg-compare-functions
 
 VERSION
     %s
 
 SYNOPSIS
-    mg-abundant-functions [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --level <functional level>, --source <datasource>, --top <N lines to return>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
+    mg-compare-functions [ --help, --user <user>, --pass <password>, --token <oAuth token>, --ids <metagenome ids>, --level <functional level>, --source <datasource>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length>, --format <cv: 'text' or 'biom'> ]
 
 DESCRIPTION
-    Retrieve top abundant functions for metagenome from communities API.
+    Retrieve matrix of functional abundance profiles for multiple metagenomes.
 """
 
 posthelp = """
 Output
-    Tab-delimited list of function and abundance sorted by abundance (largest first). 'top' option controls number of rows returned.
+    1. Tab-delimited table of functional abundance profiles, metagenomes in columns and functions in rows.
+    2. BIOM format of functional abundance profiles.
 
 EXAMPLES
-    mg-abundant-functions --id "kb|mg.287" --level level3 --source Subsystems --top 20 --evalue 15
+    mg-compare-functions --ids "kb|mg.286,kb|mg.287,kb|mg.288,kb|mg.289" --level level2 --source KO --format text --evalue 10
 
 SEE ALSO
     -
@@ -38,55 +39,51 @@ def main(args):
     OptionParser.format_description = lambda self, formatter: self.description
     OptionParser.format_epilog = lambda self, formatter: self.epilog
     parser = OptionParser(usage='', description=prehelp%VERSION, epilog=posthelp%AUTH_LIST)
-    parser.add_option("", "--id", dest="id", default=None, help="KBase Metagenome ID")
+    parser.add_option("", "--ids", dest="ids", default=None, help="comma seperated list of KBase Metagenome IDs")
     parser.add_option("", "--url", dest="url", default=API_URL, help="communities API url")
     parser.add_option("", "--user", dest="user", default=None, help="OAuth username")
     parser.add_option("", "--passwd", dest="passwd", default=None, help="OAuth password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
-    parser.add_option("", "--level", dest="level", default='function', help="functional level to retrieve abundances for")
-    parser.add_option("", "--source", dest="source", default='Subsystems', help="datasource to filter results by")
-    parser.add_option("", "--top", dest="top", default=10, help="display only the top N taxa")
+    parser.add_option("", "--level", dest="level", default='species', help="functional level to retrieve abundances for")
+    parser.add_option("", "--source", dest="source", default='SEED', help="datasource to filter results by")
+    parser.add_option("", "--format", dest="format", default='text', help="output format: 'text' for tabbed table, 'biom' for BIOM format")
     parser.add_option("", "--evalue", dest="evalue", default=5, help="negative exponent value for maximum e-value cutoff")
     parser.add_option("", "--identity", dest="identity", default=60, help="percent value for minimum % identity cutoff")
     parser.add_option("", "--length", dest="length", default=15, help="value for minimum alignment length cutoff")
     
     # get inputs
     (opts, args) = parser.parse_args()
-    opts.top = int(opts.top)
-    if not opts.id:
-        sys.stderr.write("ERROR: id required\n")
+    if not opts.ids:
+        sys.stderr.write("ERROR: one or more ids required\n")
         return 1
     
     # get auth
     token = get_auth_token(opts)
     
     # build url
-    if opts.id.startswith('kb|'):
-        opts.id = kbid_to_mgid(opts.id)
-    params = [ ('id', opts.id),
-               ('group_level', opts.level), 
+    id_list = kbids_to_mgids( opts.ids.split(',') )
+    params = [ ('group_level', opts.level), 
                ('source', opts.source),
                ('evalue', opts.evalue),
                ('identity', opts.identity),
                ('length', opts.length),
                ('result_type', 'abundance'),
                ('hide_metadata', '1') ]
+    for i in id_list:
+        params.append(('id', i))
     url = opts.url+'/matrix/function?'+urllib.urlencode(params, True)
 
     # retrieve data
-    num = 0
-    top_ann = []
     biom = obj_from_url(url, auth=token)
-    for d in sorted(biom['data'], key=itemgetter(2), reverse=True):
-        name = biom['rows'][d[0]]['id']
-        if num > opts.top:
-            break
-        top_ann.append([name, d[2]])
-        num += 1
     
     # output data
-    for t in top_ann:
-        sys.stdout.write("%s\t%d\n" %(t[0], t[1]))
+    if opts.format == 'biom':
+        sys.stdout.write(json.dumps(biom)+"\n")
+    elif opts.format == 'text':
+        biom_to_tab(biom, sys.stdout)
+    else:
+        sys.stderr.write("ERROR: invalid format type, use one of: text, biom\n")
+        return 1
     
     return 0
     
