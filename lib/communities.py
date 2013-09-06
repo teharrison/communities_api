@@ -11,7 +11,7 @@ OAUTH_URL = 'https://nexus.api.globusonline.org/goauth/token?grant_type=client_c
 AUTH_LIST = "Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke"
 
 # return python struct from JSON output of MG-RAST API
-def obj_from_url(url, auth=None, debug=False):
+def obj_from_url(url, auth=None, data=None, debug=False):
     header = {'Accept': 'application/json'}
     if auth:
         header['Auth'] = auth
@@ -19,7 +19,7 @@ def obj_from_url(url, auth=None, debug=False):
         print json.dumps(header)
         print url
     try:
-        req = urllib2.Request(url, headers=header)
+        req = urllib2.Request(url, data, headers=header)
         res = urllib2.urlopen(req)
     except urllib2.HTTPError, error:
         sys.stderr.write("ERROR (%s):%s, %s\n" %(url, error.code, error.read()))
@@ -40,7 +40,7 @@ def obj_from_url(url, auth=None, debug=False):
     return obj
 
 # print to stdout results of MG-RAST API
-def stout_from_url(url, auth=None, debug=False):
+def stout_from_url(url, auth=None, data=None, debug=False):
     header = {'Accept': 'text/plain'}
     if auth:
         header['Auth'] = auth
@@ -48,7 +48,7 @@ def stout_from_url(url, auth=None, debug=False):
         print json.dumps(header)
         print url
     try:
-        req = urllib2.Request(url, headers=header)
+        req = urllib2.Request(url, data, headers=header)
         res = urllib2.urlopen(req)
     except urllib2.HTTPError, error:
         sys.stderr.write("ERROR (%s):%s, %s\n" %(url, error.code, error.read()))
