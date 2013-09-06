@@ -28,9 +28,9 @@ deploy-client: build-libs deploy-libs build-scripts deploy-scripts build-docs de
 	@echo "Client tools deployed"
 
 build-libs:
-	perl common/bin/api2js.pl -url $(SERVICE_URL) -outfile docs/communitiesAPI.json
-	perl common/bin/definition2typedef.pl -json docs/communitiesAPI.json -typedef docs/communitiesAPI.typedef
-	compile_typespec --impl communitiesAPI --js communitiesAPI --py communitiesAPI docs/communitiesAPI.typedef lib
+	perl common/bin/api2js.pl -url $(SERVICE_URL) -outfile docs/CommunitiesAPI.json
+	perl common/bin/definition2typedef.pl -json docs/CommunitiesAPI.json -typedef docs/CommunitiesAPI.typedef
+	compile_typespec --impl CommunitiesAPI --js CommunitiesAPI --py CommunitiesAPI docs/CommunitiesAPI.typedef lib
 	@echo "Done building typespec libs"
 
 build-scripts:
