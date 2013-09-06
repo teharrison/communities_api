@@ -1,3 +1,4 @@
+import os
 import sys
 import urllib2
 import base64
@@ -122,6 +123,8 @@ def kbid_lookup(kbids):
         return dict([(k, obj['result'][0][k][1]) for k in obj['result'][0].keys()])
 
 def get_auth_token(opts):
+    if 'KB_AUTH_TOKEN' in os.environ:
+        return os.environ['KB_AUTH_TOKEN']
     if opts.token:
         return opts.token
     elif opts.user or opts.passwd:
