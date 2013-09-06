@@ -6,14 +6,12 @@ from operator import itemgetter
 from optparse import OptionParser
 from communities import *
 
-API_URL = "http://kbase.us/services/communities/1"
-
 prehelp = """
 NAME
     mg-get-sequences-for-taxon
 
 VERSION
-    1
+    %s
 
 SYNOPSIS
     mg-get-sequences-for-taxon [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --name <taxon name>, --level <taxon level>, --source <datasource>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
@@ -33,13 +31,13 @@ SEE ALSO
     -
 
 AUTHORS
-    Jared Bischof, Travis Harrison, Tobias Paczian, Andreas Wilke
+    %s
 """
 
 def main(args):
     OptionParser.format_description = lambda self, formatter: self.description
     OptionParser.format_epilog = lambda self, formatter: self.epilog
-    parser = OptionParser(usage='', description=prehelp, epilog=posthelp)
+    parser = OptionParser(usage='', description=prehelp%VERSION, epilog=posthelp%AUTH_LIST)
     parser.add_option("", "--id", dest="id", default=None, help="KBase Metagenome ID")
     parser.add_option("", "--url", dest="url", default=API_URL, help="communities API url")
     parser.add_option("", "--user", dest="user", default=None, help="OAuth username")
