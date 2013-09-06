@@ -6,14 +6,12 @@ from operator import itemgetter
 from optparse import OptionParser
 from communities import *
 
-API_URL = "http://kbase.us/services/communities/1"
-
 prehelp = """
 NAME
     mg-abundant-functions
 
 VERSION
-    1
+    %s
 
 SYNOPSIS
     mg-abundant-functions [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --level <taxon level>, --source <datasource>, --top <N lines to return>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
@@ -27,25 +25,25 @@ Output
     Tab-delimited list of function and abundance sorted by abundance (largest first). 'top' option controls number of rows returned.
 
 EXAMPLES
-    mg-abundant-functions --id kb|mgm4441680.3 --level level3 --source Subsystems --top 20 --evalue 15
+    mg-abundant-functions --id "kb|mg.287" --level level3 --source Subsystems --top 20 --evalue 15
 
 SEE ALSO
     -
 
 AUTHORS
-    Jared Bischof, Travis Harrison, Tobias Paczian, Andreas Wilke
+    %s
 """
 
 def main(args):
     OptionParser.format_description = lambda self, formatter: self.description
     OptionParser.format_epilog = lambda self, formatter: self.epilog
-    parser = OptionParser(usage='', description=prehelp, epilog=posthelp)
+    parser = OptionParser(usage='', description=prehelp%VERSION, epilog=posthelp%AUTH_LIST)
     parser.add_option("", "--id", dest="id", default=None, help="KBase Metagenome ID")
     parser.add_option("", "--url", dest="url", default=API_URL, help="communities API url")
-    parser.add_option("", "--user", dest="user", default=None, help="username")
-    parser.add_option("", "--passwd", dest="passwd", default=None, help="password")
+    parser.add_option("", "--user", dest="user", default=None, help="OAuth username")
+    parser.add_option("", "--passwd", dest="passwd", default=None, help="OAuth password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
-    parser.add_option("", "--level", dest="level", default='function', help="functional level to retrieve abundaces for")
+    parser.add_option("", "--level", dest="level", default='function', help="functional level to retrieve abundances for")
     parser.add_option("", "--source", dest="source", default='Subsystems', help="datasource to filter results by")
     parser.add_option("", "--top", dest="top", default=10, help="display only the top N taxa")
     parser.add_option("", "--evalue", dest="evalue", default=5, help="negative exponent value for maximum e-value cutoff")
@@ -57,14 +55,14 @@ def main(args):
     opts.top = int(opts.top)
     if not opts.id:
         sys.stderr.write("ERROR: id required\n")
-        sys.exit(1)
+        return 1
     
     # get auth
     token = get_auth_token(opts)
     
     # build url
     if opts.id.startswith('kb|'):
-        opts.id = opts.id.split('|')[1]
+        opts.id = kbid_to_mgid(opts.id)
     params = [ ('id', opts.id),
                ('group_level', opts.level), 
                ('source', opts.source),

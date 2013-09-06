@@ -8,24 +8,24 @@ from communities import *
 
 prehelp = """
 NAME
-    mg-abundant-taxa
+    mg-get-sequences-for-function
 
 VERSION
     %s
 
 SYNOPSIS
-    mg-abundant-taxa [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --level <taxon level>, --source <datasource>, --top <N lines to return>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
+    mg-get-sequences-for-function [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --name <function name>, --level <function level>, --source <datasource>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
 
 DESCRIPTION
-    Retrieve top abundant taxa for metagenome from communities API.
+    Retrieve taxa annotated sequences for metagenome (filtered by taxon containing inputted name) from communities API.
 """
 
 posthelp = """
 Output
-    Tab-delimited list of taxon and abundance sorted by abundance (largest first). 'top' option controls number of rows returned.
+    Tab-delimited list of:
 
 EXAMPLES
-    mg-abundant-taxa --id "kb|mg.287" --level genus --source RefSeq --top 20 --evalue 15
+    mg-get-sequences-for-function --id "kb|mg.287" --name "Lysine Biosynthesis" --level level2 --source Subsystems --evalue 15
 
 SEE ALSO
     -
@@ -43,16 +43,15 @@ def main(args):
     parser.add_option("", "--user", dest="user", default=None, help="OAuth username")
     parser.add_option("", "--passwd", dest="passwd", default=None, help="OAuth password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
-    parser.add_option("", "--level", dest="level", default='species', help="taxon level to retrieve abundances for")
-    parser.add_option("", "--source", dest="source", default='SEED', help="datasource to filter results by")
-    parser.add_option("", "--top", dest="top", default=10, help="display only the top N taxa")
+    parser.add_option("", "--name", dest="name", default=None, help="function name to filter by")
+    parser.add_option("", "--level", dest="level", default=None, help="function level to filter by")
+    parser.add_option("", "--source", dest="source", default='Subsystems', help="datasource to filter results by")
     parser.add_option("", "--evalue", dest="evalue", default=5, help="negative exponent value for maximum e-value cutoff")
     parser.add_option("", "--identity", dest="identity", default=60, help="percent value for minimum % identity cutoff")
     parser.add_option("", "--length", dest="length", default=15, help="value for minimum alignment length cutoff")
     
     # get inputs
     (opts, args) = parser.parse_args()
-    opts.top = int(opts.top)
     if not opts.id:
         sys.stderr.write("ERROR: id required\n")
         return 1
@@ -63,30 +62,22 @@ def main(args):
     # build url
     if opts.id.startswith('kb|'):
         opts.id = kbid_to_mgid(opts.id)
-    params = [ ('id', opts.id),
-               ('group_level', opts.level), 
-               ('source', opts.source),
+    params = [ ('source', opts.source),
                ('evalue', opts.evalue),
                ('identity', opts.identity),
-               ('length', opts.length),
-               ('result_type', 'abundance'),
-               ('hide_metadata', '1') ]
-    url = opts.url+'/matrix/organism?'+urllib.urlencode(params, True)
-
-    # retrieve data
-    num = 0
-    top_ann = []
-    biom = obj_from_url(url, auth=token)
-    for d in sorted(biom['data'], key=itemgetter(2), reverse=True):
-        name = biom['rows'][d[0]]['id']
-        if num > opts.top:
-            break
-        top_ann.append([name, d[2]])
-        num += 1
+               ('length', opts.length) ]
+    if opts.source in ['Subsystems', 'KO', 'NOG', 'COG']:
+        params.append('type', 'ontology')
+    else:
+        params.append('type', 'function')
+    if opts.name:
+        params.append(('filter', opts.name))
+        if opts.level:
+            params.append(('filter_level', opts.level))
+    url = opts.url+'/annotation/sequence/'+opts.id+'?'+urllib.urlencode(params, True)
     
     # output data
-    for t in top_ann:
-        sys.stdout.write("%s\t%d\n" %(t[0], t[1]))
+    stout_from_url(url, auth=token)
     
     return 0
     
