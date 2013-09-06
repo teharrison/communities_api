@@ -13,6 +13,8 @@ use MIME::Base64;
 use Data::Dumper;
 umask 000;
 
+my $OAUTH_URL = 'https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials';
+
 =head1 NAME
 
 mg-annotate-metagenome -- submit a metagenome to be annotated by the microbial communities pipeline
@@ -140,6 +142,7 @@ if(keys %missing > 0) {
 }
 
 my $cfg = new Config::Simple($conf);
+my $p_cfg = $cfg->param(-block=>'communities_pipeline');
 foreach my $i ('aweurl',
                'project',
                'clientgroups',
@@ -157,8 +160,8 @@ foreach my $i ('aweurl',
                'rna_pid',
                'ach_annotation_ver',
                'mem_host') {
-    if(defined $cfg->param($i)) {
-        $vars{$i} = $cfg->param($i);
+    if(defined $p_cfg->{$i}) {
+        $vars{$i} = $p_cfg->{$i};
     } else {
         $missing{$i} = 1;
     }
@@ -180,25 +183,24 @@ if(exists $ENV{"KB_AUTH_TOKEN"}) {
     $token = $vars{token};
 } elsif($vars{user} ne "" && $vars{password} ne "") {
     my $encoded = encode_base64($vars{user}.':'.$vars{password});
-    my $ua = LWP::UserAgent->new();
-    my $get = $ua->get("http://dev.metagenomics.anl.gov/api.cgi?auth=kbgo4711$encoded");
-    unless($get->is_success) {
-        print STDERR "ERROR, could not authenticate user, exiting.\n\n";
-        exit 1;
-    }
     my $json = new JSON();
-    my $res = $json->decode( $get->content );
-    unless(exists $res->{token}) {
-        print STDERR "ERROR, could not authenticate user, exiting.\n\n";
+    my $pre = `curl -s -H "Authorization: Basic $encoded" -X POST "https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials"`;
+    eval {
+        my $res = $json->decode($pre);
+        unless(exists $res->{access_token}) {
+            print STDERR "ERROR, could not authenticate user, exiting.\n\n";
+            exit 1;
+        }
+        $token = $res->{access_token};
+    };
+    if ($@) {
+        print STDERR "could not reach auth server: $@\n";
         exit 1;
     }
-    $token = $res->{token};
 } else {
     print STDERR "ERROR, user not authenticated, exiting.\n\n";
     exit 1;
 }
-print "$token\n";
-exit;
 
 ###############################################################################
 #
@@ -345,5 +347,5 @@ print "INFO, AWE url = http://".$vars{aweurl}."/job/$awe_id\n";
 print "Done.\n\n";
 
 sub print_usage {
-    system("perldoc mg-annotate-metagenome.pl | cat");
+    system("perldoc $0 | cat");
 }
