@@ -14,7 +14,7 @@ VERSION
     %s
 
 SYNOPSIS
-    mg-abundant-functions [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --level <taxon level>, --source <datasource>, --top <N lines to return>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
+    mg-abundant-functions [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --level <functional level>, --source <datasource>, --top <N lines to return>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
 
 DESCRIPTION
     Retrieve top abundant functions for metagenome from communities API.
