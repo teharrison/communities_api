@@ -131,7 +131,7 @@ def get_auth_token(opts):
             sys.stderr.write("ERROR: both username and password are required\n")
             sys.exit(1)
     else:
-        return None        
+        return None
 
 def token_from_login(user, passwd, url=OAUTH_URL):
     base64string = base64.b64encode('%s:%s' %(user, passwd)).replace('\n', '')
@@ -150,4 +150,3 @@ def token_from_login(user, passwd, url=OAUTH_URL):
         sys.stderr.write("ERROR: authentication failed\n")
         sys.exit(1)
     return obj['access_token']
-
