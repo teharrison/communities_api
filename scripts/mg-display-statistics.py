@@ -6,14 +6,12 @@ from operator import itemgetter
 from optparse import OptionParser
 from communities import *
 
-API_URL = "http://kbase.us/services/communities/1"
-
 prehelp = """
 NAME
     mg-display-statistics
 
 VERSION
-    1
+    %s
 
 SYNOPSIS
     mg-display-statistics [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --stat <cv: 'sequence', taxa_level> ]
@@ -33,17 +31,17 @@ SEE ALSO
     -
 
 AUTHORS
-    Jared Bischof, Travis Harrison, Tobias Paczian, Andreas Wilke
+    %s
 """
 
 def main(args):
     OptionParser.format_description = lambda self, formatter: self.description
     OptionParser.format_epilog = lambda self, formatter: self.epilog
-    parser = OptionParser(usage='', description=prehelp, epilog=posthelp)
+    parser = OptionParser(usage='', description=prehelp%VERSION, epilog=posthelp%AUTH_LIST)
     parser.add_option("", "--id", dest="id", default=None, help="KBase Metagenome ID")
     parser.add_option("", "--url", dest="url", default=API_URL, help="communities API url")
-    parser.add_option("", "--user", dest="user", default=None, help="username")
-    parser.add_option("", "--passwd", dest="passwd", default=None, help="password")
+    parser.add_option("", "--user", dest="user", default=None, help="OAuth username")
+    parser.add_option("", "--passwd", dest="passwd", default=None, help="OAuth password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
     parser.add_option("", "--stat", dest="stat", default='sequence', help="type of stat to display, use keyword 'sequence' or taxa level name")
     

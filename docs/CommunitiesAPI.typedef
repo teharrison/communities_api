@@ -1,10 +1,166 @@
 /*
 
-RESTful Microbial Communities object and resource API
+RESTful Metagenomics RAST object and resource API
 For usage note that required parameters need to be passed as path parameters, optional parameters need to be query parameters. If an optional parameter has a list of option values, the first displayed will be used as default.
 
 */
-module CommunitiesAPI : CommunitiesAPI {
+module MG_RAST : MG_RAST {
+	typedef structure {
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	RefSeq - protein database, type organism, function, feature
+	GenBank - protein database, type organism, function, feature
+	IMG - protein database, type organism, function, feature
+	SEED - protein database, type organism, function, feature
+	TrEMBL - protein database, type organism, function, feature
+	SwissProt - protein database, type organism, function, feature
+	PATRIC - protein database, type organism, function, feature
+	KEGG - protein database, type organism, function, feature
+	RDP - RNA database, type organism, function, feature
+	Greengenes - RNA database, type organism, function, feature
+	LSU - RNA database, type organism, function, feature
+	SSU - RNA database, type organism, function, feature
+	Subsystems - ontology database, type ontology only
+	NOG - ontology database, type ontology only
+	COG - ontology database, type ontology only
+	KO - ontology database, type ontology only
+
+*/
+		string source;
+/*
+
+	text string to filter annotations by: only return those that contain text
+
+*/
+		string filter;
+/*
+
+	value for minimum alignment length cutoff: default is 15
+
+*/
+		int length;
+/*
+
+	percent value for minimum % identity cutoff: default is 60
+
+*/
+		int identity;
+/*
+
+	negative exponent value for maximum e-value cutoff: default is 5
+
+*/
+		int evalue;
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	organism - return organism data
+	function - return function data
+	ontology - return ontology data
+	feature - return feature data
+
+*/
+		string type;
+/*
+
+	unique metagenome identifier
+
+*/
+		string id;
+/*
+
+	hierarchal level to filter annotations by, for organism or ontology only
+
+*/
+		string filter_level;
+	} GetAnnotationSequenceParams;
+	typedef structure {
+/*
+	tab deliminted annotated sequence stream
+*/
+		mapping<string, string> streaming text;
+	} AnnotationSequence;
+	typedef structure {
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	RefSeq - protein database, type organism, function, feature
+	GenBank - protein database, type organism, function, feature
+	IMG - protein database, type organism, function, feature
+	SEED - protein database, type organism, function, feature
+	TrEMBL - protein database, type organism, function, feature
+	SwissProt - protein database, type organism, function, feature
+	PATRIC - protein database, type organism, function, feature
+	KEGG - protein database, type organism, function, feature
+	RDP - RNA database, type organism, function, feature
+	Greengenes - RNA database, type organism, function, feature
+	LSU - RNA database, type organism, function, feature
+	SSU - RNA database, type organism, function, feature
+	Subsystems - ontology database, type ontology only
+	NOG - ontology database, type ontology only
+	COG - ontology database, type ontology only
+	KO - ontology database, type ontology only
+
+*/
+		string source;
+/*
+
+	text string to filter annotations by: only return those that contain text
+
+*/
+		string filter;
+/*
+
+	value for minimum alignment length cutoff: default is 15
+
+*/
+		int length;
+/*
+
+	percent value for minimum % identity cutoff: default is 60
+
+*/
+		int identity;
+/*
+
+	negative exponent value for maximum e-value cutoff: default is 5
+
+*/
+		int evalue;
+/*
+
+This parameter value can be chosen from the following (the first being default):
+
+	organism - return organism data
+	function - return function data
+	ontology - return ontology data
+	feature - return feature data
+
+*/
+		string type;
+/*
+
+	unique metagenome identifier
+
+*/
+		string id;
+/*
+
+	hierarchal level to filter annotations by, for organism or ontology only
+
+*/
+		string filter_level;
+	} GetAnnotationSimilarityParams;
+	typedef structure {
+/*
+	tab deliminted blast m8 with annotation
+*/
+		mapping<string, string> streaming text;
+	} AnnotationSimilarity;
 	typedef structure {
 /*
 
@@ -17,7 +173,7 @@ module CommunitiesAPI : CommunitiesAPI {
 	raw value
 
 */
-		list<int> data;
+		list<list> data;
 /*
 
 	row id
@@ -78,7 +234,7 @@ This parameter value can be chosen from the following (the first being default):
 	raw or normalized value
 
 */
-		list<int> data;
+		list<list> data;
 /*
 
 	row id
@@ -148,7 +304,7 @@ This parameter value can be chosen from the following (the first being default):
 	raw or normalized value
 
 */
-		list<int> data;
+		list<list> data;
 /*
 
 	row id
@@ -421,16 +577,21 @@ This parameter value can be chosen from the following (the first being default):
 		string source;
 /*
 
-	name of ontology group to retrieve children of
+	text of ontology group (filter_level) to filter by
 
 */
-		string parent_name;
+		string filter;
 /*
 
-	if true overrides other options and returns a map { ontology ID: [ontology levels] }
+This parameter value can be chosen from the following (the first being default):
+
+	function - bottom ontology level
+	level3 - ontology level
+	level2 - ontology level
+	level1 - top ontology level
 
 */
-		int id_map;
+		string filter_level;
 /*
 
 This parameter value can be chosen from the following (the first being default):
@@ -453,23 +614,31 @@ This parameter value can be chosen from the following (the first being default):
 */
 		string url;
 /*
-	requested ontology levels, from highest to lowest
+	ontology object
 */
-		list<string> data;
+		list<mapping<string, string>> data;
 	} M5nrOntology;
 	typedef structure {
 /*
 
-	name of taxanomy group to retrieve children of
+	text of taxanomy group (filter_level) to filter by
 
 */
-		string parent_name;
+		string filter;
 /*
 
-	if true overrides other options and returns a map { NCBI tax ID: [taxonomy levels] }
+This parameter value can be chosen from the following (the first being default):
+
+	species - taxonomy level
+	genus - taxonomy level
+	family - taxonomy level
+	order -  taxonomy level
+	class -  taxonomy level
+	phylum - taxonomy level
+	domain - top taxonomy level
 
 */
-		int id_map;
+		string filter_level;
 /*
 
 This parameter value can be chosen from the following (the first being default):
@@ -495,9 +664,9 @@ This parameter value can be chosen from the following (the first being default):
 */
 		string url;
 /*
-	requested taxonomy levels, from highest to lowest
+	taxonomy object
 */
-		list<string> data;
+		list<mapping<string, string>> data;
 	} M5nrTaxonomy;
 	typedef structure {
 /*
@@ -509,17 +678,11 @@ This parameter value can be chosen from the following (the first being default):
 */
 		string url;
 /*
-	source object hash
+	source object
 */
-		mapping<string, string> data;
+		list<mapping<string, string>> data;
 	} M5nrSources;
 	typedef structure {
-/*
-
-	if true return sequence output, else return annotation output, default is false
-
-*/
-		int sequence;
 /*
 
 	name of the attribute the returned data is ordered by
@@ -1743,7 +1906,7 @@ This parameter value can be chosen from the following (the first being default):
 /*
 	number of samples in project
 */
-		int sample_num;
+		int sampleNum;
 /*
 	sample object containing sample metadata, sample libraries, sample envPackage
 */
@@ -1975,7 +2138,7 @@ This parameter value can be chosen from the following (the first being default):
 */
 		mapping<string, string> statistics;
 /*
-	ARRAY(0x7ffbb110cc58)
+	ARRAY(0x7f86b38ffe20)
 */
 		string status;
 /*
@@ -2106,7 +2269,7 @@ This parameter value can be chosen from the following (the first being default):
 	} GetProjectInstanceParams;
 	typedef structure {
 /*
-	ARRAY(0x7ffbb11117a8)
+	ARRAY(0x7f86b3903970)
 */
 		string status;
 /*
@@ -2251,6 +2414,18 @@ This parameter value can be chosen from the following (the first being default):
 */
 		mapping<string, string> metadata;
 	} SampleInstance;
+
+
+/* All annotations of a metagenome for a specific annotation type and source
+tab deliminted annotated sequence stream
+*/
+	funcdef get_annotation_sequence(GetAnnotationSequenceParams) returns (AnnotationSequence);
+
+
+/* All annotations of a metagenome for a specific annotation type and source
+tab deliminted blast m8 with annotation
+*/
+	funcdef get_annotation_similarity(GetAnnotationSimilarityParams) returns (AnnotationSimilarity);
 
 
 /* Calculate a PCoA for given input data.

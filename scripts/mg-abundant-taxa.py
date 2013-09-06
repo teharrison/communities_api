@@ -6,14 +6,12 @@ from operator import itemgetter
 from optparse import OptionParser
 from communities import *
 
-API_URL = "http://kbase.us/services/communities/1"
-
 prehelp = """
 NAME
     mg-abundant-taxa
 
 VERSION
-    1
+    %s
 
 SYNOPSIS
     mg-abundant-taxa [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --level <taxon level>, --source <datasource>, --top <N lines to return>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
@@ -33,19 +31,19 @@ SEE ALSO
     -
 
 AUTHORS
-    Jared Bischof, Travis Harrison, Tobias Paczian, Andreas Wilke
+    %s
 """
 
 def main(args):
     OptionParser.format_description = lambda self, formatter: self.description
     OptionParser.format_epilog = lambda self, formatter: self.epilog
-    parser = OptionParser(usage='', description=prehelp, epilog=posthelp)
+    parser = OptionParser(usage='', description=prehelp%VERSION, epilog=posthelp%AUTH_LIST)
     parser.add_option("", "--id", dest="id", default=None, help="KBase Metagenome ID")
     parser.add_option("", "--url", dest="url", default=API_URL, help="communities API url")
-    parser.add_option("", "--user", dest="user", default=None, help="username")
-    parser.add_option("", "--passwd", dest="passwd", default=None, help="password")
+    parser.add_option("", "--user", dest="user", default=None, help="OAuth username")
+    parser.add_option("", "--passwd", dest="passwd", default=None, help="OAuth password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
-    parser.add_option("", "--level", dest="level", default='species', help="taxon level to retrieve abundaces for")
+    parser.add_option("", "--level", dest="level", default='species', help="taxon level to retrieve abundances for")
     parser.add_option("", "--source", dest="source", default='SEED', help="datasource to filter results by")
     parser.add_option("", "--top", dest="top", default=10, help="display only the top N taxa")
     parser.add_option("", "--evalue", dest="evalue", default=5, help="negative exponent value for maximum e-value cutoff")

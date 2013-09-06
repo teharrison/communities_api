@@ -3,8 +3,11 @@ import urllib2
 import base64
 import json
 
-ID_URL = 'http://www.kbase.us/services/idserver'
+VERSION = '1'
+API_URL = "http://kbase.us/services/communities/"+VERSION
+ID_URL  = 'http://www.kbase.us/services/idserver'
 OAUTH_URL = 'https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials'
+AUTH_LIST = "Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke"
 
 def obj_from_url(url, auth=None, debug=False):
     header = {'Accept': 'application/json'}
