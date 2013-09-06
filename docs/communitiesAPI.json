@@ -137,6 +137,10 @@
                               "return feature data"
                            ]
                         ]
+                     ],
+                     "filter_level" : [
+                        "string",
+                        "hierarchal level to filter annotations by, for organism or ontology only"
                      ]
                   }
                },
@@ -291,6 +295,10 @@
                               "return feature data"
                            ]
                         ]
+                     ],
+                     "filter_level" : [
+                        "string",
+                        "hierarchal level to filter annotations by, for organism or ontology only"
                      ]
                   }
                },
@@ -1219,13 +1227,30 @@
                            ]
                         ]
                      ],
-                     "parent_name" : [
+                     "filter" : [
                         "string",
-                        "name of ontology group to retrieve children of"
+                        "text of ontology group (filter_level) to filter by"
                      ],
-                     "id_map" : [
-                        "boolean",
-                        "if true overrides other options and returns a map { ontology ID: [ontology levels] }"
+                     "filter_level" : [
+                        "cv",
+                        [
+                           [
+                              "function",
+                              "bottom ontology level"
+                           ],
+                           [
+                              "level3",
+                              "ontology level"
+                           ],
+                           [
+                              "level2",
+                              "ontology level"
+                           ],
+                           [
+                              "level1",
+                              "top ontology level"
+                           ]
+                        ]
                      ],
                      "min_level" : [
                         "cv",
@@ -1265,8 +1290,36 @@
                   "data" : [
                      "list",
                      [
-                        "list",
-                        "requested ontology levels, from highest to lowest"
+                        "object",
+                        [
+                           {
+                              "source" : [
+                                 "string",
+                                 "source name"
+                              ],
+                              "level2" : [
+                                 "string",
+                                 "ontology level 2"
+                              ],
+                              "level4" : [
+                                 "string",
+                                 "ontology bottom level"
+                              ],
+                              "level3" : [
+                                 "string",
+                                 "ontology level 3"
+                              ],
+                              "id" : [
+                                 "string",
+                                 "ontology ID"
+                              ],
+                              "level1" : [
+                                 "string",
+                                 "ontology top level"
+                              ]
+                           },
+                           "ontology object"
+                        ]
                      ]
                   ]
                }
@@ -1282,13 +1335,42 @@
                "parameters" : {
                   "body" : {},
                   "options" : {
-                     "parent_name" : [
+                     "filter" : [
                         "string",
-                        "name of taxanomy group to retrieve children of"
+                        "text of taxanomy group (filter_level) to filter by"
                      ],
-                     "id_map" : [
-                        "boolean",
-                        "if true overrides other options and returns a map { NCBI tax ID: [taxonomy levels] }"
+                     "filter_level" : [
+                        "cv",
+                        [
+                           [
+                              "species",
+                              "taxonomy level"
+                           ],
+                           [
+                              "genus",
+                              "taxonomy level"
+                           ],
+                           [
+                              "family",
+                              "taxonomy level"
+                           ],
+                           [
+                              "order",
+                              " taxonomy level"
+                           ],
+                           [
+                              "class",
+                              " taxonomy level"
+                           ],
+                           [
+                              "phylum",
+                              "taxonomy level"
+                           ],
+                           [
+                              "domain",
+                              "top taxonomy level"
+                           ]
+                        ]
                      ],
                      "min_level" : [
                         "cv",
@@ -1340,8 +1422,48 @@
                   "data" : [
                      "list",
                      [
-                        "list",
-                        "requested taxonomy levels, from highest to lowest"
+                        "object",
+                        [
+                           {
+                              "domain" : [
+                                 "string",
+                                 "organism domain"
+                              ],
+                              "order" : [
+                                 "string",
+                                 "organism order"
+                              ],
+                              "genus" : [
+                                 "string",
+                                 "organism genus"
+                              ],
+                              "phylum" : [
+                                 "string",
+                                 "organism phylum"
+                              ],
+                              "class" : [
+                                 "string",
+                                 "organism class"
+                              ],
+                              "species" : [
+                                 "string",
+                                 "organism species"
+                              ],
+                              "ncbi_tax_id" : [
+                                 "int",
+                                 "organism ncbi id"
+                              ],
+                              "organism" : [
+                                 "string",
+                                 "organism name"
+                              ],
+                              "family" : [
+                                 "string",
+                                 "organism family"
+                              ]
+                           },
+                           "taxonomy object"
+                        ]
                      ]
                   ]
                }
@@ -1371,19 +1493,10 @@
                      "resource location of this object instance"
                   ],
                   "data" : [
-                     "hash",
+                     "list",
                      [
-                        {
-                           "value" : [
-                              "object",
-                              "source object"
-                           ],
-                           "key" : [
-                              "string",
-                              "source name"
-                           ]
-                        },
-                        "source object hash"
+                        "object",
+                        "source object"
                      ]
                   ]
                }
@@ -1399,10 +1512,6 @@
                "parameters" : {
                   "body" : {},
                   "options" : {
-                     "sequence" : [
-                        "boolean",
-                        "if true return sequence output, else return annotation output, default is false"
-                     ],
                      "order" : [
                         "string",
                         "name of the attribute the returned data is ordered by"
