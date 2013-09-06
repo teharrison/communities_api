@@ -4,16 +4,18 @@ SERVICE = communities_api
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 SERVICE_URL = http://kbase.us/services/communities/1
 
--include $(TOOLS_DIR)/Makefile.common
-
-
-# to wrap scripts and deploy them to $(TARGET)/bin using tools in the dev_container
 TOP_DIR = ../..
 TOOLS_DIR = $(TOP_DIR)/tools
 WRAP_PERL_TOOL = wrap_perl
 WRAP_PERL_SCRIPT = bash $(TOOLS_DIR)/$(WRAP_PERL_TOOL).sh
 SRC_PERL   = $(wildcard scripts/*.pl)
 SRC_PYTHON = $(wildcard scripts/*.py) 
+
+
+include $(TOOLS_DIR)/Makefile.common
+
+
+# to wrap scripts and deploy them to $(TARGET)/bin using tools in the dev_container
 
 # things needed for testing
 TESTS = $(wildcard test/client-tests/*.t) 
