@@ -8,25 +8,24 @@ from communities import *
 
 prehelp = """
 NAME
-    mg-compare-taxa
+    mg-compare-pcoa-taxa
 
 VERSION
     %s
 
 SYNOPSIS
-    mg-compare-taxa [ --help, --user <user>, --passwd <password>, --token <oAuth token>, --ids <metagenome ids>, --level <taxon level>, --source <datasource>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length>, --format <cv: 'text' or 'biom'> ]
+    mg-compare-pcoa-taxa [ --help, --user <user>, --passwd <password>, --token <oAuth token>, --ids <metagenome ids>, --level <taxon level>, --source <datasource>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length>, --distance <cv: bray-curtis, euclidean, maximum, manhattan, canberra, minkowski, difference> ]
 
 DESCRIPTION
-    Retrieve matrix of taxanomic abundance profiles for multiple metagenomes.
+    Retrieve PCoA (Principal Coordinate Analysis) from taxanomic abundance profiles for multiple metagenomes.
 """
 
 posthelp = """
 Output
-    1. Tab-delimited table of taxanomic abundance profiles, metagenomes in columns and taxa in rows.
-    2. BIOM format of taxanomic abundance profiles.
+    Tab-delimited table of first 4 principal components for each metagenome.
 
 EXAMPLES
-    mg-compare-taxa --ids "kb|mg.286,kb|mg.287,kb|mg.288,kb|mg.289" --level class --source RefSeq --format text --evalue 10
+    mg-compare-pcoa-taxa --ids "kb|mg.286,kb|mg.287,kb|mg.288,kb|mg.289" --level class --source RefSeq --distance manhattan --evalue 10
 
 SEE ALSO
     -
@@ -46,7 +45,7 @@ def main(args):
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
     parser.add_option("", "--level", dest="level", default='species', help="taxon level to retrieve abundances for")
     parser.add_option("", "--source", dest="source", default='SEED', help="datasource to filter results by")
-    parser.add_option("", "--format", dest="format", default='text', help="output format: 'text' for tabbed table, 'biom' for BIOM format")
+    parser.add_option("", "--distance", dest="distance", default='bray-curtis', help="distance function, one of: bray-curtis, euclidean, maximum, manhattan, canberra, minkowski, difference")
     parser.add_option("", "--evalue", dest="evalue", default=5, help="negative exponent value for maximum e-value cutoff")
     parser.add_option("", "--identity", dest="identity", default=60, help="percent value for minimum % identity cutoff")
     parser.add_option("", "--length", dest="length", default=15, help="value for minimum alignment length cutoff")
@@ -54,14 +53,18 @@ def main(args):
     # get inputs
     (opts, args) = parser.parse_args()
     if not opts.ids:
-        sys.stderr.write("ERROR: one or more ids required\n")
+        sys.stderr.write("ERROR: two or more ids required\n")
         return 1
     
     # get auth
     token = get_auth_token(opts)
     
     # build url
-    id_list = kbids_to_mgids( opts.ids.split(',') )
+    ids = opts.ids.split(',')
+    if len(ids) < 2:
+        sys.stderr.write("ERROR: two or more ids required\n")
+        return 1
+    id_list = kbids_to_mgids(ids)
     params = [ ('group_level', opts.level), 
                ('source', opts.source),
                ('evalue', opts.evalue),
@@ -71,19 +74,21 @@ def main(args):
                ('hide_metadata', '1') ]
     for i in id_list:
         params.append(('id', i))
-    url = opts.url+'/matrix/organism?'+urllib.urlencode(params, True)
+    burl = opts.url+'/matrix/organism?'+urllib.urlencode(params, True)
+    purl = opts.url+'/compute/pcoa'
 
     # retrieve data
-    biom = obj_from_url(url, auth=token)
+    biom = obj_from_url(burl, auth=token)
+    rows = [r['id'] for r in biom['rows']]
+    cols = [c['id'] for c in biom['columns']]
+    matrix = sparse_to_dense(biom['data'], len(rows), len(cols))
+    pdata = {"distance": opts.distance, "columns": cols, "rows": rows, "data": matrix}
+    pcoa = obj_from_url(purl, data=json.dumps(pdata, separators=(',',':')))
     
     # output data
-    if opts.format == 'biom':
-        sys.stdout.write(json.dumps(biom)+"\n")
-    elif opts.format == 'text':
-        biom_to_tab(biom, sys.stdout)
-    else:
-        sys.stderr.write("ERROR: invalid format type, use one of: text, biom\n")
-        return 1
+    sys.stdout.write("ID\tPC1\tPC2\tPC3\tPC4\n")
+    for d in pcoa['data']:
+        sys.stdout.write( "%s\t%s\n" %(d['id'], "\t".join(map(str, d['pco'][0:4]))) )
     
     return 0
     

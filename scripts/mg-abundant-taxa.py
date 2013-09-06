@@ -14,7 +14,7 @@ VERSION
     %s
 
 SYNOPSIS
-    mg-abundant-taxa [ --help, --user <user>, --pass <password>, --token <oAuth token>, --id <metagenome id>, --level <taxon level>, --source <datasource>, --top <N lines to return>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
+    mg-abundant-taxa [ --help, --user <user>, --passwd <password>, --token <oAuth token>, --id <metagenome id>, --level <taxon level>, --source <datasource>, --top <N lines to return>, --evalue <evalue negative exponent>, --identity <percent identity>, --length <alignment length> ]
 
 DESCRIPTION
     Retrieve top abundant taxa for metagenome from communities API.
