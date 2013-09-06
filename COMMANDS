@@ -1,2 +1,3 @@
 #group-name	mgapi	Metagenomics Scripts
 #command-set	scripts/(.*).pl	mgapi
+#ignore 	scripts/(submit*)
