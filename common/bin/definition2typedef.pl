@@ -362,6 +362,8 @@ sub parse_types {
 
   my @types = ();
   foreach my $key (keys(%$params)) {
+    my $strict_key = $key;
+    $strict_key =~ s/\s/_/g;
     if (ref($params->{$key}) eq "ARRAY") {
       if ($params->{$key}->[0]) {
 	$params->{$key}->[0] =~ s/(reference)\s\w+/$1/;
@@ -370,7 +372,7 @@ sub parse_types {
 	  if (ref($desc) eq 'ARRAY') {
 	    $desc = $desc->[1];
 	  }
-	  push(@types, [ $simple_types->{$params->{$key}->[0]}." $key", $desc ]);
+	  push(@types, [ $simple_types->{$params->{$key}->[0]}." $strict_key", $desc ]);
 	} else {
 	  if ($params->{$key}->[0] eq 'list') {
 	    my $tt = $params->{$key}->[1];
@@ -386,7 +388,7 @@ sub parse_types {
 	      if (ref($desc) eq 'ARRAY') {
 		$desc = $tt->[1]->[1];
 	      }
-	      push(@types, [ $type.$simple_types->{$tt->[0]}.$closer." $key", $desc ]);
+	      push(@types, [ $type.$simple_types->{$tt->[0]}.$closer." $strict_key", $desc ]);
 	    } else {
 	      if ($verbose) {
 		print "attribute $key has an invalid type ".$params->{$key}->[0].", skipping.\n";

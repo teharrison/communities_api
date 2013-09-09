@@ -45,10 +45,11 @@ my $structure = { service => { url => $data->{url},
 my $resources = [];
 my $i = 1;
 foreach my $resource (@{$data->{resources}}) {
+  print "trying ".$resource->{url}."\n";
   my $retval = $json->decode($ua->get($resource->{url})->content);
   push(@$resources, $retval);
   print "received resource ".$resource->{name}." [$i/$numres]\n";
-  $i++
+  $i++;
 }
 
 $structure->{resources} = $resources;
