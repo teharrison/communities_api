@@ -46,8 +46,8 @@ build-docs:
 	pod2html --infile=lib/CommunitiesAPIClient.pm --outfile=docs/CommunitiesAPI.html --title="Communities API Client"
 
 deploy-docs:
-	if [ ! -d $(TARGET)/services/$(SERVICE)/webroot/ ]; then mkdir -p $(TARGET)/services/$(SERVICE)/webroot/; fi
-	cp docs/*.html $(TARGET)/services/$(SERVICE)/webroot
+	mkdir -p $(SERVICE_DIR)/webroot
+	cp docs/*.html $(SERVICE_DIR)/webroot/.
 
 test: test-client
 
