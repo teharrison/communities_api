@@ -1,5 +1,3 @@
-#!/kb/runtime/bin/perl
-
 use strict;
 use warnings;
 
@@ -13,16 +11,16 @@ use Bio::KBase::IDServer::Client;
 sub help {
   my $text = qq~
 NAME
-    can-get-library.pl -- retrieve a library from the communities API
+    mg-get-sample.pl -- retrieve a sample from the communities API
 
 VERSION
     2
 
 SYNOPSIS
-    can-get-library.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level> --id <library id>]
+    mg-get-sample.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level>--id <sample id>]
 
 DESCRIPTION
-    retrieve a library from the communities API
+    retrieve a sample from the communities API
 
   Options
     help - display this message
@@ -31,8 +29,7 @@ DESCRIPTION
     token - Globus Online authentication token
     webkey - MG-RAST webkey to synch with the passed Globus Online authentication
     verbosity - verbosity of the result data, can be one of [ 'minimal', 'verbose', 'full' ]
-    limit - the maximum number of data items to be returned
-    offset - the zero-based index of the first data item to be returned
+    id - id of the sample to be retrieved
 
   Output
     JSON structure that contains the result data
@@ -44,13 +41,13 @@ SEE ALSO
     -
 
 AUTHORS
-    Jared Bishop, Travis Harrison, Tobias Paczian, Andreas Wilke
+    Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke
 
 ~;
-  system "echo '$text' | more";
+  print $text;
 }
 
-my $HOST      = 'http://kbase.us/services/communities//library/';
+my $HOST      = 'http://kbase.us/services/communities/1/sample/';
 my $user      = '';
 my $pass      = '';
 my $token     = '';
@@ -60,6 +57,7 @@ my $webkey    = '';
 my $offset    = '0';
 my $limit     = '10';
 my $id        = undef;
+  
 
 GetOptions ( 'user=s' => \$user,
              'pass=s' => \$pass,
@@ -103,11 +101,17 @@ if ($id && $id =~/^kb\|/) {
   my $id_server_url = "http://www.kbase.us/services/idserver";
   my $idserver = Bio::KBase::IDServer::Client->new($id_server_url);
   my $return = $idserver->kbase_ids_to_external_ids( [ $id ]);
-  $id = $return->{$id}->[1] ;
+  $id = $return->{$id}->[1];
+}
+
+if ($id) {
   $HOST .= "$id/";
 }
 
-my $url = $HOST."?verbosity=$verbosity&limit=$limit&offset=$offset";
+my $subresource = "";
+my $additionals = ""; 
+
+my $url = $HOST.$subresource."?verbosity=$verbosity&limit=$limit&offset=$offset".$additionals;
 if ($webkey) {
   $url .= "&webkey=".$webkey;
 }

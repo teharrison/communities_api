@@ -100,8 +100,7 @@ def main(args):
         sys.stderr.write("ERROR: invalid stat type\n")
         return 1
     
-    return 0
-    
+    return 0    
 
 if __name__ == "__main__":
     sys.exit( main(sys.argv) )

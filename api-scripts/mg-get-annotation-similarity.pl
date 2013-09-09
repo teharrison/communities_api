@@ -1,5 +1,3 @@
-#!/kb/runtime/bin/perl
-
 use strict;
 use warnings;
 
@@ -13,16 +11,16 @@ use Bio::KBase::IDServer::Client;
 sub help {
   my $text = qq~
 NAME
-    can-get-sample-instance.pl -- retrieve a sample from the communities API
+    mg-get-annotation-similarity.pl -- tab deliminted blast m8 with annotation for the specified metagenome
 
 VERSION
     2
 
 SYNOPSIS
-    can-get-sample-instance.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level> --id <sample id>]
+    mg-get-annotation-similarity.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level>--id <metagenome id>, --source, --length, --identity, --evalue, --filter, --type]
 
 DESCRIPTION
-    retrieve a sample from the communities API
+    tab deliminted blast m8 with annotation for the specified metagenome
 
   Options
     help - display this message
@@ -31,8 +29,13 @@ DESCRIPTION
     token - Globus Online authentication token
     webkey - MG-RAST webkey to synch with the passed Globus Online authentication
     verbosity - verbosity of the result data, can be one of [ 'minimal', 'verbose', 'full' ]
-    limit - the maximum number of data items to be returned
-    offset - the zero-based index of the first data item to be returned
+    id - id of the metagenome
+    source - annotation source, i.e. SEED, KEGG, ...
+    length - minimum alignment length
+    identity - minimum percent identity
+    evalue - maximum evalue
+    filter - return only results whose annotations contain this string
+    type - organism, ontology, function or feature
 
   Output
     JSON structure that contains the result data
@@ -44,13 +47,13 @@ SEE ALSO
     -
 
 AUTHORS
-    Jared Bishop, Travis Harrison, Tobias Paczian, Andreas Wilke
+    Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke
 
 ~;
-  system "echo '$text' | more";
+  print $text;
 }
 
-my $HOST      = 'http://kbase.us/services/communities//sample/';
+my $HOST      = 'http://kbase.us/services/communities/1/annotation/';
 my $user      = '';
 my $pass      = '';
 my $token     = '';
@@ -60,6 +63,13 @@ my $webkey    = '';
 my $offset    = '0';
 my $limit     = '10';
 my $id        = undef;
+ my $source = undef;
+my $length = undef;
+my $identity = undef;
+my $evalue = undef;
+my $filter = undef;
+my $type = undef;
+ 
 
 GetOptions ( 'user=s' => \$user,
              'pass=s' => \$pass,
@@ -69,7 +79,13 @@ GetOptions ( 'user=s' => \$user,
              'webkey=s' => \$webkey,
              'limit=s' => \$limit,
              'offset' => \$offset,
-	     'id=s' => \$id );
+	     'id=s' => \$id ,
+	'source' => \$source,
+	'length' => \$length,
+	'identity' => \$identity,
+	'evalue' => \$evalue,
+	'filter' => \$filter,
+	'type' => \$type);
 
 if ($help) {
   &help();
@@ -103,11 +119,35 @@ if ($id && $id =~/^kb\|/) {
   my $id_server_url = "http://www.kbase.us/services/idserver";
   my $idserver = Bio::KBase::IDServer::Client->new($id_server_url);
   my $return = $idserver->kbase_ids_to_external_ids( [ $id ]);
-  $id = $return->{$id}->[1] ;
+  $id = $return->{$id}->[1];
+}
+
+if ($id) {
   $HOST .= "$id/";
 }
 
-my $url = $HOST."?verbosity=$verbosity&limit=$limit&offset=$offset";
+my $subresource = "/similarity";
+my $additionals = "";
+if ($source) {
+    $additionals .= "&source=$source";
+}
+if ($length) {
+    $additionals .= "&length=$length";
+}
+if ($identity) {
+    $additionals .= "&identity=$identity";
+}
+if ($evalue) {
+    $additionals .= "&evalue=$evalue";
+}
+if ($filter) {
+    $additionals .= "&filter=$filter";
+}
+if ($type) {
+    $additionals .= "&type=$type";
+} 
+
+my $url = $HOST.$subresource."?verbosity=$verbosity&limit=$limit&offset=$offset".$additionals;
 if ($webkey) {
   $url .= "&webkey=".$webkey;
 }

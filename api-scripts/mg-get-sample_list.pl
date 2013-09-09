@@ -1,5 +1,3 @@
-#!/kb/runtime/bin/perl
-
 use strict;
 use warnings;
 
@@ -13,13 +11,13 @@ use Bio::KBase::IDServer::Client;
 sub help {
   my $text = qq~
 NAME
-    can-get-sample-list.pl -- retrieve a list of samples from the communities API
+    mg-get-sample_list.pl -- retrieve a list of samples from the communities API
 
 VERSION
     2
 
 SYNOPSIS
-    can-get-sample-list.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level>##optionlist##]
+    mg-get-sample_list.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level
 
 DESCRIPTION
     retrieve a list of samples from the communities API
@@ -44,13 +42,13 @@ SEE ALSO
     -
 
 AUTHORS
-    Jared Bishop, Travis Harrison, Tobias Paczian, Andreas Wilke
+    Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke
 
 ~;
-  system "echo '$text' | more";
+  print $text;
 }
 
-my $HOST      = 'http://kbase.us/services/communities//sample/';
+my $HOST      = 'http://kbase.us/services/communities/1/sample/';
 my $user      = '';
 my $pass      = '';
 my $token     = '';
@@ -60,8 +58,9 @@ my $webkey    = '';
 my $offset    = '0';
 my $limit     = '10';
 my $id        = undef;
+##optionvars
 
-GetOptions ( 'user=s' => \$user,
+##GetOptions ( 'user=s' => \$user,
              'pass=s' => \$pass,
              'token=s' => \$token,
              'verbosity=s' => \$verbosity,
@@ -69,7 +68,7 @@ GetOptions ( 'user=s' => \$user,
              'webkey=s' => \$webkey,
              'limit=s' => \$limit,
              'offset' => \$offset,
-	     'id=s' => \$id );
+	     'id=s' => \$id;
 
 if ($help) {
   &help();
@@ -103,11 +102,16 @@ if ($id && $id =~/^kb\|/) {
   my $id_server_url = "http://www.kbase.us/services/idserver";
   my $idserver = Bio::KBase::IDServer::Client->new($id_server_url);
   my $return = $idserver->kbase_ids_to_external_ids( [ $id ]);
-  $id = $return->{$id}->[1] ;
+  $id = $return->{$id}->[1];
+}
+
+if ($id) {
   $HOST .= "$id/";
 }
 
-my $url = $HOST."?verbosity=$verbosity&limit=$limit&offset=$offset";
+my $subresource = ;
+
+my $url = $HOST.$subresource."?verbosity=$verbosity&limit=$limit&offset=$offset";
 if ($webkey) {
   $url .= "&webkey=".$webkey;
 }

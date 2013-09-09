@@ -1,10 +1,10 @@
 /*
 
-RESTful Metagenomics RAST object and resource API
+microbial communities object and resource API
 For usage note that required parameters need to be passed as path parameters, optional parameters need to be query parameters. If an optional parameter has a list of option values, the first displayed will be used as default.
 
 */
-module MG_RAST : MG_RAST {
+module CommunitiesAPI : CommunitiesAPI {
 	typedef structure {
 /*
 
@@ -81,7 +81,7 @@ This parameter value can be chosen from the following (the first being default):
 /*
 	tab deliminted annotated sequence stream
 */
-		mapping<string, string> streaming text;
+		mapping<string, string> streaming_text;
 	} AnnotationSequence;
 	typedef structure {
 /*
@@ -159,7 +159,7 @@ This parameter value can be chosen from the following (the first being default):
 /*
 	tab deliminted blast m8 with annotation
 */
-		mapping<string, string> streaming text;
+		mapping<string, string> streaming_text;
 	} AnnotationSimilarity;
 	typedef structure {
 /*
@@ -173,7 +173,7 @@ This parameter value can be chosen from the following (the first being default):
 	raw value
 
 */
-		list<list> data;
+		list<list<float>> data;
 /*
 
 	row id
@@ -234,7 +234,7 @@ This parameter value can be chosen from the following (the first being default):
 	raw or normalized value
 
 */
-		list<list> data;
+		list<list<float>> data;
 /*
 
 	row id
@@ -304,7 +304,7 @@ This parameter value can be chosen from the following (the first being default):
 	raw or normalized value
 
 */
-		list<list> data;
+		list<list<float>> data;
 /*
 
 	row id

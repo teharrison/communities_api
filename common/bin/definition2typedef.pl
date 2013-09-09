@@ -10,17 +10,18 @@ use Data::Dumper;
 # usage message
 sub usage {
   print "definition2typedef - creates a typedef document that can be compiled by the typespec compiler from a json structure\n";
-  print "usage: definition2typedef -json <json input file> -typedef <typedef output file> [-verbose <print status messages>]\n\n";
+  print "usage: definition2typedef -json <json input file> -typedef <typedef output file> [-verbose <print status messages> -service <overwrite service name>]\n\n";
   exit;
 }
 
 # initialize some variables
-my ($file, $typedef, $verbose, $struct) ;
+my ($file, $typedef, $verbose, $struct, $service) ;
 
 # get input parameters
 GetOptions ( 'json=s' => \$file,
 	     'typedef=s' => \$typedef,
-	     'verbose=s' => \$verbose);
+	     'verbose=s' => \$verbose,
+	     'service=s' => \$service );
 
 # print usage if called with invalid or no parameters
 unless ($file && $typedef) {
@@ -84,6 +85,9 @@ my $func_descriptions = [];
 
 # get the module name
 if (exists($struct->{service})) {
+  if ($service) {
+    $struct->{service}->{name} = $service;
+  }
   if ($struct->{service}->{name}) {
     $struct->{service}->{name} =~ s/-/_/g;
     $pod_string .= "=pod\n\n=head1 module ".$struct->{service}->{name}."\n\n".$struct->{service}->{description}."\n\n";
@@ -362,6 +366,8 @@ sub parse_types {
 
   my @types = ();
   foreach my $key (keys(%$params)) {
+    my $strict_key = $key;
+    $strict_key =~ s/\s/_/g;
     if (ref($params->{$key}) eq "ARRAY") {
       if ($params->{$key}->[0]) {
 	$params->{$key}->[0] =~ s/(reference)\s\w+/$1/;
@@ -370,7 +376,7 @@ sub parse_types {
 	  if (ref($desc) eq 'ARRAY') {
 	    $desc = $desc->[1];
 	  }
-	  push(@types, [ $simple_types->{$params->{$key}->[0]}." $key", $desc ]);
+	  push(@types, [ $simple_types->{$params->{$key}->[0]}." $strict_key", $desc ]);
 	} else {
 	  if ($params->{$key}->[0] eq 'list') {
 	    my $tt = $params->{$key}->[1];
@@ -386,7 +392,7 @@ sub parse_types {
 	      if (ref($desc) eq 'ARRAY') {
 		$desc = $tt->[1]->[1];
 	      }
-	      push(@types, [ $type.$simple_types->{$tt->[0]}.$closer." $key", $desc ]);
+	      push(@types, [ $type.$simple_types->{$tt->[0]}.$closer." $strict_key", $desc ]);
 	    } else {
 	      if ($verbose) {
 		print "attribute $key has an invalid type ".$params->{$key}->[0].", skipping.\n";
@@ -436,7 +442,11 @@ sub parse_parameters {
 	    if (ref($param_desc->[1]) eq 'ARRAY') {
 	      if ($valid_types->{$param_desc->[1]->[0]}) {
 		if (ref($param_desc->[1]->[1]) eq 'ARRAY') {
-		  push(@parameters, [ "list<".$valid_types->{$param_desc->[1]->[0]}."> $key;", $param_desc->[1]->[1]->[1]]);
+		  my $type = $valid_types->{$param_desc->[1]->[0]};
+		  if ($param_desc->[1]->[0] eq 'list') {
+		    $type = "list<".$param_desc->[1]->[1]->[0].">";
+		  }
+		  push(@parameters, [ "list<".$type."> $key;", $param_desc->[1]->[1]->[1]]);
 		} else {
 		  push(@parameters, [ "list<".$valid_types->{$param_desc->[1]->[0]}."> $key;", $param_desc->[1]->[1]]);
 		}

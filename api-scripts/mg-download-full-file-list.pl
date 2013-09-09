@@ -1,5 +1,3 @@
-#!/kb/runtime/bin/perl
-
 use strict;
 use warnings;
 
@@ -13,16 +11,16 @@ use Bio::KBase::IDServer::Client;
 sub help {
   my $text = qq~
 NAME
-    can-get-metagenome-list.pl -- retrieve a list of metagenomes from the communities API
+    mg-download-full-file-list.pl -- download a communities API pipeline result file
 
 VERSION
     2
 
 SYNOPSIS
-    can-get-metagenome-list.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level>##optionlist##]
+    mg-download-full-file-list.pl [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --verbosity <verbosity level>--id <metagenome id>]
 
 DESCRIPTION
-    retrieve a list of metagenomes from the communities API
+    download the list of intermediate and resulting files produced by the communities API analysis pipeline for a specified metagenome
 
   Options
     help - display this message
@@ -31,8 +29,7 @@ DESCRIPTION
     token - Globus Online authentication token
     webkey - MG-RAST webkey to synch with the passed Globus Online authentication
     verbosity - verbosity of the result data, can be one of [ 'minimal', 'verbose', 'full' ]
-    limit - the maximum number of data items to be returned
-    offset - the zero-based index of the first data item to be returned
+    id - id of the metagenome
 
   Output
     JSON structure that contains the result data
@@ -44,13 +41,13 @@ SEE ALSO
     -
 
 AUTHORS
-    Jared Bishop, Travis Harrison, Tobias Paczian, Andreas Wilke
+    Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke
 
 ~;
-  system "echo '$text' | more";
+  print $text;
 }
 
-my $HOST      = 'http://kbase.us/services/communities//metagenome/';
+my $HOST      = 'http://kbase.us/services/communities/1/download/';
 my $user      = '';
 my $pass      = '';
 my $token     = '';
@@ -60,6 +57,7 @@ my $webkey    = '';
 my $offset    = '0';
 my $limit     = '10';
 my $id        = undef;
+  
 
 GetOptions ( 'user=s' => \$user,
              'pass=s' => \$pass,
@@ -103,11 +101,17 @@ if ($id && $id =~/^kb\|/) {
   my $id_server_url = "http://www.kbase.us/services/idserver";
   my $idserver = Bio::KBase::IDServer::Client->new($id_server_url);
   my $return = $idserver->kbase_ids_to_external_ids( [ $id ]);
-  $id = $return->{$id}->[1] ;
+  $id = $return->{$id}->[1];
+}
+
+if ($id) {
   $HOST .= "$id/";
 }
 
-my $url = $HOST."?verbosity=$verbosity&limit=$limit&offset=$offset";
+my $subresource = "";
+my $additionals = ""; 
+
+my $url = $HOST.$subresource."?verbosity=$verbosity&limit=$limit&offset=$offset".$additionals;
 if ($webkey) {
   $url .= "&webkey=".$webkey;
 }

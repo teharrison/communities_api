@@ -1,8 +1,8 @@
 =pod
 
-=head1 module MG_RAST
+=head1 module CommunitiesAPI
 
-RESTful Metagenomics RAST object and resource API
+microbial communities object and resource API
 For usage note that required parameters need to be passed as path parameters, optional parameters need to be query parameters. If an optional parameter has a list of option values, the first displayed will be used as default.
 
 =head2 GetAnnotationSequence
