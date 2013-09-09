@@ -438,7 +438,11 @@ sub parse_parameters {
 	    if (ref($param_desc->[1]) eq 'ARRAY') {
 	      if ($valid_types->{$param_desc->[1]->[0]}) {
 		if (ref($param_desc->[1]->[1]) eq 'ARRAY') {
-		  push(@parameters, [ "list<".$valid_types->{$param_desc->[1]->[0]}."> $key;", $param_desc->[1]->[1]->[1]]);
+		  my $type = $valid_types->{$param_desc->[1]->[0]};
+		  if ($param_desc->[1]->[0] eq 'list') {
+		    $type = "list<".$param_desc->[1]->[1]->[0].">";
+		  }
+		  push(@parameters, [ "list<".$type."> $key;", $param_desc->[1]->[1]->[1]]);
 		} else {
 		  push(@parameters, [ "list<".$valid_types->{$param_desc->[1]->[0]}."> $key;", $param_desc->[1]->[1]]);
 		}
