@@ -25,7 +25,7 @@ Output
     Tab-delimited table of first 4 principal components for each metagenome.
 
 EXAMPLES
-    mg-compare-pcoa-functions --ids "kb|mg.286,kb|mg.287,kb|mg.288,kb|mg.289" --level level2 --source KO --distance euclidean --evalue 10
+    mg-compare-pcoa-functions --ids "kb|mg.286,kb|mg.287,kb|mg.288,kb|mg.289" --level level2 --source KO --distance euclidean --evalue 8
 
 SEE ALSO
     -

@@ -22,7 +22,7 @@ DESCRIPTION
 
 posthelp = """
 Output
-    -
+    Tab-delimited table of metadata key-value pairs, either minimal or full metadata.
 
 EXAMPLES
     mg-display-metadata --id "kb|mg.287" --verbosity full

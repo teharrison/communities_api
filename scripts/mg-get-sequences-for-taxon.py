@@ -22,10 +22,10 @@ DESCRIPTION
 
 posthelp = """
 Output
-    Tab-delimited list of:
+    Tab-delimited list of: m5nr id, dna sequence, semicolon seperated list of annotations, sequence id
 
 EXAMPLES
-    mg-get-sequences-for-taxon --id "kb|mg.287" --name Lachnospiraceae --level family --source RefSeq --evalue 15
+    mg-get-sequences-for-taxon --id "kb|mg.287" --name Lachnospiraceae --level family --source RefSeq --evalue 8
 
 SEE ALSO
     -
