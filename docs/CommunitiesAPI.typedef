@@ -2138,7 +2138,7 @@ This parameter value can be chosen from the following (the first being default):
 */
 		mapping<string, string> statistics;
 /*
-	ARRAY(0x7f86b38ffe20)
+	ARRAY(0x1d20d20)
 */
 		string status;
 /*
@@ -2269,7 +2269,7 @@ This parameter value can be chosen from the following (the first being default):
 	} GetProjectInstanceParams;
 	typedef structure {
 /*
-	ARRAY(0x7f86b3903970)
+	ARRAY(0x1d27630)
 */
 		string status;
 /*

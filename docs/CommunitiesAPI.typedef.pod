@@ -2317,7 +2317,7 @@ key value pairs describing statistics
 
 =item * string status
 
-ARRAY(0x7f86b38ffe20)
+ARRAY(0x1d20d20)
 
 =item * int version
 
@@ -2466,7 +2466,7 @@ unique object identifier
 
 =item * string status
 
-ARRAY(0x7f86b3903970)
+ARRAY(0x1d27630)
 
 =item * int version
 
