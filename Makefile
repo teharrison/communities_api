@@ -1,15 +1,12 @@
-TARGET ?= /kb/deployment
+TOP_DIR = ../..
+TOOLS_DIR = $(TOP_DIR)/tools
 DEPLOY_RUNTIME ?= /kb/runtime
+TARGET ?= /kb/deployment
+include $(TOOLS_DIR)/Makefile.common
+
 SERVICE = communities_api
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 SERVICE_URL = http://kbase.us/services/communities/1
-
-# to wrap scripts and deploy them to $(TARGET)/bin using tools in the dev_container
-TOP_DIR = ../..
-TOOLS_DIR = $(TOP_DIR)/tools
-WRAP_PERL_TOOL = wrap_perl
-WRAP_PERL_SCRIPT = bash $(TOOLS_DIR)/$(WRAP_PERL_TOOL).sh
-SRC_PERL = $(wildcard scripts/*.pl)
 
 # things needed for testing
 TESTS = $(wildcard test/client-tests/*.t) 
@@ -37,20 +34,6 @@ build-scripts:
 	perl common/bin/generate_commandline.pl -template common/conf/template -config common/conf/config -outdir api-scripts
 	cp api-scripts/* scripts/.
 
-deploy-scripts:
-	if [ ! -d $(TARGET)/bin ]; then mkdir -p $(TARGET)/bin; fi
-	if [ ! -d $(TARGET)/plbin ]; then mkdir -p $(TARGET)/plbin; fi
-	export KB_TOP=$(TARGET); \
-	export KB_RUNTIME=$(DEPLOY_RUNTIME); \
-	export KB_PERL_PATH=$(TARGET)/lib:$(TARGET)/lib/perl5 bash; \
-	for src in $(SRC_PERL); do \
-		basefile=`basename $$src`; \
-		base=`basename $$src .pl`; \
-		echo install $$src $$base; \
-		cp $$src $(TARGET)/plbin; \
-		$(WRAP_PERL_SCRIPT) "$(TARGET)/plbin/$$basefile" $(TARGET)/bin/$$base; \
-	done
-
 build-docs:
 	perl common/bin/api2html.pl -url $(SERVICE_URL) -site_name "Communities API" -outfile docs/Communities_API.html
 	pod2html --infile=lib/CommunitiesAPIClient.pm --outfile=docs/CommunitiesAPI.html --title="Communities API Client"
@@ -69,3 +52,5 @@ test-client:
 			exit 1; \
 		fi \
 	done
+
+include $(TOOLS_DIR)/Makefile.common.rules

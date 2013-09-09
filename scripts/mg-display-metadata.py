@@ -57,13 +57,15 @@ def main(args):
     # build call url
     if opts.id.startswith('kb|'):
         opts.id = kbid_to_mgid(opts.id)
-    url = opts.url+'/metagenome/'+opts.id+'?verbosity=metadata'
+    verb = opts.verbosity if opts.verbosity == 'mixs' else 'metadata'
+    url  = opts.url+'/metagenome/'+opts.id+'?verbosity='+verb
 
     # retrieve / output data
     result = obj_from_url(url, auth=token)
     if opts.verbosity == 'mixs':
-        for m in sorted(result['mixs'].iterkeys()):
-            sys.stdout.write("%s\t%s\n" %(m, result['mixs'][m]))
+        for r in sorted(result.iterkeys()):
+            if r not in ['project', 'library', 'sample']:
+                sys.stdout.write("%s\t%s\n" %(r, result[r]))
     elif opts.verbosity == 'full':
         md = result['metadata']
         sys.stdout.write("category\tlabel\tvalue\n")
