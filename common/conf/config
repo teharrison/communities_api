@@ -14,48 +14,52 @@ authors	Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wi
 host	http://kbase.us/services/communities/1
 
 resource	mg-get-annotation-sequence.pl
-item		annotation
-subitem		/sequence
+item	annotation
+subitem	/sequence
 description	download the annotated sequences of the specified metagenome
-long description	 download the annotated sequences of the specified metagenome
-optionlist		 --id <metagenome id>, --source, --length, --identity, --evalue, --filter, --type
-options detailed	 id - id of the metagenome###	 source - annotation source, i.e. SEED, KEGG, ...###	length - minimum alignment length### identity - minimum percent identity### evalue - maximum evalue### filter - return only results whose annotations contain this string### type - organism, ontology, function or feature
+long description	download the annotated sequences of the specified metagenome
+optionlist	--id <metagenome id>, --source, --length, --identity, --evalue, --filter, --type
+options detailed	id - id of the metagenome###    source - annotation source, i.e. SEED, KEGG, ...###    length - minimum alignment length###    identity - minimum percent identity###    evalue - maximum evalue###    filter - return only results whose annotations contain this string###    type - organism, ontology, function or feature
+specialops	source,length,identity,evalue,filter,type
 
 resource	mg-get-annotation-similarity.pl
-item		annotation
-subitem		/similarity
+item	annotation
+subitem	/similarity
 description	tab deliminted blast m8 with annotation for the specified metagenome
-long description	 tab deliminted blast m8 with annotation for the specified metagenome
-optionlist		 --id <metagenome id>, --source, --length, --identity, --evalue, --filter, --type
-options detailed	 id - id of the metagenome###	 source - annotation source, i.e. SEED, KEGG, ...###	length - minimum alignment length### identity - minimum percent identity### evalue - maximum evalue### filter - return only results whose annotations contain this string### type - organism, ontology, function or feature
+long description	tab deliminted blast m8 with annotation for the specified metagenome
+optionlist	--id <metagenome id>, --source, --length, --identity, --evalue, --filter, --type
+options detailed	id - id of the metagenome###    source - annotation source, i.e. SEED, KEGG, ...###    length - minimum alignment length###    identity - minimum percent identity###    evalue - maximum evalue###    filter - return only results whose annotations contain this string###    type - organism, ontology, function or feature
+specialops	source,length,identity,evalue,filter,type
 
 resource	mg-download-file.pl
-item		download
+item	download
 description	download a communities API pipeline result file
-long description	 download any intermediate and resulting file produced by the communities API analysis pipeline for a specified metagenome
-optionlist		 --id <metagenome id>, --file <filename>
-options detailed	 id - id of the metagenome###	file - name of the result file
+long description	download any intermediate and resulting file produced by the communities API analysis pipeline for a specified metagenome
+optionlist	--id <metagenome id>, --file <filename>
+options detailed	id - id of the metagenome###	file - name of the result file
+specialops	file
 
 resource	mg-download-full-file-list.pl
-item		download
+item	download
 description	download a communities API pipeline result file
-long description	 download the list of intermediate and resulting files produced by the communities API analysis pipeline for a specified metagenome
-optionlist		 --id <metagenome id>
-options detailed	 id - id of the metagenome
+long description	download the list of intermediate and resulting files produced by the communities API analysis pipeline for a specified metagenome
+optionlist	--id <metagenome id>
+options detailed	id - id of the metagenome
 
 resource	mg-download-stage-file-list.pl
-item		download
+item	download
 description	download a communities API pipeline result file
-long description	 download the list of intermediate and resulting file produced by a specified stage of the communities API analysis pipeline for a specified metagenome
-optionlist		 --id <metagenome id>, --stage <stage id>
-options detailed	 id - id of the metagenome###	stage - id of the stage
+long description	download the list of intermediate and resulting file produced by a specified stage of the communities API analysis pipeline for a specified metagenome
+optionlist	--id <metagenome id>, --stage <stage id>
+options detailed	id - id of the metagenome###	stage - id of the stage
+specialops	stage
 
 resource	mg-get-project.pl
 item	project
 description	retrieve a project from the communities API
 long description	retrieve a project from the communities API
-optionlist	 --id <project id>
-options detailed  id - id of the project to be retrieved
+optionlist	--id <project id>
+options detailed	id - id of the project to be retrieved
 
 resource	mg-get-project-list.pl
 item	project
@@ -66,8 +70,8 @@ resource	mg-get-metagenome.pl
 item	metagenome
 description	retrieve a metagenome from the communities API
 long description	retrieve a metagenome from the communities API
-optionlist	 --id <metagenome id>
-options detailed  id - id of the metagenome to be retrieved
+optionlist	--id <metagenome id>
+options detailed	id - id of the metagenome to be retrieved
 
 resource	mg-get-metagenome-list.pl
 item	metagenome
@@ -78,8 +82,8 @@ resource	mg-get-library.pl
 item	library
 description	retrieve a library from the communities API
 long description	retrieve a library from the communities API
-optionlist	 --id <library id>
-options detailed  id - id of the library to be retrieved
+optionlist	--id <library id>
+options detailed	id - id of the library to be retrieved
 
 resource	mg-get-library-list.pl
 item	library
@@ -90,10 +94,10 @@ resource	mg-get-sample.pl
 item	sample
 description	retrieve a sample from the communities API
 long description	retrieve a sample from the communities API
-optionlist	 --id <sample id>
-options detailed  id - id of the sample to be retrieved
+optionlist	--id <sample id>
+options detailed	id - id of the sample to be retrieved
 
-resource	mg-get-sample_list.pl
+resource	mg-get-sample-list.pl
 item	sample
 description	retrieve a list of samples from the communities API
 long description	retrieve a list of samples from the communities API

@@ -57,8 +57,23 @@ if (open(FH, "<$config")) {
     next if ($key eq "default");
     my $currt = $t;
     foreach my $k (keys(%{$data->{$key}})) {
-      my $v = $data->{$key}->{$k};
-      $currt =~ s/##$k##/$v/g;
+      if ($k eq 'specialops') {
+	my @spec = split(/,/, $data->{$key}->{$k});
+	my $optionvars = "";
+	my $getopts = "";
+	my $additionals = "";
+	foreach my $s (@spec) {
+	  $optionvars .= 'my $'.$s." = undef;\n";
+	  $getopts .= ",\n\t'$s' => \\\$$s";
+	  $additionals .= "\nif (\$$s) {\n    \$additionals .= \"&$s=\$$s\";\n}";
+	}
+	$currt =~ s/##optionvars##/$optionvars/g;
+	$currt =~ s/##getopts##/$getopts/g;
+	$currt =~ s/##additionals##/$additionals/g;
+      } else {
+	my $v = $data->{$key}->{$k};
+	$currt =~ s/##$k##/$v/g;
+      }
     }
     if (exists($data->{default})) {
       foreach my $k (keys(%{$data->{default}})) {
@@ -66,7 +81,7 @@ if (open(FH, "<$config")) {
 	$currt =~ s/##$k##/$v/g;
       }
     }
-    $currt =~ s/##\w+##//g;
+    $currt =~ s/([^#])##[a-zA-Z]+##([^#])/$1$2/g;
     my @rows = split(/###/, $currt);
     if (open(FH, ">$outdir/$key")) {
       foreach my $row (@rows) {

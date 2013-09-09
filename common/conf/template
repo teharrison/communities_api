@@ -39,7 +39,7 @@ AUTHORS
     ##authors##
 
 ~;
-  system "echo '$text' | more";
+  print $text;
 }
 
 my $HOST      = '##host##/##item##/';
@@ -52,7 +52,7 @@ my $webkey    = '';
 my $offset    = '0';
 my $limit     = '10';
 my $id        = undef;
-##optlistvars##
+ ##optionvars## 
 
 GetOptions ( 'user=s' => \$user,
              'pass=s' => \$pass,
@@ -62,7 +62,7 @@ GetOptions ( 'user=s' => \$user,
              'webkey=s' => \$webkey,
              'limit=s' => \$limit,
              'offset' => \$offset,
-	     'id=s' => \$id##getopts## );
+	     'id=s' => \$id ##getopts##);
 
 if ($help) {
   &help();
@@ -104,9 +104,9 @@ if ($id) {
 }
 
 my $subresource = "##subitem##";
+my $additionals = "";##additionals## 
 
-
-my $url = $HOST.$subresource."?verbosity=$verbosity&limit=$limit&offset=$offset";
+my $url = $HOST.$subresource."?verbosity=$verbosity&limit=$limit&offset=$offset".$additionals;
 if ($webkey) {
   $url .= "&webkey=".$webkey;
 }
