@@ -14,7 +14,7 @@ TESTS = $(wildcard test/client-tests/*.t)
 default:
 	@echo "nothing to do for default make"
 
-deploy: deploy-client
+deploy: deploy-cfg deploy-client deploy-docs
 
 deploy-all: deploy
 
@@ -26,7 +26,7 @@ clean:
 	rm -f docs/C*
 	@echo "All clean"
 
-deploy-client: build-libs deploy-libs build-scripts deploy-scripts build-docs deploy-docs
+deploy-client: build-libs deploy-libs build-scripts deploy-scripts
 	mkdir -p $(SERVICE_DIR)
 	@echo "Client tools deployed"
 
@@ -45,7 +45,7 @@ build-docs:
 	perl common/bin/api2html.pl -url $(SERVICE_URL) -site_name "Communities API" -outfile docs/Communities_API.html
 	pod2html --infile=lib/CommunitiesAPIClient.pm --outfile=docs/CommunitiesAPI.html --title="Communities API Client"
 
-deploy-docs:
+deploy-docs: build-docs
 	mkdir -p $(SERVICE_DIR)/webroot
 	cp docs/*.html $(SERVICE_DIR)/webroot/.
 
