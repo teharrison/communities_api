@@ -16,7 +16,15 @@ default:
 
 deploy: deploy-client
 
-deploy-all: deploy-client
+deploy-all: deploy
+
+all: deploy
+
+clean:
+	rm -f api-scripts/mg-*
+	rm -f lib/C*
+	rm -f docs/C*
+	@echo "All clean"
 
 deploy-client: build-libs deploy-libs build-scripts deploy-scripts build-docs deploy-docs
 	mkdir -p $(SERVICE_DIR)
