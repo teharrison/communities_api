@@ -17,15 +17,16 @@ my $script_path = $topDir . "" ;
 my $num_tests = 0;
 my $json = new JSON;
 
-my $test_path = "/Users/Andi/Development/kbase/communities_api/scripts" ;
+#my $test_path = "/Users/Andi/Development/kbase/communities_api/scripts" ;
 
 my $scripts = {
-	       'mg-abundant-taxa.py' => 1 ,
-	       #'mg-check-annotation-status.pl' => 1 ,
-	       #'my-metagenome.pl' => 1,
-	       #'mg-abundant-functions.py' => 1,
-	       #'mg-annotate-metagenome.pl' => 1,
-	       'mg-display-statistics.py' => 1	
+	       'mg-abundant-taxa' => 1 ,
+	       #'mg-check-annotation-status' => 1,
+	       'mg-compare-alpha-diversity' => 1,
+	       #'my-metagenome' => 1,
+	       'mg-abundant-functions' => 1,
+	       #'mg-annotate-metagenome' => 1,
+	       'mg-display-statistics' => 1	
 };
 
 
@@ -33,14 +34,14 @@ my $scripts = {
 foreach my $script (keys %$scripts){
   my $message = undef ;
   eval{
-    $message = `python $test_path/$script --help` ; 
+    $message = `$script --help` ; 
   };
   
   is($@, '', "$script exists and executes");
   isnt($message , undef ,"--help returns message");
   # &check_help($message);
-  ok( &check_help($message) eq 1, "help message structure");
-  ok( &check_example($message) , "Example for $script executes" );
+  ok( &check_help($message) eq 1, "Help message structure");
+  ok( &check_example($message) , "Example for $script executes without errors" );
 
 }
 
@@ -115,9 +116,11 @@ sub check_example{
   # get example after EXAMPLES tag
   $line = shift @lines ;
   $line =~s/^\s*//; 
-  $line =~s/\|/\\\|/g; 
-
+  #$line =~s/\|/\\\|/g; 
+  print $line , "\n";
   while(! $line ){
+      print $line , "\n";
+      exit;
     $line = shift @lines ;
     $line =~s/^\s*//;  
   }
@@ -126,13 +129,9 @@ sub check_example{
 
   
   $line =~s/^\s*//;  
-  $success = 0 unless ok(system($line) == 0 , "Example exists and executes: $line");
-  
-  $return = `$line` ;
-  ok($return , 'Example returns output');
-  
-  print $return || "no return data from $line\n";
+  $success = 0 unless ok(system("$line 1>output.log 2>error.log") == 0 , "Example exists and executes: $line");
 
+  ok( -f "output.log" , 'Example returns output');
 
   return $success;
 }
