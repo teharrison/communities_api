@@ -11,7 +11,44 @@ outputs	JSON structure that contains the result data
 example	-
 related	-
 authors	Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke
-host	http://api.metagenomics.anl.gov/1
+host	http://kbase.us/services/communities/1
+
+resource	mg-get-annotation-sequence.pl
+item		annotation
+subitem		/sequence
+description	download the annotated sequences of the specified metagenome
+long description	 download the annotated sequences of the specified metagenome
+optionlist		 --id <metagenome id>, --source, --length, --identity, --evalue, --filter, --type
+options detailed	 id - id of the metagenome###	 source - annotation source, i.e. SEED, KEGG, ...###	length - minimum alignment length### identity - minimum percent identity### evalue - maximum evalue### filter - return only results whose annotations contain this string### type - organism, ontology, function or feature
+
+resource	mg-get-annotation-similarity.pl
+item		annotation
+subitem		/similarity
+description	tab deliminted blast m8 with annotation for the specified metagenome
+long description	 tab deliminted blast m8 with annotation for the specified metagenome
+optionlist		 --id <metagenome id>, --source, --length, --identity, --evalue, --filter, --type
+options detailed	 id - id of the metagenome###	 source - annotation source, i.e. SEED, KEGG, ...###	length - minimum alignment length### identity - minimum percent identity### evalue - maximum evalue### filter - return only results whose annotations contain this string### type - organism, ontology, function or feature
+
+resource	mg-download-file.pl
+item		download
+description	download a communities API pipeline result file
+long description	 download any intermediate and resulting file produced by the communities API analysis pipeline for a specified metagenome
+optionlist		 --id <metagenome id>, --file <filename>
+options detailed	 id - id of the metagenome###	file - name of the result file
+
+resource	mg-download-full-file-list.pl
+item		download
+description	download a communities API pipeline result file
+long description	 download the list of intermediate and resulting files produced by the communities API analysis pipeline for a specified metagenome
+optionlist		 --id <metagenome id>
+options detailed	 id - id of the metagenome
+
+resource	mg-download-stage-file-list.pl
+item		download
+description	download a communities API pipeline result file
+long description	 download the list of intermediate and resulting file produced by a specified stage of the communities API analysis pipeline for a specified metagenome
+optionlist		 --id <metagenome id>, --stage <stage id>
+options detailed	 id - id of the metagenome###	stage - id of the stage
 
 resource	mg-get-project.pl
 item	project
@@ -37,20 +74,6 @@ item	metagenome
 description	retrieve a list of metagenomes from the communities API
 long description	retrieve a list of metagenomes from the communities API
 
-resource	mg-get-abundanceprofile.pl
-item	abundanceprofile
-description	retrieve an abundanceprofile from the communities API
-long description	retrieve an abundanceprofile from the communities API
-optionlist	 --id <metagenome id>
-options detailed  id - id of the metagenome to retrieve the abundanceprofile for
-
-resource	mg-get-analysisset.pl
-item	analysisset
-description	retrieve an analysisset from the communities API
-long description	retrieve an analysisset from the communities API
-optionlist	 --id <analysisset id>
-options detailed  id - id of the analysisset to be retrieved
-
 resource	mg-get-library.pl
 item	library
 description	retrieve a library from the communities API
@@ -75,9 +98,3 @@ item	sample
 description	retrieve a list of samples from the communities API
 long description	retrieve a list of samples from the communities API
 
-resource	mg-get-sequenceset.pl
-item	sequenceset
-description	retrieve a sequenceset from the communities API
-long description	retrieve a sequenceset from the communities API
-optionlist	 --id <sequenceset id>
-options detailed  id - id of the sequenceset to be retrieved

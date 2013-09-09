@@ -66,6 +66,7 @@ if (open(FH, "<$config")) {
 	$currt =~ s/##$k##/$v/g;
       }
     }
+    $currt =~ s/##\w+##//g;
     my @rows = split(/###/, $currt);
     if (open(FH, ">$outdir/$key")) {
       foreach my $row (@rows) {

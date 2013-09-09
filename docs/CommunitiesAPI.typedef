@@ -173,7 +173,7 @@ This parameter value can be chosen from the following (the first being default):
 	raw value
 
 */
-		list<list<string>> data;
+		list<list<float>> data;
 /*
 
 	row id
@@ -234,7 +234,7 @@ This parameter value can be chosen from the following (the first being default):
 	raw or normalized value
 
 */
-		list<list<string>> data;
+		list<list<float>> data;
 /*
 
 	row id
@@ -304,7 +304,7 @@ This parameter value can be chosen from the following (the first being default):
 	raw or normalized value
 
 */
-		list<list<string>> data;
+		list<list<float>> data;
 /*
 
 	row id
