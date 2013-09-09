@@ -19,9 +19,7 @@ deploy: deploy-client
 deploy-all: deploy-client
 
 deploy-client: build-libs deploy-libs build-scripts deploy-scripts build-docs deploy-docs
-	if [ ! -d $(SERVICE_DIR) ]; then mkdir -p $(SERVICE_DIR); fi
-	if [ ! -d $(TARGET)/lib ]; then mkdir -p $(TARGET)/lib; fi
-	cp client/* $(TARGET)/lib
+	mkdir -p $(SERVICE_DIR)
 	@echo "Client tools deployed"
 
 build-libs:
