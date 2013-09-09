@@ -1,13 +1,15 @@
-TARGET ?= /kb/deployment
+TOP_DIR = ../..
+TOOLS_DIR = $(TOP_DIR)/tools
 DEPLOY_RUNTIME ?= /kb/runtime
+TARGET ?= /kb/deployment
+include $(TOOLS_DIR)/Makefile.common
+
 SERVICE = communities_api
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 SERVICE_URL = http://kbase.us/services/communities/1
 
-TOP_DIR = ../..
-TOOLS_DIR = $(TOP_DIR)/tools
-WRAP_PERL_TOOL = wrap_perl
-WRAP_PERL_SCRIPT = bash $(TOOLS_DIR)/$(WRAP_PERL_TOOL).sh
+#WRAP_PERL_TOOL = wrap_perl
+#WRAP_PERL_SCRIPT = bash $(TOOLS_DIR)/$(WRAP_PERL_TOOL).sh
 SRC_PERL   = $(wildcard scripts/*.pl)
 SRC_PYTHON = $(wildcard scripts/*.py) 
 
@@ -28,9 +30,7 @@ deploy: deploy-client
 deploy-all: deploy-client
 
 deploy-client: build-libs deploy-libs build-scripts deploy-scripts build-docs deploy-docs
-	if [ ! -d $(SERVICE_DIR) ]; then mkdir -p $(SERVICE_DIR); fi
-	if [ ! -d $(TARGET)/lib ]; then mkdir -p $(TARGET)/lib; fi
-	cp client/* $(TARGET)/lib
+	mkdir -p $(SERVICE_DIR)
 	@echo "Client tools deployed"
 
 build-libs:
@@ -42,6 +42,7 @@ build-libs:
 build-scripts:
 	perl common/bin/generate_commandline.pl -template common/conf/template -config common/conf/config -outdir api-scripts
 	cp api-scripts/* scripts/.
+
 
 # deploy-scripts:
 # 	if [ ! -d $(TARGET)/bin ]; then mkdir -p $(TARGET)/bin; fi
@@ -56,6 +57,7 @@ build-scripts:
 # 		cp $$src $(TARGET)/plbin; \
 # 		$(WRAP_PERL_SCRIPT) "$(TARGET)/plbin/$$basefile" $(TARGET)/bin/$$base; \
 # 	done
+
 
 build-docs:
 	perl common/bin/api2html.pl -url $(SERVICE_URL) -site_name "Communities API" -outfile docs/Communities_API.html
@@ -77,6 +79,4 @@ test-client:
 	done
 
 
-
-
--include $(TOOLS_DIR)/Makefile.common.rules
+include $(TOOLS_DIR)/Makefile.common.rules

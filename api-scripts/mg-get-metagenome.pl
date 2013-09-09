@@ -75,26 +75,29 @@ if ($help) {
 }
 
 if ($user || $pass) {
-  if ($user && $pass) {
-    my $exec = 'curl -s -u '.$user.':'.$pass.' -X POST "https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials"';
-    my $result = `$exec`;
-    my $ustruct = "";
-    eval {
-      my $json = new JSON;
-      $ustruct = $json->decode($result);
-    };
-    if ($@) {
-      die "could not reach auth server";
+    if ($user && $pass) {
+	my $agent = LWP::UserAgent->new;
+	$agent->protocols_allowed( [ 'https' ] );
+	my $request = HTTP::Request->new("POST", "https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials" );
+	$request->authorization_basic($user, $pass);
+	my $response = $agent->request($request)->content();
+	my $ustruct = "";
+	eval {
+	    my $json = new JSON;
+	    $ustruct = $json->decode($response);
+	};
+	if ($@) {
+	    die "could not reach auth server";
+	} else {
+	    if ($ustruct->{access_token}) {
+		$token = $ustruct->{access_token};
+	    } else {
+		die "authentication failed";
+	    }
+	}
     } else {
-      if ($ustruct->{access_token}) {
-        $token = $ustruct->{access_token};
-      } else {
-        die "authentication failed";
-      }
+	die "you must supply both username and password";
     }
-  } else {
-    die "you must supply both username and password";
-  }
 }
 
 if ($id && $id =~/^kb\|/) {
