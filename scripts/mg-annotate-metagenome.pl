@@ -1,13 +1,5 @@
 #!/kb/runtime/bin/perl
 
-#Script for submitting metagenome to AWE
-#Command name: can-analyze-metagenome.pl
-#Parameters:
-#     -metagenome_name=<metagenome/file name for sequence file in datastore, must match any metagenome name in metadata file, required>
-#     -metagenome_datastore_id=<sequence/read file ID in datastore, required>
-#     -metadata_datastore_id=<metadata file ID in datastore, required>
-#     -conf=<configuration file, (default='awe.ini')>
-
 use strict;
 use warnings;
 no warnings('once');
@@ -21,48 +13,136 @@ use MIME::Base64;
 use Data::Dumper;
 umask 000;
 
+my $OAUTH_URL = 'https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials';
+
+=head1 NAME
+
+mg-annotate-metagenome -- submit a metagenome to be annotated by the microbial communities pipeline
+
+=head1 VERSION
+
+2
+
+=head1 SYNOPSIS
+
+mg-annotate-metagenome [-h] [-m metadata_file_id] [-u user] [-p password] [-t token] [-c conf_file] -n metagenome_name -f sequence_file_id
+
+=head1 DESCRIPTION
+
+Submit a metagenome to be annotated by the microbial communities pipeline.  If you are working in IRIS and are authenticated, you do not need to enter a user, password, or token to submit a metagenome to the pipeline.  Otherwise, you can enter a user and password or a token to authenticate but not both.
+
+Parameters:
+
+=over 8
+
+=item -n
+
+metagenome/file name for sequence file in datastore, must match any metagenome name in metadata file
+
+=item -f
+
+sequence/read file ID in datastore
+
+=back
+
+Options:
+
+=over 8
+
+=item -h
+
+display this help message
+
+=item -m
+
+metadata file ID in datastore
+
+=item -u
+
+username to authenticate against the API, requires a password to be set as well
+
+=item -p
+
+password to authenticate against the API, requires a username to be set as well
+
+=item -t
+
+Globus Online authentication token
+
+=item -c
+
+configuration file (default is 'deploy.cfg')
+
+=back
+
+Output:
+
+JSON structure that contains the result data
+
+=head1 EXAMPLES
+
+-
+
+=head1 SEE ALSO
+
+-
+
+=head1 AUTHORS
+
+Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke
+
+=cut
+
 # parameters
 my %vars = ();
-$vars{jobname} = "";
-$vars{shocknode} = "";
-$vars{md_shocknode} = "";
-my $conf = "awe.ini";
+$vars{metagenome_name} = "";
+$vars{sequence_file_id} = "";
+$vars{metadata_file_id} = "";
+$vars{user} = "";
+$vars{password} = "";
+$vars{token} = "";
+my $conf = "deploy.cfg";
 my $help = 0;
-my $options = GetOptions ("metagenome_name=s" => \$vars{jobname},
-                          "metagenome_datastore_id=s"   => \$vars{shocknode},
-			  "metadata_datastore_id=s" => \$vars{md_shocknode},
-                          "conf=s"    => \$conf,
-                          "help"  => \$help
+my $options = GetOptions ("n=s"  => \$vars{metagenome_name},
+                          "f=s"  => \$vars{sequence_file_id},
+			  "m=s"  => \$vars{metadata_file_id},
+			  "u=s"  => \$vars{user},
+			  "p=s"  => \$vars{password},
+			  "t=s"  => \$vars{token},
+                          "c=s"  => \$conf,
+                          "help" => \$help
 			 );
-
-###############################################################################
-#
-# error-handling inputs...
-#
-###############################################################################
 
 if ($help) {
     print_usage();
     exit 0;
 }
 
+# error-handling inputs...
 my %missing;
-foreach my $i (keys %vars) {
+foreach my $i ('metagenome_name', 'sequence_file_id') {
     if($vars{$i} eq "") {
         $missing{$i} = 1;
     }
 }
 
+if(($vars{user} ne "" && $vars{token} ne "") || ($vars{password} ne "" && $vars{token} ne "")) {
+    print STDERR "\nERROR, the user and password options are incompatible with the token option.\n";
+    print "\nExiting, use the -h option to get help.\n\n";
+    exit 1;
+}
+
 if(keys %missing > 0) {
-    print STDERR "\nERROR, the following required fields are missing:\n";
+    print STDERR "\nERROR, the following parameters are missing from your command:\n";
     foreach my $i (keys %missing) {
-        print STDERR "$i\n";
+        print STDERR "  $i\n";
     }
-    print_usage();
+    print "\nExiting, use the -h option to get help.\n\n";
     exit 1;
 }
 
 my $cfg = new Config::Simple($conf);
+my $p_cfg = $cfg->param(-block=>'communities_pipeline');
 foreach my $i ('aweurl',
                'project',
                'clientgroups',
@@ -80,8 +160,8 @@ foreach my $i ('aweurl',
                'rna_pid',
                'ach_annotation_ver',
                'mem_host') {
-    if(defined $cfg->param($i)) {
-        $vars{$i} = $cfg->param($i);
+    if(defined $p_cfg->{$i}) {
+        $vars{$i} = $p_cfg->{$i};
     } else {
         $missing{$i} = 1;
     }
@@ -90,27 +170,31 @@ foreach my $i ('aweurl',
 if(keys %missing > 0) {
     print STDERR "\nERROR, the following parameters are missing from your config file ($conf):\n";
     foreach my $i (keys %missing) {
-        print STDERR "$i\n";
+        print STDERR "  $i\n";
     }
-    print_usage();
+    print "\nExiting, use the -h option to get help.\n\n";
     exit 1;
 }
 
-if(exists $ENV{"KB_AUTH_USER_ID"}) {
-    $vars{user} = $ENV{"KB_AUTH_USER_ID"};
-} elsif(defined $cfg->param('user') && defined $cfg->param('password')) {
-    $vars{user} = $cfg->param('user');
-    my $encoded = encode_base64($vars{user}.':'.$cfg->param('password'));
-    my $ua = LWP::UserAgent->new();
-    my $get = $ua->get("http://dev.metagenomics.anl.gov/api.cgi?auth=kbgo4711$encoded");
-    unless($get->is_success) {
-        print STDERR "ERROR, could not authenticate user, exiting.\n\n";
-        exit 1;
-    }
+my $token = "";
+if(exists $ENV{"KB_AUTH_TOKEN"}) {
+    $token = $ENV{"KB_AUTH_TOKEN"};
+} elsif($vars{token} ne "") {
+    $token = $vars{token};
+} elsif($vars{user} ne "" && $vars{password} ne "") {
+    my $encoded = encode_base64($vars{user}.':'.$vars{password});
     my $json = new JSON();
-    my $res = $json->decode( $get->content );
-    unless(exists $res->{token}) {
-        print STDERR "ERROR, could not authenticate user, exiting.\n\n";
+    my $pre = `curl -s -H "Authorization: Basic $encoded" -X POST "https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials"`;
+    eval {
+        my $res = $json->decode($pre);
+        unless(exists $res->{access_token}) {
+            print STDERR "ERROR, could not authenticate user, exiting.\n\n";
+            exit 1;
+        }
+        $token = $res->{access_token};
+    };
+    if ($@) {
+        print STDERR "could not reach auth server: $@\n";
         exit 1;
     }
 } else {
@@ -128,7 +212,7 @@ if(exists $ENV{"KB_AUTH_USER_ID"}) {
 my $md_filename = "";
 # Checking if files are in Shock and have a non-zero size.
 print "\nINFO, validating file in Shock nodes.\n";
-foreach my $var_name ('md_shocknode', 'shocknode') {
+foreach my $var_name ('metadata_file_id', 'sequence_file_id') {
     my $snode_url = "http://".$vars{shockurl}.'/node/'.$vars{$var_name};
     my $ua = LWP::UserAgent->new();
     my $get = $ua->get($snode_url);
@@ -147,9 +231,9 @@ foreach my $var_name ('md_shocknode', 'shocknode') {
         exit 1;
     }
 
-    if($var_name eq 'md_shocknode') {
+    if($var_name eq 'metadata_file_id') {
         $md_filename = $res->{data}->{file}->{name};
-    } elsif($var_name eq 'shocknode') {
+    } elsif($var_name eq 'sequence_file_id') {
         $vars{inputfile} = $res->{data}->{file}->{name};
     }
 }
@@ -157,7 +241,7 @@ foreach my $var_name ('md_shocknode', 'shocknode') {
 # Downloading metadata file to validate it.
 print "INFO, downloading metadata file for validation.\n";
 my $ua = LWP::UserAgent->new();
-my $get = $ua->get("http://".$vars{shockurl}.'/node/'.$vars{'md_shocknode'}."?download", ":content_file" => $md_filename);
+my $get = $ua->get("http://".$vars{shockurl}.'/node/'.$vars{'metadata_file_id'}."?download", ":content_file" => $md_filename);
 
 print "INFO, validating metdata file.\n";
 my $post = $ua->post("http://dev.metagenomics.anl.gov/api.cgi/metadata/validate",
@@ -176,11 +260,11 @@ if($res->{is_valid} == 0) {
     print "INFO, metadata validated.\n";
 }
 
-print "INFO, checking if jobname exists in metadata file as file_name or metagenome_name.\n";
+print "INFO, checking if metagenome_name exists in metadata file as file_name or metagenome_name.\n";
 my $job_found = 0;
 foreach my $sample (@{$res->{metadata}->{samples}}) {
     foreach my $library (@{$sample->{libraries}}) {
-        if((exists $library->{data}->{metagenome_name}->{value} && $vars{jobname} eq $library->{data}->{metagenome_name}->{value}) ||
+        if((exists $library->{data}->{metagenome_name}->{value} && $vars{metagenome_name} eq $library->{data}->{metagenome_name}->{value}) ||
            (exists $library->{data}->{file_name}->{value} && $vars{inputfile} eq $library->{data}->{file_name}->{value})) {
            $job_found = 1;
         }
@@ -188,7 +272,7 @@ foreach my $sample (@{$res->{metadata}->{samples}}) {
 }
 
 if($job_found == 0) {
-    print STDERR "ERROR, jobname '".$vars{jobname}."' not found in any 'metagenome_name' field in metadata.\n";
+    print STDERR "ERROR, metagenome_name '".$vars{metagenome_name}."' not found in any 'metagenome_name' field in metadata.\n";
     print STDERR "       and input file name '".$vars{inputfile}."' not found in any 'file_name' field in metadata.\n";
     print STDERR "Exiting without job submission.\n\n";
     exit 1;
@@ -263,43 +347,5 @@ print "INFO, AWE url = http://".$vars{aweurl}."/job/$awe_id\n";
 print "Done.\n\n";
 
 sub print_usage {
-  my $text = qq~
-NAME
-    can-analyze-metagenome -- submit a metagenome to be analyzed by the microbial communities pipeline
-
-VERSION
-    2
-
-SYNOPSIS
-    can-analyze-metagenome --metagenome_name=<metagenome/file name> --metagenome_datastore_id=<sequence/read file ID>, --metadata_datastore_id=<metadata file ID> [ --help, --user <user>, --pass <password>, --token <oAuth token>, --webkey <communities webkey>, --conf=<configuration file, (default='awe.ini')> ]
-
-DESCRIPTION
-    retrieve a metagenome from the communities API
-
-  Parameters
-    metagenome_name - metagenome/file name for sequence file in datastore, must match any metagenome name in metadata file
-    metagenome_datastore_id - sequence/read file ID in datastore
-    metadata_datastore_id - metadata file ID in datastore
-
-  Options
-    help - display this message
-    user - username to authenticate against the API, requires a password to be set as well
-    pass - password to authenticate against the API, requires a username to be set as well
-    token - Globus Online authentication token
-    webkey - MG-RAST webkey to synch with the passed Globus Online authentication
-
-  Output
-    JSON structure that contains the result data
-
-EXAMPLES
-    -
-
-SEE ALSO
-    -
-
-AUTHORS
-    Jared Bishop, Travis Harrison, Tobias Paczian, Andreas Wilke
-
-~;
-  system "echo '$text' | more";
+    system("perldoc $0 | cat");
 }
