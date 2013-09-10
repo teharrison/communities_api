@@ -74,19 +74,17 @@ def main(args):
     url = opts.url+'/matrix/organism?'+urllib.urlencode(params, True)
 
     # retrieve data
-    num = 0
-    top_ann = []
+    top_ann = {}
     biom = obj_from_url(url, auth=token)
     for d in sorted(biom['data'], key=itemgetter(2), reverse=True):
         name = biom['rows'][d[0]]['id']
-        if num > opts.top:
+        if len(top_ann) > opts.top:
             break
-        top_ann.append([name, d[2]])
-        num += 1
+        top_ann[name] = d[2]
     
     # output data
-    for t in top_ann:
-        sys.stdout.write("%s\t%d\n" %(t[0], t[1]))
+    for k, v in sorted(top_ann.items(), key=itemgetter(1), reverse=True):
+        sys.stdout.write("%s\t%d\n" %(k, v))
     
     return 0
     
