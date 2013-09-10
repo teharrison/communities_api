@@ -11,22 +11,40 @@ use JSON;
 my $topDir = $ENV{KB_TOP_DIR} || "/";
 my $service_repo = "communities_api" ;
 my $script_path = $topDir . "" ;
-
-
-
-my $num_tests = 0;
-my $json = new JSON;
+my $num_tests   = 0;
+my $json        = new JSON;
+my $success     = 1;
 
 #my $test_path = "/Users/Andi/Development/kbase/communities_api/scripts" ;
 
 my $scripts = {
-	       'mg-abundant-taxa' => 1 ,
-	       #'mg-check-annotation-status' => 1,
+	       'mg-abundant-taxa'           => 1,
+	       'mg-abundant-functions'      => 1,
+	       'mg-check-annotation-status' => 0,
 	       'mg-compare-alpha-diversity' => 1,
-	       #'my-metagenome' => 1,
-	       'mg-abundant-functions' => 1,
-	       #'mg-annotate-metagenome' => 1,
-	       'mg-display-statistics' => 1	
+	       'mg-abundant-functions'      => 1,
+	       'mg-annotate-metagenome'     => 0,
+	       'mg-display-statistics'      => 1,
+	       'mg-compare-functions'       => 1,
+	       'mg-display-metadata'        => 1,
+	       'mg-download-stage-file-list'=> 1,
+	       'mg-get-library'             => 0,
+	       'mg-get-project'             => 0,
+	       'mg-get-sequences-for-taxon' => 1,
+	       'mg-compare-pcoa-functions'  => 0,
+	       'mg-get-annotation-sequence' => 1,    
+	       'mg-get-metagenome-list'     => 1,  
+	       'mg-get-sample-list'         => 1,
+	       'mg-compare-pcoa-taxa'       => 1,
+	       'mg-download-file'           => 1,
+	       'mg-get-annotation-similarity' => 1,
+	       'mg-get-metagenome'            => 1,
+	       'mg-get-sample'                => 1,
+	       'mg-compare-taxa'              => 1,
+	       'mg-download-full-file-list'   => 1,
+	       'mg-get-library-list'          => 1,
+	       'mg-get-project-list'          => 1,
+	       'mg-get-sequences-for-function'=> 1,
 };
 
 
@@ -36,13 +54,24 @@ foreach my $script (keys %$scripts){
   eval{
     $message = `$script --help` ; 
   };
-  
-  is($@, '', "$script exists and executes");
-  isnt($message , undef ,"--help returns message");
-  # &check_help($message);
-  ok( &check_help($message) eq 1, "Help message structure");
-  ok( &check_example($message) , "Example for $script executes without errors" );
 
+  if ( ok (`which $script` , "$script is deployed") ){
+      
+      subtest "$script does execute with --help" => sub {
+	  ok(system("$script --help 1>output.log 2>error.log") == 0 , "$script exists and executes: $script --help");
+	  ok( -f "output.log" , '--help creates output');
+	  isnt($message , undef ,"--help returns message");
+	  ok(!( -s "error.log") , "$script --help returns no error:\t" . `cat error.log`);
+      };
+      if ( -z "error.log" ){
+	  
+	  subtest "Help message structure for $script"    => sub { &check_help($message)    } ;
+	  subtest "Example for $script works" => sub { &check_example($script,$message) } ;
+	  
+	  #ok( &check_help($message) , "Help message structure");
+	  #ok( &check_example($message) , "Example for $script executes without errors" );
+      }
+  }
 }
 
 #$num_tests += test_metagenome_query();
@@ -98,11 +127,11 @@ sub check_help{
     $success = 0 unless ( like($message, qr/$key/, "Help contains $key section") );
   }
 
-  return $success
+  #return $success
 }
 
 sub check_example{
-  my ($message) = @_ ;
+  my ($script, $message) = @_ ;
   my $success   = 1;
 
   my @lines = split "\n" , $message ;
@@ -116,11 +145,9 @@ sub check_example{
   # get example after EXAMPLES tag
   $line = shift @lines ;
   $line =~s/^\s*//; 
-  #$line =~s/\|/\\\|/g; 
-  print $line , "\n";
-  while(! $line ){
-      print $line , "\n";
-      exit;
+  #$line =~s/\|/\\\|/g;
+  
+  while( (! $line =~/$script/ ) and @lines ){
     $line = shift @lines ;
     $line =~s/^\s*//;  
   }
@@ -128,12 +155,17 @@ sub check_example{
   my $return = undef ;
 
   
-  $line =~s/^\s*//;  
-  $success = 0 unless ok(system("$line 1>output.log 2>error.log") == 0 , "Example exists and executes: $line");
+  $line        =~s/^\s*//;  
+  my ($script) = $line =~/^(mg-[\w\-]+)/;
 
-  ok( -f "output.log" , 'Example returns output');
-
-  return $success;
+  if ( ok( $script , "Example exists: $line") ){
+      
+      ok( exists $scripts->{$script} , "Script $script is in testing list.") ;
+      ok(system("$line 1>output.log 2>error.log") == 0 , "Example exists and executes: $line") if ($line);
+      my $return = system("$line 1>output.log 2>error.log") ;
+      print "$script returned with $return\n";
+      ok( -f "output.log" , 'Example returns output');
+  }
 }
 
 
