@@ -26,7 +26,7 @@ Output
     2. BIOM format of functional abundance profiles.
 
 EXAMPLES
-    mg-compare-functions --ids "kb|mg.286,kb|mg.287,kb|mg.288,kb|mg.289" --level level2 --source KO --format text --evalue 10
+    mg-compare-functions --ids "kb|mg.286,kb|mg.287,kb|mg.288,kb|mg.289" --level level2 --source KO --format text --evalue 8
 
 SEE ALSO
     -

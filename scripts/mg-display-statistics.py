@@ -22,7 +22,7 @@ DESCRIPTION
 
 posthelp = """
 Output
-    -
+    Tab-delimited table of numbers (with text header). Output varies based on type of statistic requested.
 
 EXAMPLES
     mg-display-statistics --id "kb|mg.287" --stat sequence
