@@ -25,11 +25,7 @@ Output
     Tab-delimited list of taxon and abundance sorted by abundance (largest first). 'top' option controls number of rows returned.
 
 EXAMPLES
-<<<<<<< HEAD
-    mg-abundant-taxa --id "kb|mg.287" --level genus --source RefSeq --top 20 --evalue 5
-=======
     mg-abundant-taxa --id "kb|mg.287" --level genus --source RefSeq --top 20 --evalue 8
->>>>>>> 3975943cb8ae2c12b375d7368e43e86735d1e97b
 
 SEE ALSO
     -
