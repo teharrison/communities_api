@@ -9,7 +9,7 @@ SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 SERVICE_URL = http://kbase.us/services/communities/1
 
 # things needed for testing
-TESTS = $(wildcard test/client-tests/*.t) 
+TESTS = $(wildcard test/client-tests/*.t)
 
 default:
 	@echo "nothing to do for default make"
@@ -31,18 +31,18 @@ deploy-client: build-libs deploy-libs build-scripts deploy-scripts
 	@echo "Client tools deployed"
 
 build-libs:
-	perl common/bin/api2js.pl -url $(SERVICE_URL) -outfile docs/CommunitiesAPI.json
-	perl common/bin/definition2typedef.pl -json docs/CommunitiesAPI.json -typedef docs/CommunitiesAPI.typedef -service CommunitiesAPI
+	perl api2js.pl -url $(SERVICE_URL) -outfile docs/CommunitiesAPI.json
+	perl definition2typedef.pl -json docs/CommunitiesAPI.json -typedef docs/CommunitiesAPI.typedef -service CommunitiesAPI
 	compile_typespec --impl CommunitiesAPI --js CommunitiesAPI --py CommunitiesAPI docs/CommunitiesAPI.typedef lib
 	@echo "Done building typespec libs"
 
 build-scripts:
-	perl common/bin/generate_commandline.pl -template common/template -config config/commandline.conf -outdir api-scripts
+	perl generate_commandline.pl -template $(TOP_DIR)/template/communities.template -config config/commandline.conf -outdir api-scripts
 	cp api-scripts/* scripts/.
 	@echo "Done building command line scripts"
 
 build-docs:
-	perl common/bin/api2html.pl -url $(SERVICE_URL) -site_name "Communities API" -outfile docs/Communities_API.html
+	perl api2html.pl -url $(SERVICE_URL) -site_name "Communities API" -outfile docs/Communities_API.html
 	pod2html --infile=lib/CommunitiesAPIClient.pm --outfile=docs/CommunitiesAPI.html --title="Communities API Client"
 
 deploy-docs: build-docs
