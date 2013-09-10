@@ -25,7 +25,7 @@ Output
     Tab-delimited list of: m5nr id, dna sequence, semicolon seperated list of annotations, sequence id
 
 EXAMPLES
-    mg-get-sequences-for-function --id "kb|mg.287" --name "Lysine Biosynthesis" --level level2 --source Subsystems --evalue 8
+    mg-get-sequences-for-function --id "kb|mg.287" --name "Lysine Biosynthesis" --level level2 --source Subsystems
 
 SEE ALSO
     -
