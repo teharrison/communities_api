@@ -64,7 +64,7 @@ if (open(FH, "<$config")) {
 	my $additionals = "";
 	foreach my $s (@spec) {
 	  $optionvars .= 'my $'.$s." = undef;\n";
-	  $getopts .= ",\n\t'$s' => \\\$$s";
+	  $getopts .= ",\n\t'$s=s' => \\\$$s";
 	  $additionals .= "\nif (\$$s) {\n    \$additionals .= \"&$s=\$$s\";\n}";
 	}
 	$currt =~ s/##optionvars##/$optionvars/g;
