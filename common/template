@@ -42,7 +42,7 @@ AUTHORS
   print $text;
 }
 
-my $HOST      = '##host##/##item##/';
+my $HOST      = '##host##/##item##';
 my $user      = '';
 my $pass      = '';
 my $token     = '';
@@ -102,14 +102,17 @@ if ($id && $id =~/^kb\|/) {
   $id = $return->{$id}->[1];
 }
 
-if ($id) {
-  $HOST .= "$id/";
-}
-
 my $subresource = "##subitem##";
 my $additionals = "";##additionals## 
 
-my $url = $HOST.$subresource."?verbosity=$verbosity&limit=$limit&offset=$offset".$additionals;
+my $last = "";
+if ($id) {
+    $last = "/$id";
+} elsif ($text) {
+    $last = "/$text";
+}
+
+my $url = $HOST.$subresource.$last."?verbosity=$verbosity&limit=$limit&offset=$offset".$additionals;
 if ($webkey) {
   $url .= "&webkey=".$webkey;
 }
