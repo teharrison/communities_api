@@ -22,8 +22,13 @@ def obj_from_url(url, auth=None, data=None, debug=False):
         req = urllib2.Request(url, data, headers=header)
         res = urllib2.urlopen(req)
     except urllib2.HTTPError, error:
-        sys.stderr.write("ERROR: %s, %s\n" %(error.code, error.read()))
-        sys.exit(1)
+        try:
+            eobj = json.loads(error.read())
+            sys.stderr.write("ERROR (%s): %s\n" %(error.code, eobj['ERROR']))
+            sys.exit(1)
+        except:
+            sys.stderr.write("ERROR (%s): %s\n" %(error.code, error.read()))
+            sys.exit(1)
     if not res:
         sys.stderr.write("ERROR: no results returned\n")
         sys.exit(1)
@@ -51,8 +56,13 @@ def stout_from_url(url, auth=None, data=None, debug=False):
         req = urllib2.Request(url, data, headers=header)
         res = urllib2.urlopen(req)
     except urllib2.HTTPError, error:
-        sys.stderr.write("ERROR: %s, %s\n" %(error.code, error.read()))
-        sys.exit(1)
+        try:
+            eobj = json.loads(error.read())
+            sys.stderr.write("ERROR (%s): %s\n" %(error.code, eobj['ERROR']))
+            sys.exit(1)
+        except:
+            sys.stderr.write("ERROR (%s): %s\n" %(error.code, error.read()))
+            sys.exit(1)
     if not res:
         sys.stderr.write("ERROR: no results returned\n")
         sys.exit(1)
@@ -105,8 +115,13 @@ def kbid_lookup(kbids):
         req = urllib2.Request(ID_URL, data)
         res = urllib2.urlopen(req)
     except urllib2.HTTPError, error:
-        sys.stderr.write("ERROR: %s, %s\n" %(error.code, error.read()))
-        sys.exit(1)
+        try:
+            eobj = json.loads(error.read())
+            sys.stderr.write("ERROR (%s): %s\n" %(error.code, eobj['error']['message']))
+            sys.exit(1)
+        except:
+            sys.stderr.write("ERROR (%s): %s\n" %(error.code, error.read()))
+            sys.exit(1)
     if not res:
         sys.stderr.write("ERROR: no results returned for ids (%s)\n" %','.join(kbids))
         sys.exit(1)
@@ -143,7 +158,7 @@ def token_from_login(user, passwd, url=OAUTH_URL):
         req = urllib2.Request(url, headers=header)
         res = urllib2.urlopen(req)
     except urllib2.HTTPError, error:
-        sys.stderr.write("ERROR: %s, %s\n" %(error.code, error.read()))
+        sys.stderr.write("ERROR (%s): %s\n" %(error.code, error.read()))
         sys.exit(1)
     if not res:
         sys.stderr.write("ERROR: could not reach auth server\n")
