@@ -67,11 +67,11 @@ def main(args):
                ('identity', opts.identity),
                ('length', opts.length) ]
     if opts.source in ['Subsystems', 'KO', 'NOG', 'COG']:
-        params.append('type', 'ontology')
+        params.append(('type', 'ontology'))
     else:
-        params.append('type', 'function')
+        params.append(('type', 'function'))
     if opts.name:
-        params.append('filter', opts.name)
+        params.append(('filter', opts.name))
         if opts.level:
             params.append(('filter_level', opts.level))
     url = opts.url+'/annotation/sequence/'+opts.id+'?'+urllib.urlencode(params, True)
