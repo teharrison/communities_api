@@ -22,20 +22,20 @@ def obj_from_url(url, auth=None, data=None, debug=False):
         req = urllib2.Request(url, data, headers=header)
         res = urllib2.urlopen(req)
     except urllib2.HTTPError, error:
-        sys.stderr.write("ERROR (%s):%s, %s\n" %(url, error.code, error.read()))
+        sys.stderr.write("ERROR: %s, %s\n" %(error.code, error.read()))
         sys.exit(1)
     if not res:
-        sys.stderr.write("ERROR (%s): no results returned\n" %url)
+        sys.stderr.write("ERROR: no results returned\n")
         sys.exit(1)
     obj = json.loads(res.read())
     if obj is None:
-        sys.stderr.write("ERROR (%s): return structure not valid json format\n" %url)
+        sys.stderr.write("ERROR: return structure not valid json format\n")
         sys.exit(1)
     if len(obj.keys()) == 0:
-        sys.stderr.write("ERROR (%s): no data available\n" %url)
+        sys.stderr.write("ERROR: no data available\n")
         sys.exit(1)
     if 'ERROR' in obj:
-        sys.stderr.write("ERROR (%s): %s\n" %(url, obj['ERROR']))
+        sys.stderr.write("ERROR: %s\n" %obj['ERROR'])
         sys.exit(1)
     return obj
 
@@ -51,10 +51,10 @@ def stout_from_url(url, auth=None, data=None, debug=False):
         req = urllib2.Request(url, data, headers=header)
         res = urllib2.urlopen(req)
     except urllib2.HTTPError, error:
-        sys.stderr.write("ERROR (%s):%s, %s\n" %(url, error.code, error.read()))
+        sys.stderr.write("ERROR: %s, %s\n" %(error.code, error.read()))
         sys.exit(1)
     if not res:
-        sys.stderr.write("ERROR (%s): no results returned\n"%url)
+        sys.stderr.write("ERROR: no results returned\n")
         sys.exit(1)
     while True:
         chunk = res.read(8192)
@@ -81,7 +81,7 @@ def biom_to_tab(biom, hdl):
 def kbid_to_mgid(kbid):
     id_map = kbid_lookup([kbid])
     if kbid not in id_map:
-        sys.stderr.write("ERROR: (%s) not a valid KBase ID\n" %kbid)
+        sys.stderr.write("ERROR: '%s' not a valid KBase ID\n" %kbid)
         sys.exit(1)
     return id_map[kbid]
 
@@ -105,14 +105,14 @@ def kbid_lookup(kbids):
         req = urllib2.Request(ID_URL, data)
         res = urllib2.urlopen(req)
     except urllib2.HTTPError, error:
-        sys.stderr.write("ERROR (%s):%s, %s\n" %(ID_URL, error.code, error.read()))
+        sys.stderr.write("ERROR: %s, %s\n" %(error.code, error.read()))
         sys.exit(1)
     if not res:
-        sys.stderr.write("ERROR (%s): no results returned for ids (%s)\n" %(ID_URL, ','.join(kbids)))
+        sys.stderr.write("ERROR: no results returned for ids (%s)\n" %','.join(kbids))
         sys.exit(1)
     obj = json.loads(res.read())
     if obj is None:
-        sys.stderr.write("ERROR (%s): return structure not valid json format\n" %ID_URL)
+        sys.stderr.write("ERROR: return structure not valid json format\n")
         sys.exit(1)
     if 'error' in obj:
         sys.stderr.write("ERROR: %s\n" %obj['error']['message'])
@@ -143,7 +143,7 @@ def token_from_login(user, passwd, url=OAUTH_URL):
         req = urllib2.Request(url, headers=header)
         res = urllib2.urlopen(req)
     except urllib2.HTTPError, error:
-        sys.stderr.write("ERROR (%s):%s, %s\n" %(url, error.code, error.read()))
+        sys.stderr.write("ERROR: %s, %s\n" %(error.code, error.read()))
         sys.exit(1)
     if not res:
         sys.stderr.write("ERROR: could not reach auth server\n")
