@@ -28,21 +28,21 @@ clean:
 
 deploy-client: build-libs deploy-libs build-scripts deploy-scripts
 	mkdir -p $(SERVICE_DIR)
-	@echo "Client tools deployed"
+	@echo "client tools deployed"
 
 build-libs:
-	perl api2js.pl -url $(SERVICE_URL) -outfile docs/CommunitiesAPI.json
-	perl definition2typedef.pl -json docs/CommunitiesAPI.json -typedef docs/CommunitiesAPI.typedef -service CommunitiesAPI
+	perl api2js -url $(SERVICE_URL) -outfile docs/CommunitiesAPI.json
+	perl definition2typedef -json docs/CommunitiesAPI.json -typedef docs/CommunitiesAPI.typedef -service CommunitiesAPI
 	compile_typespec --impl CommunitiesAPI --js CommunitiesAPI --py CommunitiesAPI docs/CommunitiesAPI.typedef lib
-	@echo "Done building typespec libs"
+	@echo "done building typespec libs"
 
 build-scripts:
-	perl generate_commandline.pl -template $(TOP_DIR)/template/communities.template -config config/commandline.conf -outdir api-scripts
+	perl generate_commandline -template $(TOP_DIR)/template/communities.template -config config/commandline.conf -outdir api-scripts
 	cp api-scripts/* scripts/.
-	@echo "Done building command line scripts"
+	@echo "done building command line scripts"
 
 build-docs:
-	perl api2html.pl -url $(SERVICE_URL) -site_name "Communities API" -outfile docs/Communities_API.html
+	perl api2html -url $(SERVICE_URL) -site_name "Communities API" -outfile docs/Communities_API.html
 	pod2html --infile=lib/CommunitiesAPIClient.pm --outfile=docs/CommunitiesAPI.html --title="Communities API Client"
 
 deploy-docs: build-docs
