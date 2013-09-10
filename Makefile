@@ -9,7 +9,7 @@ SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 SERVICE_URL = http://kbase.us/services/communities/1
 
 # things needed for testing
-TESTS = $(wildcard test/client-tests/*.t)
+TESTS = $(wildcard test/script-tests/test_*.t)
 
 default:
 	@echo "nothing to do for default make"
