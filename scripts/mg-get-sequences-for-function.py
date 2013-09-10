@@ -71,7 +71,7 @@ def main(args):
     else:
         params.append('type', 'function')
     if opts.name:
-        params.append(('filter', opts.name))
+        params.append('filter', opts.name)
         if opts.level:
             params.append(('filter_level', opts.level))
     url = opts.url+'/annotation/sequence/'+opts.id+'?'+urllib.urlencode(params, True)
