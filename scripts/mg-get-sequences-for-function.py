@@ -22,10 +22,10 @@ DESCRIPTION
 
 posthelp = """
 Output
-    Tab-delimited list of:
+    Tab-delimited list of: m5nr id, dna sequence, semicolon seperated list of annotations, sequence id
 
 EXAMPLES
-    mg-get-sequences-for-function --id "kb|mg.287" --name "Lysine Biosynthesis" --level level2 --source Subsystems --evalue 15
+    mg-get-sequences-for-function --id "kb|mg.287" --name "Central carbohydrate metabolism" --level level2 --source Subsystems --evalue 10
 
 SEE ALSO
     -
@@ -67,9 +67,9 @@ def main(args):
                ('identity', opts.identity),
                ('length', opts.length) ]
     if opts.source in ['Subsystems', 'KO', 'NOG', 'COG']:
-        params.append('type', 'ontology')
+        params.append(('type', 'ontology'))
     else:
-        params.append('type', 'function')
+        params.append(('type', 'function'))
     if opts.name:
         params.append(('filter', opts.name))
         if opts.level:

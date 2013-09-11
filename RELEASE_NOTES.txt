@@ -1,9 +1,28 @@
-Date: 08/08/13
+OVERVIEW
+-----------------------------------------
 
-This release contains two new commands:
+The microbial communities API service provides access methods to all
+microbial communities data and analysis methods.
 
-- metagenome
-  Provides information about single metagenomes or lsit of available metagenomes
-- analyse_metagenome
-  initiates the analysis of an uploaded metagenomic sequence file with metadata
+CHANGES - 9/10/2013
+------------------
 
+* updated script names to comply to KIDL standart
+* updated help to new format
+* added scripts:
+
+mg-abundant-functions
+mg-compare-taxa
+mg-abundant-taxa
+mg-display-metadata
+mg-annotate-metagenome
+mg-display-statistics
+mg-check-annotation-status
+mg-get-sequences-for-function
+mg-compare-alpha-diversity
+mg-get-sequences-for-taxon
+mg-compare-functions
+mg-compare-pcoa-functions
+mg-compare-pcoa-taxa
+
+* consolidated generic scripts

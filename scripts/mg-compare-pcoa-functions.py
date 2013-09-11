@@ -25,7 +25,7 @@ Output
     Tab-delimited table of first 4 principal components for each metagenome.
 
 EXAMPLES
-    mg-compare-pcoa-functions --ids "kb|mg.286,kb|mg.287,kb|mg.288,kb|mg.289" --level level2 --source KO --distance euclidean --evalue 10
+    mg-compare-pcoa-functions --ids "kb|mg.286,kb|mg.287,kb|mg.288,kb|mg.289" --level level2 --source KO --distance euclidean --evalue 8
 
 SEE ALSO
     -
@@ -43,8 +43,8 @@ def main(args):
     parser.add_option("", "--user", dest="user", default=None, help="OAuth username")
     parser.add_option("", "--passwd", dest="passwd", default=None, help="OAuth password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
-    parser.add_option("", "--level", dest="level", default='species', help="functional level to retrieve abundances for")
-    parser.add_option("", "--source", dest="source", default='SEED', help="datasource to filter results by")
+    parser.add_option("", "--level", dest="level", default='function', help="functional level to retrieve abundances for")
+    parser.add_option("", "--source", dest="source", default='Subsystems', help="datasource to filter results by")
     parser.add_option("", "--distance", dest="distance", default='bray-curtis', help="distance function, one of: bray-curtis, euclidean, maximum, manhattan, canberra, minkowski, difference")
     parser.add_option("", "--evalue", dest="evalue", default=5, help="negative exponent value for maximum e-value cutoff")
     parser.add_option("", "--identity", dest="identity", default=60, help="percent value for minimum % identity cutoff")

@@ -26,7 +26,7 @@ Output
     2. BIOM format of functional abundance profiles.
 
 EXAMPLES
-    mg-compare-functions --ids "kb|mg.286,kb|mg.287,kb|mg.288,kb|mg.289" --level level2 --source KO --format text --evalue 10
+    mg-compare-functions --ids "kb|mg.286,kb|mg.287,kb|mg.288,kb|mg.289" --level level2 --source KO --format text --evalue 8
 
 SEE ALSO
     -
@@ -44,8 +44,8 @@ def main(args):
     parser.add_option("", "--user", dest="user", default=None, help="OAuth username")
     parser.add_option("", "--passwd", dest="passwd", default=None, help="OAuth password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
-    parser.add_option("", "--level", dest="level", default='species', help="functional level to retrieve abundances for")
-    parser.add_option("", "--source", dest="source", default='SEED', help="datasource to filter results by")
+    parser.add_option("", "--level", dest="level", default='function', help="functional level to retrieve abundances for")
+    parser.add_option("", "--source", dest="source", default='Subsystems', help="datasource to filter results by")
     parser.add_option("", "--format", dest="format", default='text', help="output format: 'text' for tabbed table, 'biom' for BIOM format")
     parser.add_option("", "--evalue", dest="evalue", default=5, help="negative exponent value for maximum e-value cutoff")
     parser.add_option("", "--identity", dest="identity", default=60, help="percent value for minimum % identity cutoff")

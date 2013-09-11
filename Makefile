@@ -1,63 +1,53 @@
-TARGET ?= /kb/deployment
+TOP_DIR = ../..
+TOOLS_DIR = $(TOP_DIR)/tools
 DEPLOY_RUNTIME ?= /kb/runtime
+TARGET ?= /kb/deployment
+include $(TOOLS_DIR)/Makefile.common
+
 SERVICE = communities_api
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 SERVICE_URL = http://kbase.us/services/communities/1
 
-# to wrap scripts and deploy them to $(TARGET)/bin using tools in the dev_container
-TOP_DIR = ../..
-TOOLS_DIR = $(TOP_DIR)/tools
-WRAP_PERL_TOOL = wrap_perl
-WRAP_PERL_SCRIPT = bash $(TOOLS_DIR)/$(WRAP_PERL_TOOL).sh
-SRC_PERL = $(wildcard scripts/*.pl)
-
 # things needed for testing
-TESTS = $(wildcard test/client-tests/*.t) 
+TESTS = $(wildcard test/script-tests/test_*.t)
 
 default:
 	@echo "nothing to do for default make"
 
-deploy: deploy-client
+deploy: deploy-cfg deploy-client deploy-docs
 
-deploy-all: deploy-client
+deploy-all: deploy
 
-deploy-client: build-libs deploy-libs build-scripts deploy-scripts build-docs deploy-docs
-	if [ ! -d $(SERVICE_DIR) ]; then mkdir -p $(SERVICE_DIR); fi
-	if [ ! -d $(TARGET)/lib ]; then mkdir -p $(TARGET)/lib; fi
-	cp client/* $(TARGET)/lib
-	@echo "Client tools deployed"
+all: deploy
+
+clean:
+	rm -f api-scripts/mg-*
+	rm -f lib/C*
+	rm -f docs/C*
+	@echo "All clean"
+
+deploy-client: build-libs deploy-libs build-scripts deploy-scripts
+	mkdir -p $(SERVICE_DIR)
+	@echo "client tools deployed"
 
 build-libs:
-	perl common/bin/api2js.pl -url $(SERVICE_URL) -outfile docs/CommunitiesAPI.json
-	perl common/bin/definition2typedef.pl -json docs/CommunitiesAPI.json -typedef docs/CommunitiesAPI.typedef
+	api2js -url $(SERVICE_URL) -outfile docs/CommunitiesAPI.json
+	definition2typedef -json docs/CommunitiesAPI.json -typedef docs/CommunitiesAPI.typedef -service CommunitiesAPI
 	compile_typespec --impl CommunitiesAPI --js CommunitiesAPI --py CommunitiesAPI docs/CommunitiesAPI.typedef lib
-	@echo "Done building typespec libs"
+	@echo "done building typespec libs"
 
 build-scripts:
-	perl common/bin/generate_commandline.pl -template common/conf/template -config common/conf/config -outdir api-scripts
+	generate_commandline -template $(TOP_DIR)/template/communities.template -config config/commandline.conf -outdir api-scripts
 	cp api-scripts/* scripts/.
-
-deploy-scripts:
-	if [ ! -d $(TARGET)/bin ]; then mkdir -p $(TARGET)/bin; fi
-	if [ ! -d $(TARGET)/plbin ]; then mkdir -p $(TARGET)/plbin; fi
-	export KB_TOP=$(TARGET); \
-	export KB_RUNTIME=$(DEPLOY_RUNTIME); \
-	export KB_PERL_PATH=$(TARGET)/lib:$(TARGET)/lib/perl5 bash; \
-	for src in $(SRC_PERL); do \
-		basefile=`basename $$src`; \
-		base=`basename $$src .pl`; \
-		echo install $$src $$base; \
-		cp $$src $(TARGET)/plbin; \
-		$(WRAP_PERL_SCRIPT) "$(TARGET)/plbin/$$basefile" $(TARGET)/bin/$$base; \
-	done
+	@echo "done building command line scripts"
 
 build-docs:
-	perl common/bin/api2html.pl -url $(SERVICE_URL) -site_name "Communities API" -outfile docs/Communities_API.html
+	api2html -url $(SERVICE_URL) -site_name "Communities API" -outfile docs/Communities_API.html
 	pod2html --infile=lib/CommunitiesAPIClient.pm --outfile=docs/CommunitiesAPI.html --title="Communities API Client"
 
-deploy-docs:
-	if [ ! -d $(TARGET)/services/$(SERVICE)/webroot/ ]; then mkdir -p $(TARGET)/services/$(SERVICE)/webroot/; fi
-	cp docs/*.html $(TARGET)/services/$(SERVICE)/webroot
+deploy-docs: build-docs
+	mkdir -p $(SERVICE_DIR)/webroot
+	cp docs/*.html $(SERVICE_DIR)/webroot/.
 
 test: test-client
 
@@ -69,3 +59,6 @@ test-client:
 			exit 1; \
 		fi \
 	done
+
+
+include $(TOOLS_DIR)/Makefile.common.rules

@@ -22,7 +22,7 @@ DESCRIPTION
 
 posthelp = """
 Output
-    -
+    Tab-delimited table of numbers (with text header). Output varies based on type of statistic requested.
 
 EXAMPLES
     mg-display-statistics --id "kb|mg.287" --stat sequence
@@ -100,8 +100,7 @@ def main(args):
         sys.stderr.write("ERROR: invalid stat type\n")
         return 1
     
-    return 0
-    
+    return 0    
 
 if __name__ == "__main__":
     sys.exit( main(sys.argv) )
