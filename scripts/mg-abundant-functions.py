@@ -43,12 +43,12 @@ def main(args):
     parser.add_option("", "--user", dest="user", default=None, help="OAuth username")
     parser.add_option("", "--passwd", dest="passwd", default=None, help="OAuth password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
-    parser.add_option("", "--level", dest="level", default='function', help="functional level to retrieve abundances for")
-    parser.add_option("", "--source", dest="source", default='Subsystems', help="datasource to filter results by")
-    parser.add_option("", "--top", dest="top", default=10, help="display only the top N taxa")
-    parser.add_option("", "--evalue", dest="evalue", default=5, help="negative exponent value for maximum e-value cutoff")
-    parser.add_option("", "--identity", dest="identity", default=60, help="percent value for minimum % identity cutoff")
-    parser.add_option("", "--length", dest="length", default=15, help="value for minimum alignment length cutoff")
+    parser.add_option("", "--level", dest="level", default='function', help="functional level to retrieve abundances for, default is function")
+    parser.add_option("", "--source", dest="source", default='Subsystems', help="datasource to filter results by, default is Subsystems")
+    parser.add_option("", "--top", dest="top", default=10, help="display only the top N taxa, default is 10")
+    parser.add_option("", "--evalue", dest="evalue", default=5, help="negative exponent value for maximum e-value cutoff, default is 5")
+    parser.add_option("", "--identity", dest="identity", default=60, help="percent value for minimum % identity cutoff, default is 60")
+    parser.add_option("", "--length", dest="length", default=15, help="value for minimum alignment length cutoff, default is 15")
     
     # get inputs
     (opts, args) = parser.parse_args()

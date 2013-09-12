@@ -43,8 +43,8 @@ def main(args):
     parser.add_option("", "--user", dest="user", default=None, help="OAuth username")
     parser.add_option("", "--passwd", dest="passwd", default=None, help="OAuth password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
-    parser.add_option("", "--level", dest="level", default='species', help="taxon level to retrieve abundances for")
-    parser.add_option("", "--source", dest="source", default='SEED', help="datasource to filter results by")
+    parser.add_option("", "--level", dest="level", default='species', help="taxon level to retrieve abundances for, default is species")
+    parser.add_option("", "--source", dest="source", default='SEED', help="datasource to filter results by, default is SEED")
     
     # get inputs
     (opts, args) = parser.parse_args()

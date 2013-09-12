@@ -43,7 +43,7 @@ def main(args):
     parser.add_option("", "--user", dest="user", default=None, help="OAuth username")
     parser.add_option("", "--passwd", dest="passwd", default=None, help="OAuth password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
-    parser.add_option("", "--verbosity", dest="verbosity", default='mixs', help="amount of metadata to display. use keyword 'mixs' for GSC MIxS metadata, use keyword 'full' for all GSC metadata")
+    parser.add_option("", "--verbosity", dest="verbosity", default='mixs', help="amount of metadata to display. use keyword 'mixs' for GSC MIxS metadata, use keyword 'full' for all GSC metadata, default is mixs")
     
     # get inputs
     (opts, args) = parser.parse_args()

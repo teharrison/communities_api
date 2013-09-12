@@ -45,10 +45,10 @@ def main(args):
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
     parser.add_option("", "--name", dest="name", default=None, help="function name to filter by")
     parser.add_option("", "--level", dest="level", default=None, help="function level to filter by")
-    parser.add_option("", "--source", dest="source", default='Subsystems', help="datasource to filter results by")
-    parser.add_option("", "--evalue", dest="evalue", default=5, help="negative exponent value for maximum e-value cutoff")
-    parser.add_option("", "--identity", dest="identity", default=60, help="percent value for minimum % identity cutoff")
-    parser.add_option("", "--length", dest="length", default=15, help="value for minimum alignment length cutoff")
+    parser.add_option("", "--source", dest="source", default='Subsystems', help="datasource to filter results by, default is Subsystems")
+    parser.add_option("", "--evalue", dest="evalue", default=5, help="negative exponent value for maximum e-value cutoff, default is 5")
+    parser.add_option("", "--identity", dest="identity", default=60, help="percent value for minimum % identity cutoff, default is 60")
+    parser.add_option("", "--length", dest="length", default=15, help="value for minimum alignment length cutoff, default is 15")
     
     # get inputs
     (opts, args) = parser.parse_args()
