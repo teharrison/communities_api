@@ -17,7 +17,7 @@ SYNOPSIS
     mg-display-metadata [ --help, --user <user>, --passwd <password>, --token <oAuth token>, --id <metagenome id>, --verbosity <cv: 'mixs', 'full'> ]
 
 DESCRIPTION
-    Retrieve metadata for a metagenome from the communities API.
+    Retrieve metadata for a metagenome.
 """
 
 posthelp = """
@@ -89,6 +89,4 @@ def main(args):
     
 
 if __name__ == "__main__":
-    x = main(sys.argv)
-    print x
-    sys.exit( x )
+    sys.exit( main(sys.argv) )
