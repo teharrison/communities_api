@@ -9,6 +9,7 @@ API_URL = "http://kbase.us/services/communities/"+VERSION
 ID_URL  = 'http://www.kbase.us/services/idserver'
 OAUTH_URL = 'https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials'
 AUTH_LIST = "Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke"
+SEARCH_FIELDS = ["function", "organism", "name", "biome", "feature", "material", "country", "location", "longitude", "latitude", "created", "env_package_type", "project_id", "project_name", "PI_firstname", "PI_lastname", "sequence_type", "seq_method", "collection_date"]
 
 # return python struct from JSON output of MG-RAST API
 def obj_from_url(url, auth=None, data=None, debug=False):
@@ -70,7 +71,7 @@ def stout_from_url(url, auth=None, data=None, debug=False):
         chunk = res.read(8192)
         if not chunk:
             break
-        sys.stderr.write(chunk)
+        sys.stdout.write(chunk)
 
 # transform sparse matrix to dense matrix (2D array)
 def sparse_to_dense(sMatrix, rmax, cmax):
