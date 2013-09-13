@@ -6,9 +6,8 @@ import json
 
 VERSION = '1'
 API_URL = "http://kbase.us/services/communities/"+VERSION
-ID_URL  = 'http://www.kbase.us/services/idserver'
-OAUTH_URL = 'https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials'
 AUTH_LIST = "Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke"
+SEARCH_FIELDS = ["function", "organism", "name", "biome", "feature", "material", "country", "location", "longitude", "latitude", "created", "env_package_type", "project_id", "project_name", "PI_firstname", "PI_lastname", "sequence_type", "seq_method", "collection_date"]
 
 # return python struct from JSON output of MG-RAST API
 def obj_from_url(url, auth=None, data=None, debug=False):
@@ -17,6 +16,7 @@ def obj_from_url(url, auth=None, data=None, debug=False):
         header['Auth'] = auth
     if debug:
         print json.dumps(header)
+        print json.dumps(data)
         print url
     try:
         req = urllib2.Request(url, data, headers=header)
@@ -70,7 +70,7 @@ def stout_from_url(url, auth=None, data=None, debug=False):
         chunk = res.read(8192)
         if not chunk:
             break
-        sys.stderr.write(chunk)
+        sys.stdout.write(chunk)
 
 # transform sparse matrix to dense matrix (2D array)
 def sparse_to_dense(sMatrix, rmax, cmax):
@@ -109,33 +109,9 @@ def kbids_to_mgids(kbids):
 
 # return map (KBase id -> MG-RAST id) for given list of KBase ids
 def kbid_lookup(kbids):
-    params = {'method': 'IDServerAPI.kbase_ids_to_external_ids', 'params': [kbids], 'version': '1.1'}
-    data = json.dumps(params)
-    try:
-        req = urllib2.Request(ID_URL, data)
-        res = urllib2.urlopen(req)
-    except urllib2.HTTPError, error:
-        try:
-            eobj = json.loads(error.read())
-            sys.stderr.write("ERROR (%s): %s\n" %(error.code, eobj['error']['message']))
-            sys.exit(1)
-        except:
-            sys.stderr.write("ERROR (%s): %s\n" %(error.code, error.read()))
-            sys.exit(1)
-    if not res:
-        sys.stderr.write("ERROR: no results returned for ids (%s)\n" %','.join(kbids))
-        sys.exit(1)
-    obj = json.loads(res.read())
-    if obj is None:
-        sys.stderr.write("ERROR: return structure not valid json format\n")
-        sys.exit(1)
-    if 'error' in obj:
-        sys.stderr.write("ERROR: %s\n" %obj['error']['message'])
-        sys.exit(1)
-    if len(obj['result'][0].keys()) == 0:
-        return {}
-    else:
-        return dict([(k, obj['result'][0][k][1]) for k in obj['result'][0].keys()])
+    url  = API_URL+'/job/kb2mg'
+    data = obj_from_url(url, data={'ids': kbids})
+    return data['data']
 
 def get_auth_token(opts):
     if 'KB_AUTH_TOKEN' in os.environ:
@@ -151,20 +127,7 @@ def get_auth_token(opts):
     else:
         return None
 
-def token_from_login(user, passwd, url=OAUTH_URL):
-    base64string = base64.b64encode('%s:%s' %(user, passwd)).replace('\n', '')
-    header = {'Authorization': 'Basic %s'%base64string}
-    try:
-        req = urllib2.Request(url, headers=header)
-        res = urllib2.urlopen(req)
-    except urllib2.HTTPError, error:
-        sys.stderr.write("ERROR (%s): %s\n" %(error.code, error.read()))
-        sys.exit(1)
-    if not res:
-        sys.stderr.write("ERROR: could not reach auth server\n")
-        sys.exit(1)
-    obj = json.loads(res.read())
-    if (obj is None) or (len(obj.keys()) == 0) or ('access_token' not in obj):
-        sys.stderr.write("ERROR: authentication failed\n")
-        sys.exit(1)
-    return obj['access_token']
+def token_from_login(user, passwd):
+    auth = 'kbgo4711'+base64.b64encode('%s:%s' %(user, passwd)).replace('\n', '')
+    data = obj_from_url(API_URL, auth=auth)
+    return data['token']

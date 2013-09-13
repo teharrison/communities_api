@@ -17,7 +17,7 @@ SYNOPSIS
     mg-display-statistics [ --help, --user <user>, --passwd <password>, --token <oAuth token>, --id <metagenome id>, --stat <cv: 'sequence', 'bp_profile', 'drisee', 'kmer', 'rarefaction', taxa_level> ]
 
 DESCRIPTION
-    Retrieve statistical overview data for a metagenome from the communities API.
+    Retrieve statistical overview data for a metagenome.
 """
 
 posthelp = """
@@ -43,7 +43,7 @@ def main(args):
     parser.add_option("", "--user", dest="user", default=None, help="OAuth username")
     parser.add_option("", "--passwd", dest="passwd", default=None, help="OAuth password")
     parser.add_option("", "--token", dest="token", default=None, help="OAuth token")
-    parser.add_option("", "--stat", dest="stat", default='sequence', help="type of stat to display, use keyword: 'sequence', 'bp_profile', 'drisee', 'kmer', 'rarefaction', or taxa level name")
+    parser.add_option("", "--stat", dest="stat", default='sequence', help="type of stat to display, use keyword: 'sequence', 'bp_profile', 'drisee', 'kmer', 'rarefaction', or taxa level name, default is sequence")
     
     # get inputs
     (opts, args) = parser.parse_args()
