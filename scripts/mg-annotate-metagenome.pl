@@ -12,10 +12,13 @@ use LWP::UserAgent;
 use MIME::Base64;
 use Data::Dumper;
 use Pod::Usage;
+use String::Random qw(random_regex random_string);
+
 umask 000;
 
 my $CONFIG = '/kb/deployment/deployment.cfg';
 my $OAUTH_URL = 'https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials';
+my $WORKFLOW_URL = 'https://raw.github.com/MG-RAST/pipeline/master/conf/mgrast-prod.awe.template';
 
 =head1 NAME
 
@@ -27,11 +30,13 @@ mg-annotate-metagenome -- submit a metagenome to be annotated by the microbial c
 
 =head1 SYNOPSIS
 
-mg-annotate-metagenome [-h] [-b bowtie] [-d dereplicate] [-m metadata_file_id] [-p KB_password] [-u KB_user] [-w MGRAST_webkey] -f sequence_file_id -n metagenome_name
+mg-annotate-metagenome [-h] [-b bowtie] [-d dereplicate] [-m metadata_file_id] [-p KB_password] [-u KB_user] -f sequence_file_id -n metagenome_name
 
 =head1 DESCRIPTION
 
-Submit a metagenome to be annotated by the microbial communities pipeline.  If you are working in IRIS and are authenticated, you do not need to enter your KB_user and KB_password.  To have your metagenome loaded into MG-RAST, include an MG-RAST webkey.  NOTE: If you include an MG-RAST webkey you can still modify pipeline parameters, however the MG-RAST default workflow will be used to annotate your metagenome, rather than the AWE_template you may have specified.
+Submit a metagenome to be annotated by the microbial communities pipeline.  If you are working in IRIS and are authenticated, you do not need to enter your KB_user and KB_password.
+
+NOTE: Currently all submissions are created as public workflows with publically viewable data objects.  We're currently working to provide an authenticated workflow for the submission of private datasets and to provide a way for annotations to be loaded into MG-RAST.
 
 Parameters:
 
@@ -75,15 +80,11 @@ KBase password to authenticate against the API, requires a username to be set as
 
 KBase username to authenticate against the API, requires a password to be set as well
 
-=item -w B<MGRAST_webkey>
-
-Valid MG-RAST webkey
-
 =back
 
 Output:
 
-JSON structure that contains the result data
+KBase ID for your metagenome annotation.
 
 =head1 EXAMPLES
 
@@ -133,7 +134,6 @@ $vars{dereplicate} = 1;
 $vars{metadata_file_id} = "";
 my $password = "";
 $vars{user} = "";
-my $webkey = "";
 my $help = 0;
 my $options = GetOptions ("f=s"  => \$vars{shocknode},
                           "n=s"  => \$vars{jobname},
@@ -142,13 +142,11 @@ my $options = GetOptions ("f=s"  => \$vars{shocknode},
 			  "m=s"  => \$vars{metadata_file_id},
 			  "p=s"  => \$password,
 			  "u=s"  => \$vars{user},
-			  "w=s"  => \$webkey,
                           "help" => \$help
 			 );
 
 # creating aliases for these variables because their names in this script are different than their names
 #  in the MG-RAST default AWE workflow template.
-$vars{metadata_file_id} = $vars{inputfile};
 $vars{metagenome_name} = $vars{jobname};
 $vars{sequence_file_id} = $vars{shocknode};
 
@@ -219,7 +217,6 @@ if(exists $ENV{"KB_AUTH_TOKEN"}) {
     print STDERR "ERROR, user not authenticated, exiting.\n\n";
     exit 1;
 }
-print "$token\n";
 
 ###############################################################################
 #
@@ -305,24 +302,108 @@ if($vars{metadata_file_id} ne "") {
 
 ###############################################################################
 #
-#  Now submit the pipeline!
+#  Now, download the workflow, get a KBase ID, fill-in the workflow,
+#    and submit the workflow to AWE.
 #
 ###############################################################################
 
-# If a webkey was supplied, then we need to submit this job to MG-RAST and get
-# back an MG-RAST ID and then get a KBase ID using this command:
-# curl -X POST -d '{"method":"IDServerAPI.register_ids","version":"1.1","params":["mg","MG-RAST",["mgm4441681.3"]]}' http://www.kbase.us/services/idserver
+# Download the workflow
+my $ua = LWP::UserAgent->new();
+my $tmp_filename = "/tmp/mg_annotate_metagenome.".random_regex('\w\w\w\w\w\w\w\w\w\w').".tmp";
+my $get = $ua->get($WORKFLOW_URL);
+if ($get->is_success) {
+    open TMP, ">$tmp_filename" || die "Cannot open tmp file: $tmp_filename\n";
+    print TMP $get->content;
+    close TMP;
+} else {
+    print STDERR "ERROR, could not retrieve workflow template.\n";
+    exit 1;
+}
 
 # Allocate a KBase ID for this metagenome
-
-my $ua = LWP::UserAgent->new();
-my $post = $ua->post("http://www.kbase.us/services/idserver",
-                     Content_Type => 'form-data',
-                     Content      => { method => "IDServerAPI.register_ids",
-                                       version => 1.1,
-                                       params => ["mg", 1] }
-                    );
-
+$ua = LWP::UserAgent->new();
+my $form = '{ "method": "IDServerAPI.allocate_id_range",
+              "version": "1.1",
+              "params": ["kb|mg",1] }';
+my $post = $ua->post("http://www.kbase.us/services/idserver", Content => $form);
 my $json = new JSON();
 my $res = $json->decode( $post->content );
-print Dumper($res);
+if(exists $res->{error} || !exists $res->{result}->[0]) {
+    print STDERR "ERROR, could not retrieve KBase metagenome ID, exiting.\n";
+    exit 1;
+}
+$vars{xref} = "kb|mg.".$res->{result}->[0];
+
+print "INFO, configuring AWE pipeline with the specified parameters.\n";
+# Replace # vars in template
+my $text = read_file($tmp_filename);
+foreach my $key (keys %vars) {
+    $text =~ s/#$key/$vars{$key}/g;
+}
+system("rm -f $tmp_filename");
+
+# Create an output file with unused filename
+my $workflow_outfile = "submitted_workflow";
+my $workflow_errfile = "submitted_workflow";
+my $i=1;
+for($i=1; $i<=100; ++$i) {
+    unless(-e $workflow_outfile.".$i.out" || -e $workflow_errfile.".$i.err") {
+        last;
+    }
+}
+$workflow_outfile .= ".$i.out";
+$workflow_errfile .= ".$i.err";
+
+if(-e $workflow_outfile || -e $workflow_errfile) {
+    print STDERR "ERROR, one of the output files could not be created.  Attempting to write to files: '$workflow_outfile' and possibly '$workflow_errfile' if there is an error in submission, but one of these files already exists.\n";
+    print STDERR "Exiting without job submission.\n\n";
+    exit 1;
+}
+
+print "INFO, writing file with configured workflow to: $workflow_outfile\n";
+open OUT, ">$workflow_outfile" || die "Cannot open file $workflow_outfile for writing.\n";
+print OUT $text;
+close OUT;
+
+print "INFO, submitting pipeline ($workflow_outfile) to AWE.\n";
+$ua = LWP::UserAgent->new();
+$post = $ua->post("http://".$vars{aweurl}."/job",
+                  Content_Type => 'form-data',
+                  Content      => [ upload => [$workflow_outfile] ]
+                 );
+
+$res = $json->decode( $post->content );
+my $state = $res->{data}->{state};
+
+if($state ne "submitted") {
+    open OUT, ">$workflow_errfile" || die "Could not open $workflow_errfile for writing.";
+    print OUT Dumper($res);
+    close OUT; 
+
+    print STDERR "ERROR, AWE job submission was not successful, please see '$workflow_errfile' for more info.\n\n";
+    exit 1;
+}
+
+my $awe_id = $res->{data}->{id};
+my $job_id = $res->{data}->{jid};
+print "INFO, AWE submission successful!\n";
+print "INFO, AWE id = $awe_id\n";
+print "INFO, job id = $job_id\n";
+my $full_awe_url = "http://".$vars{aweurl}."/job/$awe_id";
+print "INFO, AWE url = $full_awe_url\n";
+
+$ua = LWP::UserAgent->new();
+my $kbase_mg_id = $vars{xref};
+$kbase_mg_id =~ s/^.*\.(\d+)$/$1/;
+$form = '{ "method": "IDServerAPI.register_allocated_ids",
+           "version": "1.1",
+           "params": ["kb|mg","AWE",{"'.$full_awe_url.'":'.$kbase_mg_id.'}] }';
+$post = $ua->post("http://www.kbase.us/services/idserver", Content => $form);
+$res = $json->decode( $post->content );
+if(exists $res->{error}) {
+    print STDERR "ERROR, could not register AWE URL with KBase metagenome ID, but job was submitted to AWE.\n";
+    exit 1;
+}
+
+print "Your KBase metagenome ID is: $vars{xref}\n";
+print "Done.\n\n";
