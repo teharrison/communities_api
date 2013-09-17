@@ -64,7 +64,7 @@ def main(args):
     if opts.id.startswith('kb|'):
         opts.id = kbid_to_mgid(opts.id)
     params = [ ('id', opts.id),
-               ('group_level', opts.level), 
+               ('group_level', opts.level),
                ('source', opts.source),
                ('evalue', opts.evalue),
                ('identity', opts.identity),

@@ -14,9 +14,11 @@ def obj_from_url(url, auth=None, data=None, debug=False):
     header = {'Accept': 'application/json'}
     if auth:
         header['Auth'] = auth
+    if data:
+        header['Content-Type'] = 'application/json'
     if debug:
         print json.dumps(header)
-        print json.dumps(data)
+        print data
         print url
     try:
         req = urllib2.Request(url, data, headers=header)
@@ -49,8 +51,11 @@ def stout_from_url(url, auth=None, data=None, debug=False):
     header = {'Accept': 'text/plain'}
     if auth:
         header['Auth'] = auth
+    if data:
+        header['Content-Type'] = 'application/json'
     if debug:
         print json.dumps(header)
+        print data
         print url
     try:
         req = urllib2.Request(url, data, headers=header)
@@ -109,8 +114,8 @@ def kbids_to_mgids(kbids):
 
 # return map (KBase id -> MG-RAST id) for given list of KBase ids
 def kbid_lookup(kbids):
-    url  = API_URL+'/job/kb2mg'
-    data = obj_from_url(url, data={'ids': kbids})
+    post = json.dumps({'ids': kbids}, separators=(',',':'))
+    data = obj_from_url(API_URL+'/job/kb2mg', data=post)
     return data['data']
 
 def get_auth_token(opts):
