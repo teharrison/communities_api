@@ -90,10 +90,6 @@ KBase ID for your metagenome annotation.
 
 -
 
-=head1 SEE ALSO
-
--
-
 =head1 AUTHORS
 
 Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke
@@ -151,8 +147,10 @@ $vars{metagenome_name} = $vars{jobname};
 $vars{sequence_file_id} = $vars{shocknode};
 
 if ($help) {
-    pod2usage( { -message => "\nFor more detailed documentation run 'perldoc $0'\n",
-                 -exitval => 0
+    pod2usage( { -message  => "\nFor more detailed documentation run 'perldoc $0'\n",
+                 -verbose  => 99,
+                 -sections => ['NAME', 'VERSION', 'SYNOPSIS', 'DESCRIPTION', 'EXAMPLES', 'AUTHORS'],
+                 -exitval  => 0
                } );
 }
 
