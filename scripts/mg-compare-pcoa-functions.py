@@ -71,6 +71,7 @@ def main(args):
                ('identity', opts.identity),
                ('length', opts.length),
                ('result_type', 'abundance'),
+               ('asynchronous', '1'),
                ('hide_metadata', '1') ]
     for i in id_list:
         params.append(('id', i))
@@ -78,7 +79,7 @@ def main(args):
     purl = opts.url+'/compute/pcoa'
 
     # retrieve data
-    biom = obj_from_url(burl, auth=token)
+    biom = async_rest_api(burl, auth=token)
     rows = [r['id'] for r in biom['rows']]
     cols = [c['id'] for c in biom['columns']]
     matrix = sparse_to_dense(biom['data'], len(rows), len(cols))
