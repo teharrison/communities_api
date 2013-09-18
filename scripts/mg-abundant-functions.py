@@ -79,7 +79,7 @@ def main(args):
     biom = async_rest_api(url, auth=token)
     for d in sorted(biom['data'], key=itemgetter(2), reverse=True):
         name = biom['rows'][d[0]]['id'] if opts.source != 'Subsystems' else biom['rows'][d[0]]['metadata']['ontology'][-1]
-        if len(top_ann) > opts.top:
+        if len(top_ann) >= opts.top:
             break
         top_ann[name] = d[2]
     
