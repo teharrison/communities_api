@@ -11,8 +11,7 @@ SERVICE_URL = http://kbase.us/services/communities/1
 # things needed for testing
 TESTS = $(wildcard test/script-tests/test_*.t)
 
-default:
-	@echo "nothing to do for default make"
+default: build-scripts
 
 deploy: deploy-cfg deploy-client deploy-docs
 
@@ -32,7 +31,8 @@ clean:
 	-rm -f docs/C*
 	@echo "All clean"
 
-deploy-client: | build-libs deploy-libs build-scripts deploy-scripts
+deploy-client: deploy-scripts | build-libs deploy-libs
+	echo $(SRC_PERL)
 	mkdir -p $(SERVICE_DIR)
 	@echo "client tools deployed"
 
@@ -45,8 +45,6 @@ build-libs:
 build-scripts:
 	generate_commandline -template $(TOP_DIR)/template/communities.template -config config/commandline.conf -outdir api-scripts
 	cp api-scripts/* scripts/.
-	$(eval SRC_PERL = $(wildcard scripts/*.pl))
-	$(eval SRC_PYTHON = $(wildcard scripts/*.py))
 	@echo "done building command line scripts"
 
 build-docs:
