@@ -21,10 +21,12 @@ deploy-all: deploy
 all: deploy
 
 clean:
-	AUTO_SCRIPTS = $(wildcard api-scripts/mg-*.pl)
+	$(eval AUTO_SCRIPTS = $(wildcard api-scripts/mg-*.pl))
 	for ac in $(AUTO_SCRIPTS); do \
-		-rm -f api-scripts/$$ac; \
-		-rm -f scripts/$$ac; \
+		base=`basename $$ac .pl`; \
+		rm -f api-scripts/$$base.pl; \
+		rm -f scripts/$$base.pl; \
+		rm -f scripts/$$base; \
 	done
 	-rm -f lib/C*
 	-rm -f docs/C*
@@ -43,8 +45,8 @@ build-libs:
 build-scripts:
 	generate_commandline -template $(TOP_DIR)/template/communities.template -config config/commandline.conf -outdir api-scripts
 	cp api-scripts/* scripts/.
-	SRC_PERL = $(wildcard scripts/*.pl)
-	SRC_PYTHON = $(wildcard scripts/*.py)
+	$(eval SRC_PERL = $(wildcard scripts/*.pl))
+	$(eval SRC_PYTHON = $(wildcard scripts/*.py))
 	@echo "done building command line scripts"
 
 build-docs:
