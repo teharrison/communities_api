@@ -35,6 +35,57 @@ AUTHORS
     %s
 """
 
+# output annotations
+def output_annotation(md5s, func_md5, func_acc, amatrix, ematrix, otu):
+    for f in sorted(func_md5.iterkeys()):
+        abund = 0
+        evalue = 0.0
+        for i, m in enumerate(md5s):
+            if m in func_md5[f]:
+                abund += amatrix[i][0]
+                evalue += ematrix[i][0]
+        # output: feature list, function, abundance for function, avg evalue for function, organism
+        sys.stdout.write("%s\t%s\t%d\t%.2e\t%s\n" %(",".join(func_acc[f]), f, abund, 10**(evalue/len(func_md5[f])), otu))
+
+# get annotations for taxa
+def annotations_for_taxa(opts, md5s, taxa, inverse=False):
+    func_md5 = defaultdict(set)
+    func_acc = defaultdict(set)
+    tax_post = { 'data': taxa,
+                 'source': opts.source,
+                 'tax_level': opts.level,
+                 'limit': 1000,
+                 'version': '1',
+                 'exact': '1' }
+    if inverse:
+        tax_post['inverse'] = '1'
+
+    # group annotations by function containing features
+    # process by chunks of md5s
+    size = 5000
+    for i in xrange(0, len(md5s), size):
+        sub_md5s = md5s[i:i+size]
+        tax_post['md5s'] = sub_md5s
+        tax_post['data'] = taxa
+        tax_post['offset'] = 0
+        # get data from m5nr
+        while True:
+            # get paginated data
+            ann_data = obj_from_url(opts.url+'/m5nr/organism', data=json.dumps(tax_post, separators=(',',':')))
+            for a in ann_data['data']:
+                # skip md5s not in this set
+                if a['md5'] not in sub_md5s:
+                    continue
+                func_md5[a['function']].add(a['md5'])
+                func_acc[a['function']].add(a['accession'])
+            # determine next paginated query
+            if (ann_data['limit'] + ann_data['offset']) >= ann_data['total_count']:
+                break
+            tax_post['offset'] = ann_data['limit'] + ann_data['offset']
+    
+    # return function data
+    return func_md5, func_acc
+
 def main(args):
     OptionParser.format_description = lambda self, formatter: self.description
     OptionParser.format_epilog = lambda self, formatter: self.epilog
@@ -67,7 +118,7 @@ def main(args):
     # get top taxa
     top_taxa = []
     t_params = [ ('id', opts.id),
-                 ('group_level', opts.level), 
+                 ('group_level', opts.level),
                  ('source', opts.source),
                  ('evalue', opts.evalue),
                  ('identity', opts.identity),
@@ -103,34 +154,13 @@ def main(args):
     
     # get annotations for taxa
     for taxa in top_taxa:
-        func_md5 = defaultdict(set)
-        func_acc = defaultdict(set)
-        taxa_opt = [('source', opts.source), ('tax_level', opts.level), ('limit', 500), ('version', '1'), ('exact', '1')]
-        taxa_url = opts.url+'/m5nr/organism/'+urllib.quote(taxa)+'?'+urllib.urlencode(taxa_opt, True)
-        # m5nr entries for taxa
-        # group annotations by function containing features
-        while True:
-            ann_data = obj_from_url(taxa_url)
-            for a in ann_data['data']:
-                # skip md5s not in the metagenome
-                if a['md5'] not in md5s:
-                    continue
-                func_md5[a['function']].add(a['md5'])
-                func_acc[a['function']].add(a['accession'])
-            if not ann_data['next']:
-                break
-            taxa_url = ann_data['next']
-        # get abundance / avg evalue for functions
-        # output: feature list, function, abundance for function, avg evalue for function, organism
-        for f in sorted(func_md5.iterkeys()):
-            abund = 0
-            evalue = 0.0
-            for i, m in enumerate(md5s):
-                if m in func_md5[f]:
-                    abund += amatrix[i][0]
-                    evalue += ematrix[i][0]
-            sys.stdout.write("%s\t%s\t%d\t%.3f\t%s\n" %(",".join(func_acc[f]), f, abund, evalue/len(func_md5[f]), taxa))
-        
+        func_md5, func_acc = annotations_for_taxa(opts, md5s, [taxa])
+        output_annotation(md5s, func_md5, func_acc, amatrix, ematrix, taxa)
+    
+    # get annotations for tail
+    func_md5, func_acc = annotations_for_taxa(opts, md5s, top_taxa, True)
+    output_annotation(md5s, func_md5, func_acc, amatrix, ematrix, 'tail')
+    
     return 0
     
 
