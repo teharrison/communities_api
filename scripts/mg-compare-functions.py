@@ -68,13 +68,14 @@ def main(args):
                ('identity', opts.identity),
                ('length', opts.length),
                ('result_type', 'abundance'),
+               ('asynchronous', '1'),
                ('hide_metadata', '1') ]
     for i in id_list:
         params.append(('id', i))
     url = opts.url+'/matrix/function?'+urllib.urlencode(params, True)
 
     # retrieve data
-    biom = obj_from_url(url, auth=token)
+    biom = async_rest_api(url, auth=token)
     
     # output data
     if opts.format == 'biom':

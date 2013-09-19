@@ -11,8 +11,7 @@ SERVICE_URL = http://kbase.us/services/communities/1
 # things needed for testing
 TESTS = $(wildcard test/script-tests/test_*.t)
 
-default:
-	@echo "nothing to do for default make"
+default: build-scripts
 
 deploy: deploy-cfg deploy-client deploy-docs
 
@@ -21,12 +20,19 @@ deploy-all: deploy
 all: deploy
 
 clean:
-	rm -f api-scripts/mg-*
-	rm -f lib/C*
-	rm -f docs/C*
+	$(eval AUTO_SCRIPTS = $(wildcard api-scripts/mg-*.pl))
+	for ac in $(AUTO_SCRIPTS); do \
+		base=`basename $$ac .pl`; \
+		rm -f api-scripts/$$base.pl; \
+		rm -f scripts/$$base.pl; \
+		rm -f scripts/$$base; \
+	done
+	-rm -f lib/C*
+	-rm -f docs/C*
 	@echo "All clean"
 
-deploy-client: build-libs deploy-libs build-scripts deploy-scripts
+deploy-client: deploy-scripts | build-libs deploy-libs
+	echo $(SRC_PERL)
 	mkdir -p $(SERVICE_DIR)
 	@echo "client tools deployed"
 

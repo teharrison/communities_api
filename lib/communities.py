@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import urllib2
 import base64
 import json
@@ -9,6 +10,22 @@ API_URL = "http://kbase.us/services/communities/"+VERSION
 AUTH_LIST = "Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke"
 SEARCH_FIELDS = ["function", "organism", "name", "biome", "feature", "material", "country", "location", "longitude", "latitude", "created", "env_package_type", "project_id", "project_name", "PI_firstname", "PI_lastname", "sequence_type", "seq_method", "collection_date"]
 
+# return python struct from JSON output of asynchronous MG-RAST API
+def async_rest_api(url, auth=None, data=None, debug=False, delay=15):
+    submit = obj_from_url(url, auth=auth, data=data, debug=debug)
+    if not (('status' in submit) and (submit['status'] == 'Submitted') and ('url' in submit)):
+        sys.stderr.write("ERROR: return data invalid format\n:%s"%json.dumps(submit))
+    result = obj_from_url(submit['url'], debug=debug)
+    while result['status'] != 'done':
+        if debug:
+            print "waiting %d seconds ..."%delay
+        time.sleep(delay)
+        result = obj_from_url(submit['url'], debug=debug)
+    if 'ERROR' in result['data']:
+        sys.stderr.write("ERROR: %s\n" %result['data']['ERROR'])
+        sys.exit(1)
+    return result['data']
+
 # return python struct from JSON output of MG-RAST API
 def obj_from_url(url, auth=None, data=None, debug=False):
     header = {'Accept': 'application/json'}
@@ -17,9 +34,10 @@ def obj_from_url(url, auth=None, data=None, debug=False):
     if data:
         header['Content-Type'] = 'application/json'
     if debug:
-        print json.dumps(header)
-        print data
-        print url
+        if data:
+            print "data:\t"+data
+        print "header:\t"+json.dumps(header)
+        print "url:\t"+url
     try:
         req = urllib2.Request(url, data, headers=header)
         res = urllib2.urlopen(req)
@@ -54,9 +72,10 @@ def stout_from_url(url, auth=None, data=None, debug=False):
     if data:
         header['Content-Type'] = 'application/json'
     if debug:
-        print json.dumps(header)
-        print data
-        print url
+        if data:
+            print "data:\t"+data
+        print "header:\t"+json.dumps(header)
+        print "url:\t"+url
     try:
         req = urllib2.Request(url, data, headers=header)
         res = urllib2.urlopen(req)

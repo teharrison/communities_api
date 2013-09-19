@@ -70,15 +70,16 @@ def main(args):
                ('identity', opts.identity),
                ('length', opts.length),
                ('result_type', 'abundance'),
+               ('asynchronous', '1'),
                ('hide_metadata', '1') ]
     url = opts.url+'/matrix/function?'+urllib.urlencode(params, True)
     
     # retrieve data
     top_ann = {}
-    biom = obj_from_url(url, auth=token)
+    biom = async_rest_api(url, auth=token)
     for d in sorted(biom['data'], key=itemgetter(2), reverse=True):
         name = biom['rows'][d[0]]['id'] if opts.source != 'Subsystems' else biom['rows'][d[0]]['metadata']['ontology'][-1]
-        if len(top_ann) > opts.top:
+        if len(top_ann) >= opts.top:
             break
         top_ann[name] = d[2]
     
