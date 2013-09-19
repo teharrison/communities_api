@@ -21,9 +21,13 @@ deploy-all: deploy
 all: deploy
 
 clean:
-	rm -f api-scripts/mg-*
-	rm -f lib/C*
-	rm -f docs/C*
+	AUTO_SCRIPTS = $(wildcard api-scripts/mg-*.pl)
+	for ac in $(AUTO_SCRIPTS); do \
+		-rm -f api-scripts/$$ac; \
+		-rm -f scripts/$$ac; \
+	done
+	-rm -f lib/C*
+	-rm -f docs/C*
 	@echo "All clean"
 
 deploy-client: | build-libs deploy-libs build-scripts deploy-scripts
