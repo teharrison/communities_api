@@ -26,7 +26,7 @@ clean:
 	rm -f docs/C*
 	@echo "All clean"
 
-deploy-client: build-libs deploy-libs build-scripts deploy-scripts
+deploy-client: | build-libs deploy-libs build-scripts deploy-scripts
 	mkdir -p $(SERVICE_DIR)
 	@echo "client tools deployed"
 
@@ -39,6 +39,8 @@ build-libs:
 build-scripts:
 	generate_commandline -template $(TOP_DIR)/template/communities.template -config config/commandline.conf -outdir api-scripts
 	cp api-scripts/* scripts/.
+	SRC_PERL = $(wildcard scripts/*.pl)
+	SRC_PYTHON = $(wildcard scripts/*.py)
 	@echo "done building command line scripts"
 
 build-docs:
