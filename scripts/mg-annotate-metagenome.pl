@@ -147,10 +147,11 @@ $vars{metagenome_name} = $vars{jobname};
 $vars{sequence_file_id} = $vars{shocknode};
 
 if ($help) {
-    pod2usage( { -message  => "\nFor more detailed documentation run 'perldoc $0'\n",
-                 -verbose  => 99,
-                 -sections => ['NAME', 'VERSION', 'SYNOPSIS', 'DESCRIPTION', 'EXAMPLES', 'AUTHORS'],
-                 -exitval  => 0
+    pod2usage( { -message => "\nDOCUMENTATION:\n",
+                 -exitval => 0,
+                 -output  => \*STDOUT,
+                 -verbose => 2,
+                 -noperldoc => 1,
                } );
 }
 
@@ -167,7 +168,7 @@ if(keys %missing > 0) {
     foreach my $i (keys %missing) {
         print STDERR "  $i\n";
     }
-    print "\nFor more detailed documentation run 'perldoc $0'\n\n";
+    print "\nFor more detailed documentation run '$0 -h'\n\n";
     exit 1;
 }
 
@@ -188,7 +189,7 @@ if(keys %missing > 0) {
     foreach my $i (keys %missing) {
         print STDERR "  $i\n";
     }
-    print "\nFor more detailed documentation run 'perldoc $0'\n\n";
+    print "\nFor more detailed documentation run '$0 -h'\n\n";
     exit 1;
 }
 
