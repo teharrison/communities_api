@@ -59,7 +59,7 @@ build-scripts:
 	git submodule update tools
 	cd tools; git pull origin master
 	cp tools/tools/lib/* lib/.
-	cp tools/tools/bin/* scripts/.
+	cp tools/tools/bin/mg-* scripts/.
 	@echo "auto-generating API scripts"
 	generate_commandline -template $(TOP_DIR)/template/communities.template -config config/commandline.conf -outdir api-scripts
 	cp api-scripts/* scripts/.
