@@ -20,13 +20,23 @@ deploy-all: deploy
 all: deploy
 
 clean:
-	$(eval AUTO_SCRIPTS = $(wildcard api-scripts/mg-*.pl))
+	$(eval AUTO_SCRIPTS = $(wildcard api-scripts/*.pl))
 	for ac in $(AUTO_SCRIPTS); do \
-		base=`basename $$ac .pl`; \
-		rm -f api-scripts/$$base.pl; \
-		rm -f scripts/$$base.pl; \
+		base=`basename $$ac`; \
+		rm -f api-scripts/$$base; \
 		rm -f scripts/$$base; \
 	done
+	$(eval TOOL_SCRIPTS = $(wildcard tools/tools/bin/*))
+	for tc in $(TOOL_SCRIPTS); do \
+		base=`basename $$tc`; \
+		rm -f scripts/$$base; \
+	done
+	$(eval TOOL_LIBS = $(wildcard tools/tools/lib/*))
+	for tl in $(TOOL_LIBS); do \
+		base=`basename $$tl`; \
+		rm -f lib/$$base; \
+	done
+	-rm -rf tools
 	-rm -f lib/C*
 	-rm -f docs/C*
 	@echo "All clean"
@@ -43,6 +53,14 @@ build-libs:
 	@echo "done building typespec libs"
 
 build-scripts:
+	@echo "retrieving API tools"
+	-rm -rf tools
+	git submodule init tools
+	git submodule update tools
+	cd tools; git pull origin master
+	cp tools/tools/lib/* lib/.
+	cp tools/tools/bin/* scripts/.
+	@echo "auto-generating API scripts"
 	generate_commandline -template $(TOP_DIR)/template/communities.template -config config/commandline.conf -outdir api-scripts
 	cp api-scripts/* scripts/.
 	@echo "done building command line scripts"
