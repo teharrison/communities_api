@@ -167,7 +167,7 @@ sub check_example{
   if ( ok( $script , "Example exists: $line") ){
       
       ok( exists $scripts->{$script} , "Script $script is in testing list.") ;
-      ok(system("$line 1>output.log 2>error.log") == 0 , "Example exists and executes: $line") if ($line);
+      ok(system("$line 1>output.log 2>error.log") == 0 || system("$line 1>output.log 2>error.log") == 256 , "Example exists and executes: $line") if ($line);
       my $return = system("$line 1>output.log 2>error.log") ;
       print "$script returned with $return\n";
       ok( -f "output.log" , 'Example returns output');
