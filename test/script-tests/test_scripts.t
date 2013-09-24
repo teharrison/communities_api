@@ -66,6 +66,12 @@ foreach my $script (keys %$scripts){
       if ( -z "error.log" ){
 	  
 	  subtest "Help message structure for $script"    => sub { &check_help($message)    } ;
+
+	  # these two scripts cannot have examples
+	  if ($script eq "mg-annotate-metagenome" || $script eq "mg-check-annotation-status") {
+	    next;
+	  }
+
 	  subtest "Example for $script works" => sub { &check_example($script,$message) } ;
 	  
 	  #ok( &check_help($message) , "Help message structure");
