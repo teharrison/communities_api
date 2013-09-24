@@ -26,7 +26,7 @@ my $help = 0;
 my $options = GetOptions ("awe_job_url=s" => \$awe_job_url,
                           "task_status" => \$task_status,
                           "conf=s"    => \$conf,
-                          "h"  => \$help
+                          "help"  => \$help
 			 );
 
 if($help) {
@@ -99,12 +99,40 @@ if($job_state eq "") {
 }
 
 sub print_usage {
-    print "
-Script for checking status of metagenome in AWE
-Command name: check_metagenome.pl
-Parameters:
-     -awe_job_url=<url for AWE job, required>
-     -task_status <option variable to include status of individual tasks>
-     -conf=<configuration file (default='awe.ini')>
-\n";
+
+  my $helptext = qq~
+NAME
+    mg-check-annotation-status -- Script for checking status of metagenome in AWE
+
+VERSION
+    1
+
+SYNOPSIS
+    mg-check-annotation-status --awe_job_url <url> [ --task_status --conf <filename> --help ]
+
+DESCRIPTION
+    Script for checking status of metagenome in AWE
+
+  Parameters
+    awe_job_url - url for AWE job
+    conf - configuration file (default='awe.ini')
+    help - display this message
+
+  Options
+    task_status - boolean to include status of individual tasks, default is false
+
+  Output
+    JSON object that represents the status information.
+
+EXAMPLES
+    -
+
+SEE ALSO
+    -
+
+AUTHORS
+    Jared Bischof, Travis Harrison, Folker Meyer, Tobias Paczian, Andreas Wilke
+
+~;
+  print $helptext;
 }
