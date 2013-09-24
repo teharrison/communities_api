@@ -162,7 +162,7 @@ sub check_example{
 
   
   $line        =~s/^\s*//;  
-  my ($script) = $line =~/^(mg-[\w\-]+)/;
+  ($script) = $line =~/^(mg-[\w\-]+)/;
 
   if ( ok( $script , "Example exists: $line") ){
       
