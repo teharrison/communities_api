@@ -1,9 +1,21 @@
-Date: 08/08/13
+OVERVIEW
+-----------------------------------------
+This KBase service provides access to metagenomic data.
 
-This release contains two new commands:
 
-- metagenome
-  Provides information about single metagenomes or lsit of available metagenomes
-- analyse_metagenome
-  initiates the analysis of an uploaded metagenomic sequence file with metadata
+VERSION: 0.9 (Released 8/15/2013)
+------------------------------------------
+NEW FEATURES:
+- submission script to analyze metagenomic reads
+- check status of current submission
+- retrieval of computed results
+- IRIS support for public metagenomes, command line script to list
+public metagenomes and retrieve single metagenomes
 
+
+VERSION: 0.04 (Released 4/4/2013)
+------------------------------------------
+NEW FEATURES:
+- data access methods for metadata from sample, library, project, metagenome
+- retrieval of abundance profiles in BIOM format
+- RESTful API
