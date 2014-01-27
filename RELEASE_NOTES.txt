@@ -3,6 +3,11 @@ OVERVIEW
 The microbial communities API service provides access methods to all
 microbial communities data and analysis methods.
 
+CHANGES - 1/1/2014
+* merged mg-compare-pcoa-functions and mg-compare-pcoa-taxa into mg-compare-pcoa
+* IRIS compatible
+* various bugfixes 
+
 CHANGES - 9/10/2013
 ------------------
 
