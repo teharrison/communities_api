@@ -16,6 +16,8 @@ TPAGE_CGI_ARGS = --define api_dir=$(SERVICE_DIR)/api --define perl_path=$(PERL_P
 TPAGE_LIB_ARGS = --define api_dir=$(SERVICE_DIR)/api --define r_path=$(R_PATH)
 TPAGE := $(shell which tpage)
 
+# NOTE: stop nginx if running before make && make deploy
+
 # things needed for testing
 TESTS = $(wildcard test/script-tests/test_*.t)
 
