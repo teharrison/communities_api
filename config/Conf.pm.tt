@@ -4,10 +4,10 @@ package Conf;
 # Main paths
 #####################################################################
 
-$SITE    = "[% api_dir %]";
-$temp    = $SITE."/site/CGI/Tmp";
-$bin     = $SITE."/bin";
-url_base = "";
+$SITE     = "[% api_dir %]";
+$temp     = $SITE."/site/CGI/Tmp";
+$bin      = $SITE."/bin";
+$url_base = "";
 
 $api_resource_dir  = "resources";
 $api_resource_path = $SITE."/site/lib/MGRAST/".$api_resource_dir;
