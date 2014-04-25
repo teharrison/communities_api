@@ -87,7 +87,7 @@ build-service:
 	cd api; make
 	-rm -f api/site/lib/MGRAST/resources/m5nr.pm
 	-rm -f api/site/CGI/*.cgi
-	$(TPAGE) $(TPAGE_LIB_ARGS) config/Conf.pm.tt > api/Conf.pm
+	$(TPAGE) $(TPAGE_LIB_ARGS) config/Conf.pm.tt > api/conf/Conf.pm
 	sed '1d' api/src/MGRAST/cgi/api.cgi | cat config/header.tt - | $(TPAGE) $(TPAGE_CGI_ARGS) > api/site/CGI/api.cgi
 	chmod +x api/site/CGI/api.cgi
 	@echo "done building API"
