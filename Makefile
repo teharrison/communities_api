@@ -122,7 +122,7 @@ deploy-docs: build-docs
 	-mkdir -p $(SERVICE_DIR)/webroot
 	cp docs/*.html $(SERVICE_DIR)/webroot/.
 	cp docs/*.html $(SERVICE_DIR)/api/site/CGI/.
-	ln -s $(SERVICE_DIR)/api/site/CGI/communities-api.html $(SERVICE_DIR)/api/site/CGI/api.html
+	-ln -s $(SERVICE_DIR)/api/site/CGI/communities-api.html $(SERVICE_DIR)/api/site/CGI/api.html
 
 test: test-client
 
