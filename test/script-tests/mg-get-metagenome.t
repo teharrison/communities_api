@@ -42,7 +42,7 @@ while (my $id = <IDs>){
 	chomp $id ;
 	
 	foreach my $verbosity ("minimal", "mixs",  "metadata",  "stats",  "full") {
-		ok(get_data($id,$verbosity) , "Success for id $id and value $verbosity") ;
+		ok(get_data($id,$verbosity) , "object for id $id and value $verbosity") ;
 	}
 	
 }
@@ -52,6 +52,25 @@ close(IDs);
 
 
 sub get_data{
-	my ($id, $value) = @_ ;
-	return system("$script --id $id --verbosity $value > $test_out_path/out.tmp") ;
+	my ($id, $value) 	= @_;
+	my $success 		= 0 ;
+	
+	system("$script --id $id --verbosity $value > $test_out_path/out.tmp") ;
+	
+	open(FILE , "$test_out_path/out.tmp") ;
+	my $txt = <FILE> ;
+	
+	eval{
+		my $o = $json->decode($txt) ;
+		print Dumper $o ;
+	};
+	
+	if ($@) {
+		$success = 0;
+		diag($@);
+	}
+	
+	close(FILE);
+	
+	return $success;
 }
