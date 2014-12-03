@@ -53,7 +53,7 @@ close(IDs);
 
 sub get_data{
 	my ($id, $value) 	= @_;
-	my $success 		= 0 ;
+	my $success 		= undef ;
 	
 	system("$script --id $id --verbosity $value > $test_out_path/out.tmp") ;
 	
@@ -69,7 +69,9 @@ sub get_data{
 		$success = 0;
 		diag($@);
 	}
-	
+	else{
+		$success = 1;
+	}
 	close(FILE);
 	
 	return $success;
