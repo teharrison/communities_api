@@ -18,6 +18,7 @@ my $num_tests   = 0;
 my $json        = new JSON;
 my $success     = 1;
 my $test_data_path = shift @ARGV || join "/" , $topDir , "dev_container/modules" , $service_repo , "test/data" ;
+my $test_out_path  = shift @ARGV || $test_data_path ;
 
 #my $test_path = "/Users/Andi/Development/kbase/communities_api/scripts" ;
 
@@ -52,5 +53,5 @@ close(IDs);
 
 sub get_data{
 	my ($id, $value) = @_ ;
-	return system("$script --id $id --verbosity $value > $test_data_path/out.tmp") ;
+	return system("$script --id $id --verbosity $value > $test_out_path/out.tmp") ;
 }
