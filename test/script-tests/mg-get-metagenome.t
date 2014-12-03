@@ -41,7 +41,7 @@ while (my $id = <IDs>){
 	chomp $id ;
 	
 	foreach my $verbosity ("minimal", "mixs",  "metadata",  "stats",  "full") {
-		ok(get_data($verbosity) , "Success for id $id and value $verbosity") ;
+		ok(get_data($id,$verbosity) , "Success for id $id and value $verbosity") ;
 	}
 	
 }
