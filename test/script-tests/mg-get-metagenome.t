@@ -18,7 +18,7 @@ my $num_tests   = 0;
 my $json        = new JSON;
 my $success     = 1;
 my $test_data_path = shift @ARGV || join "/" , $topDir , "dev_container/modules" , $service_repo , "test/data" ;
-my $test_out_path  = shift @ARGV || $test_data_path ;
+my $test_out_path  = shift @ARGV || "./" ;
 
 #my $test_path = "/Users/Andi/Development/kbase/communities_api/scripts" ;
 
@@ -60,9 +60,11 @@ sub get_data{
 	open(FILE , "$test_out_path/out.tmp") ;
 	my $txt = <FILE> ;
 	
+	
+	# check if txt is json
 	eval{
 		my $o = $json->decode($txt) ;
-		print Dumper $o ;
+		# print Dumper $o ;
 	};
 	
 	if ($@) {
