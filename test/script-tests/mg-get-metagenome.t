@@ -8,7 +8,7 @@ use Test::More 'no_plan';
 use JSON;
 
 # script to test
-my $script = undef ;
+my $script = "mg-get-metagenome" ;
 
 # assumption scripts are always in path
 my $topDir = $ENV{KB_TOP_DIR} || "/";
