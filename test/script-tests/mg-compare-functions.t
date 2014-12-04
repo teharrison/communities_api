@@ -62,7 +62,7 @@ sub get_data{
 	my $success 		= undef ;
 	
 	# create test data
-	system("$script --ids $id --source Subsystems --format biom --evalue $value > $test_out_path/$id.$value.$script") if ($create_test_data); 
+	system("$script --ids $id --source Subsystems --format biom --evalue $value > $test_data_path/$id.$value.$script") if ($create_test_data); 
 	
 	# mg-compare-functions --ids <IDs> --source Subsystems --format biom --evalue <EVALUE>
 	system("$script --ids $id --source Subsystems --format biom --evalue $value > $test_out_path/$id.$value.$script") ;
