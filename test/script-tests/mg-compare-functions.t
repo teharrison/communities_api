@@ -8,7 +8,7 @@ use Test::More 'no_plan';
 use JSON;
 
 # script to test
-my $script = "mg-get-metagenome" ;
+my $script = "mg-compare-functions" ;
 
 # assumption scripts are always in path
 my $topDir 			= $ENV{KB_TOP} || "/";
@@ -21,7 +21,7 @@ my $test_data_path 	= shift @ARGV || join "/" , $topDir , "dev_container/modules
 my $test_out_path  	= shift @ARGV || "./" ;
 my $create_test_data = 1;
 
-#my $test_path = "/Users/Andi/Development/kbase/communities_api/scripts" ;
+
 
 print STDERR "Test data path: $test_data_path\n" ;
 
@@ -31,8 +31,12 @@ ok (`which $script` , "$script is deployed") ;
 ok (`$script --help`, "$script executes with --help") ;
 
 # test if script can retrieve data for ids from test list 
+# mg-compare-functions --ids <IDs> --source Subsystems --format biom --evalue EVALUE
 # changing parameters are:
-# - verbosity : ["minimal", "mixs",  "metadata",  "stats",  "full"]
+# - ids: single id from wgs test data list
+# - evalue: 5 , 10 , 15
+
+
 
 
 
@@ -42,7 +46,7 @@ open(IDs , "$test_data_path/ids.wgs.txt") or die "No test data file $test_data_p
 while (my $id = <IDs>){
 	chomp $id ;
 	
-	foreach my $verbosity ("minimal", "mixs",  "metadata",  "stats",  "full") {
+	foreach my $verbosity ("5", "10",  "15" ) {
 		ok(get_data($id,$verbosity) , "object for id $id and value $verbosity") ;
 		subtest get_data => sub { get_data($id,$verbosity) } ;
 	}
@@ -58,41 +62,50 @@ sub get_data{
 	my $success 		= undef ;
 	
 	# create test data
-	system("$script --id $id --verbosity $value > $test_data_path/$id.$value.$script") if ($create_test_data); 
+	# system("$script --ids $id --source Subsystems --format biom --evalue $value > $test_data_path/$id.$value.$script") if ($create_test_data); 
 	
-	system("$script --id $id --verbosity $value > $test_out_path/$id.$value.$script") ;
-	
-	open(FILE , "$test_out_path/$id.$value.$script") ;
-	my $txt = <FILE> ;
+	# mg-compare-functions --ids <IDs> --source Subsystems --format biom --evalue <EVALUE>
+	my $txt = `$script --ids $id --source Subsystems --format biom --evalue $value` ;
 	
 	
 	# check if txt is json
 	eval{
 		my $o = $json->decode($txt) ;
 		# print Dumper $o ;
+		
+		# modify $o, remove timestamps
+		$o->{date} = 'test date' ;
+		
+		# dump into file
+		open(OUT , ">$test_out_path/$id.$value.$script") or die "Can't write to $test_out_path/$id.$value.$script" ;
+		print OUT $json->encode($o) ;
+		close(OUT) ;
+		
+		# create test data
+		if ($create_test_data){
+			open(OUT , ">$test_data_path/$id.$value.$script") or die "Can't write to $test_data_path/$id.$value.$script" ;
+			print OUT $json->encode($o) ;
+			close(OUT) ;
+		}
+		
 	};
 	
-	if ($@) {
-		$success = 0;
-		diag($@);
-	}
-	else{
-		$success = 1;
-	}
 	
-	ok(!$@ , 'Valid return structure') ;
+	ok(!$@ , 'Valid return structure') unless($@ =~/ERROR: no data found for the given combination of ids and paramaters/);
+	diag($@) if ($@);
+	
+	
 	
 	# Is output as expected
-	if (`diff $test_data_path/$id.$value.$script $test_out_path/$id.$value.$script`){
-		$success = 0; 
-	}
-	else{
-		$success = 1;
-	};
+	# if (`diff $test_data_path/$id.$value.$script $test_out_path/$id.$value.$script`){
+	#	$success = 0; 
+	# }
+	# else{
+	# 	$success = 1;
+	# };
 	
 	ok(!`diff $test_data_path/$id.$value.$script $test_out_path/$id.$value.$script` , 'Output identical to precomputed data');
 	
-	close(FILE);
+
 	
-	return $success;
 }
