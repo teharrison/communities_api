@@ -62,19 +62,32 @@ sub get_data{
 	my $success 		= undef ;
 	
 	# create test data
-	system("$script --ids $id --source Subsystems --format biom --evalue $value > $test_data_path/$id.$value.$script") if ($create_test_data); 
+	# system("$script --ids $id --source Subsystems --format biom --evalue $value > $test_data_path/$id.$value.$script") if ($create_test_data); 
 	
 	# mg-compare-functions --ids <IDs> --source Subsystems --format biom --evalue <EVALUE>
-	system("$script --ids $id --source Subsystems --format biom --evalue $value > $test_out_path/$id.$value.$script") ;
-	
-	open(FILE , "$test_out_path/out.tmp") ;
-	my $txt = <FILE> ;
+	my $txt = `$script --ids $id --source Subsystems --format biom --evalue $value` ;
 	
 	
 	# check if txt is json
 	eval{
 		my $o = $json->decode($txt) ;
 		# print Dumper $o ;
+		
+		# modify $o, remove timestamps
+		$o->{date} = 'test date' ;
+		
+		# dump into file
+		open(OUT , ">$test_out_path/$id.$value.$script") or die "Can't write to $test_out_path/$id.$value.$script" ;
+		print OUT $json->encode($o) ;
+		close(OUT) ;
+		
+		# create test data
+		if ($create_test_data){
+			open(OUT , ">$test_data_path/$id.$value.$script") or die "Can't write to $test_data_path/$id.$value.$script" ;
+			print OUT $json->encode($o) ;
+			close(OUT) ;
+		}
+		
 	};
 	
 	if ($@) {
@@ -88,16 +101,15 @@ sub get_data{
 	ok(!$@ , 'Valid return structure') ;
 	
 	# Is output as expected
-	if (`diff $test_data_path/$id.$value.$script $test_out_path/$id.$value.$script`){
-		$success = 0; 
-	}
-	else{
-		$success = 1;
-	};
+	# if (`diff $test_data_path/$id.$value.$script $test_out_path/$id.$value.$script`){
+	#	$success = 0; 
+	# }
+	# else{
+	# 	$success = 1;
+	# };
 	
 	ok(!`diff $test_data_path/$id.$value.$script $test_out_path/$id.$value.$script` , 'Output identical to precomputed data');
 	
-	close(FILE);
+
 	
-	return $success;
 }

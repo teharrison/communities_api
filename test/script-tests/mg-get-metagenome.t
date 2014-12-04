@@ -62,7 +62,7 @@ sub get_data{
 	
 	system("$script --id $id --verbosity $value > $test_out_path/$id.$value.$script") ;
 	
-	open(FILE , "$test_out_path/out.tmp") ;
+	open(FILE , "$test_out_path/$id.$value.$script") ;
 	my $txt = <FILE> ;
 	
 	
