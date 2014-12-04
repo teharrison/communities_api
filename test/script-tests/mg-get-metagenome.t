@@ -11,14 +11,15 @@ use JSON;
 my $script = "mg-get-metagenome" ;
 
 # assumption scripts are always in path
-my $topDir = $ENV{KB_TOP} || "/";
-my $service_repo = "communities_api" ;
-my $script_path = $topDir . "" ;
-my $num_tests   = 0;
-my $json        = new JSON;
-my $success     = 1;
-my $test_data_path = shift @ARGV || join "/" , $topDir , "dev_container/modules" , $service_repo , "test/data" ;
-my $test_out_path  = shift @ARGV || "./" ;
+my $topDir 			= $ENV{KB_TOP} || "/";
+my $service_repo 	= "communities_api" ;
+my $script_path 	= $topDir . "" ;
+my $num_tests   	= 0;
+my $json        	= new JSON;
+my $success     	= 1;
+my $test_data_path 	= shift @ARGV || join "/" , $topDir , "dev_container/modules" , $service_repo , "test/data" ;
+my $test_out_path  	= shift @ARGV || "./" ;
+my $create_test_data = 1;
 
 #my $test_path = "/Users/Andi/Development/kbase/communities_api/scripts" ;
 
@@ -55,7 +56,10 @@ sub get_data{
 	my ($id, $value) 	= @_;
 	my $success 		= undef ;
 	
-	system("$script --id $id --verbosity $value > $test_out_path/out.tmp") ;
+	# create test data
+	system("$script --id $id --verbosity $value > $test_data_path/$id.$value.$script") if ($create_test_data); 
+	
+	system("$script --id $id --verbosity $value > $test_out_path/$id.$value.$script") ;
 	
 	open(FILE , "$test_out_path/out.tmp") ;
 	my $txt = <FILE> ;
@@ -70,6 +74,14 @@ sub get_data{
 	if ($@) {
 		$success = 0;
 		diag($@);
+	}
+	elsif( -f "$test_data_path/$id.$value.$script"){
+		if (`diff $test_data_path/$id.$value.$script $test_outh_path/$id.$value.$script`){
+			print "Test is true for $test_data_path/$id.$value.$script\n" ;
+		}
+		else{
+			print "Test is false for $test_data_path/$id.$value.$script\n";
+		}
 	}
 	else{
 		$success = 1;
