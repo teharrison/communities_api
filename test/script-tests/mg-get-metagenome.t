@@ -44,6 +44,7 @@ while (my $id = <IDs>){
 	
 	foreach my $verbosity ("minimal", "mixs",  "metadata",  "stats",  "full") {
 		ok(get_data($id,$verbosity) , "object for id $id and value $verbosity") ;
+		subtest get_data => \&get_data($id,$verbosity) ;
 	}
 	
 }
@@ -79,6 +80,8 @@ sub get_data{
 		$success = 1;
 	}
 	
+	ok(!$@ , 'Valid return structure') ;
+	
 	# Is output as expected
 	if (`diff $test_data_path/$id.$value.$script $test_out_path/$id.$value.$script`){
 		$success = 0; 
@@ -86,6 +89,8 @@ sub get_data{
 	else{
 		$success = 1;
 	};
+	
+	ok(!`diff $test_data_path/$id.$value.$script $test_out_path/$id.$value.$script` , 'Output identical to precomputed data');
 	
 	close(FILE);
 	
