@@ -90,15 +90,11 @@ sub get_data{
 		
 	};
 	
-	if ($@) {
-		$success = 0;
-		diag($@);
-	}
-	else{
-		$success = 1;
-	}
 	
 	ok(!$@ , 'Valid return structure') unless($@ =~/ERROR: no data found for the given combination of ids and paramaters/);
+	diag($@) if ($@);
+	
+	
 	
 	# Is output as expected
 	# if (`diff $test_data_path/$id.$value.$script $test_out_path/$id.$value.$script`){
