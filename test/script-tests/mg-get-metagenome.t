@@ -76,7 +76,7 @@ sub get_data{
 		diag($@);
 	}
 	elsif( -f "$test_data_path/$id.$value.$script"){
-		if (`diff $test_data_path/$id.$value.$script $test_outh_path/$id.$value.$script`){
+		if (`diff $test_data_path/$id.$value.$script $test_out_path/$id.$value.$script`){
 			print "Test is true for $test_data_path/$id.$value.$script\n" ;
 		}
 		else{
