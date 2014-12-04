@@ -75,17 +75,18 @@ sub get_data{
 		$success = 0;
 		diag($@);
 	}
-	elsif( -f "$test_data_path/$id.$value.$script"){
-		if (`diff $test_data_path/$id.$value.$script $test_out_path/$id.$value.$script`){
-			print "Test is true for $test_data_path/$id.$value.$script\n" ;
-		}
-		else{
-			print "Test is false for $test_data_path/$id.$value.$script\n";
-		}
-	}
 	else{
 		$success = 1;
 	}
+	
+	# Is output as expected
+	if (`diff $test_data_path/$id.$value.$script $test_out_path/$id.$value.$script`){
+		$success = 0; 
+	}
+	else{
+		$success = 1;
+	};
+	
 	close(FILE);
 	
 	return $success;
