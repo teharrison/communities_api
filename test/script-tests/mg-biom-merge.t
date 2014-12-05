@@ -51,8 +51,13 @@ close(IDs);
 
 while (scalar @list ge 3){
 	
-	my @triple = (shift @list , shift @list , shift @list) ;
+	# create triple, slide through id list
+	my @triple = (shift @list , $list[0] , $list[1]) ;
 	
+	# not used yet
+	my $source = "Subsystems" ;
+	
+	# loop through existing profiles/parameters, retrieve profiles and merge them
 	foreach my $evalue ("5","10","15" ) {
 		ok(get_data(\@triple,$evalue,$source) , "object for id ". join(" " , @triple ) ." and value $evalue") ;
 		subtest get_data => sub { get_data(\@triple,$evalue) } ;
