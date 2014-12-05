@@ -80,10 +80,17 @@ sub get_data{
 
 	my @tmp ;
 	foreach my $i (@$ids){
-		push @tmp , "$test_data_path/$i.$value.mg-compare-function" ;
+		push @tmp , "$test_data_path/$i.$value.mg-compare-function" if (-f "$test_data_path/$i.$value.mg-compare-function");
 	}
 	my $list   = join " " , @tmp ;
 	my $prefix = join "-" , @tmp ;
+	
+	
+    SKIP: {
+         skip "not enough data for this parameter set", 2 if (@tmp < 3);
+
+        
+     
 	
 	my $txt = `$script $list` ;
 
@@ -128,5 +135,5 @@ sub get_data{
 	ok(!`diff $test_data_path/$prefix.$value.$script $test_out_path/$prefix.$value.$script` , 'Output identical to precomputed data');
 	
 
-	
+}
 }
