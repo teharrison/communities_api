@@ -49,7 +49,7 @@ close(IDs);
 
 # loop throug list and create triples
 
-while (scalar @list ge 3){
+while ( @list >= 3){
 	
 	# create triple, slide through id list
 	my @triple = (shift @list , $list[0] , $list[1]) ;
