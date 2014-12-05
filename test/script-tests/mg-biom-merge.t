@@ -86,9 +86,12 @@ sub get_data{
 	my $prefix = join "-" , @tmp ;
 	
 	
-    SKIP: {
-         skip "not enough data for this parameter set", 2 if (@tmp < 3);
-
+	#skip test if not enough data availbale for given parameter set
+   	if (@tmp < 3){
+		diag("Skipping test");
+		diag("Files:" , @tmp);
+		return 1;
+	}
         
      
 	
