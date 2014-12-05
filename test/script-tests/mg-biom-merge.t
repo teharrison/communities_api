@@ -85,17 +85,17 @@ sub get_data{
 	foreach my $i (@$ids){
 		
 		if($create_test_data){
-			system("$script --ids $i --source Subsystems --format biom --evalue $value > $test_data_path/$id.$value.mg-compare-function") unless (-f "$test_data_path/$i.$value.mg-compare-function")
+		    system("$script --ids $i --source Subsystems --format biom --evalue $value > $test_data_path/$i.$value.mg-compare-functions") unless (-f "$test_data_path/$i.$value.mg-compare-functions");
 		}
 		
-		push @tmp , "$test_data_path/$i.$value.mg-compare-function" if (-f "$test_data_path/$i.$value.mg-compare-function");
+		push @tmp , "$test_data_path/$i.$value.mg-compare-functions" if (-f "$test_data_path/$i.$value.mg-compare-functions");
 	}
 	my $list   = join " " , @tmp ;
 	my $prefix = join "-" , @tmp ;
 	
 	
 	#skip test if not enough data availbale for given parameter set
-   	if (@tmp < 3 and no){
+   	if (@tmp < 3){
 		diag("Skipping test");
 		diag("Files:" , @tmp);
 		return 1;
