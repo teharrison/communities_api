@@ -86,7 +86,9 @@ sub get_data{
 	my $prefix = join "-" , @tmp ;
 	
 	my $txt = `$script $list` ;
-	
+
+	print "$script $list";
+	print $txt , "\n";
 	
 	# check if txt is json
 	eval{
