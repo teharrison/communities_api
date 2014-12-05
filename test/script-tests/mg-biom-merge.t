@@ -80,7 +80,7 @@ sub get_data{
 
 	my @tmp ;
 	foreach my $i (@$ids){
-		push @tmp , "$test_data_path/$i.$value.mg-compare-function" if (-f "$test_data_path/$i.$value.mg-compare-function");
+		push @tmp , "$test_data_path/$i.$value.mg-compare-function" if (-f "$test_data_path/$i.$value.mg-compare-function" and not $create_test_data);
 	}
 	my $list   = join " " , @tmp ;
 	my $prefix = join "-" , @tmp ;
