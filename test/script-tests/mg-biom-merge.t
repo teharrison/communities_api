@@ -54,8 +54,8 @@ while (scalar @list ge 3){
 	my @triple = (shift @list , shift @list , shift @list) ;
 	
 	foreach my $evalue ("5","10","15" ) {
-		ok(get_data(\@triple,$evalue,$source) , "object for id $id and value $evalue") ;
-		subtest get_data => sub { get_data($id,$evalue) } ;
+		ok(get_data(\@triple,$evalue,$source) , "object for id ". join(" " , @triple ) ." and value $evalue") ;
+		subtest get_data => sub { get_data(\@triple,$evalue) } ;
 	}
 	
 }
@@ -75,7 +75,7 @@ sub get_data{
 
 	my @tmp ;
 	foreach my $i (@$ids){
-		push @tmp , "$test_data_path/$id.$value.mg-compare-function" ;
+		push @tmp , "$test_data_path/$i.$value.mg-compare-function" ;
 	}
 	my $list   = join " " , @tmp ;
 	my $prefix = join "-" , @tmp ;
