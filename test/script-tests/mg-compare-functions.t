@@ -19,7 +19,7 @@ my $json        	= new JSON;
 my $success     	= 1;
 my $test_data_path 	= shift @ARGV || join "/" , $topDir , "dev_container/modules" , $service_repo , "test/data" ;
 my $test_out_path  	= shift @ARGV || "./" ;
-my $create_test_data = 1;
+my $create_test_data = 0;
 
 
 
@@ -46,7 +46,7 @@ open(IDs , "$test_data_path/ids.wgs.txt") or die "No test data file $test_data_p
 while (my $id = <IDs>){
 	chomp $id ;
 	
-	foreach my $verbosity ("5", "10",  "15" ) {
+	foreach my $verbosity ("5","10","15" ) {
 		ok(get_data($id,$verbosity) , "object for id $id and value $verbosity") ;
 		subtest get_data => sub { get_data($id,$verbosity) } ;
 	}
@@ -89,9 +89,8 @@ sub get_data{
 		}
 		
 	};
-	
-	
-	ok(!$@ , 'Valid return structure') unless($@ =~/ERROR: no data found for the given combination of ids and paramaters/);
+		
+	ok(!$@ , 'Valid return structure') if ($txt);
 	diag($@) if ($@);
 	
 	
