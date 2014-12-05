@@ -90,8 +90,7 @@ sub get_data{
 		
 	};
 	
-	
-	ok(!$@ , 'Valid return structure') unless($@ =~/ERROR: no data found for the given combination of ids and paramaters/);
+	ok(!$@ , 'Valid return structure') 	if ($txt);
 	diag($@) if ($@);
 	
 	
