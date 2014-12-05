@@ -91,7 +91,7 @@ sub get_data{
 		push @tmp , "$test_data_path/$i.$value.mg-compare-functions" if (-f "$test_data_path/$i.$value.mg-compare-functions");
 	}
 	my $list   = join " " , @tmp ;
-	my $prefix = join "-" , @tmp ;
+	my $prefix = join "-" , @$ids ;
 	
 	
 	#skip test if not enough data availbale for given parameter set
