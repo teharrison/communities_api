@@ -58,7 +58,7 @@ while ( @list >= 3){
 	my $source = "Subsystems" ;
 	
 	# loop through existing profiles/parameters, retrieve profiles and merge them
-	foreach my $evalue ("5","10","15" ) {
+	foreach my $evalue ("5","10") {
 		ok(get_data(\@triple,$evalue,$source) , "object for id ". join(" " , @triple ) ." and value $evalue") ;
 		subtest get_data => sub { get_data(\@triple,$evalue) } ;
 	}
@@ -76,18 +76,26 @@ sub get_data{
 	# create test data
 	# system("$script --ids $id --source Subsystems --format biom --evalue $value > $test_data_path/$id.$value.$script") if ($create_test_data); 
 	
+	
+	
+	
 	#  mg-biom-merge [ --help --retain_dup_ids ] biom1 biom2 [ biom3 biom4 ... ]
 
 	my @tmp ;
 	foreach my $i (@$ids){
-		push @tmp , "$test_data_path/$i.$value.mg-compare-function" if (-f "$test_data_path/$i.$value.mg-compare-function" and not $create_test_data);
+		
+		if($create_test_data){
+			system("$script --ids $i --source Subsystems --format biom --evalue $value > $test_data_path/$id.$value.mg-compare-function") unless (-f "$test_data_path/$i.$value.mg-compare-function")
+		}
+		
+		push @tmp , "$test_data_path/$i.$value.mg-compare-function" if (-f "$test_data_path/$i.$value.mg-compare-function");
 	}
 	my $list   = join " " , @tmp ;
 	my $prefix = join "-" , @tmp ;
 	
 	
 	#skip test if not enough data availbale for given parameter set
-   	if (@tmp < 3){
+   	if (@tmp < 3 and no){
 		diag("Skipping test");
 		diag("Files:" , @tmp);
 		return 1;
