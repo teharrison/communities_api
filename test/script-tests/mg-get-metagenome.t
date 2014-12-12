@@ -17,7 +17,7 @@ my $script_path 	= $topDir . "" ;
 my $num_tests   	= 0;
 my $json        	= new JSON;
 my $success     	= 1;
-my $test_data_path 	= shift @ARGV || join "/" , $topDir , "dev_container/modules" , $service_repo , "test/data" ;
+my $test_data_path 	= shift @ARGV || join "/" , $topDir , "../dev_container/modules" , $service_repo , "test/data" ;
 my $test_out_path  	= shift @ARGV || "./" ;
 my $create_test_data = 0;
 
