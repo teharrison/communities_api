@@ -19,8 +19,8 @@ my $json        	= new JSON;
 my $success     	= 1;
 my $test_data_path 	= shift @ARGV || join "/" , $topDir , "dev_container/modules" , $service_repo , "test/data" ;
 my $test_out_path  	= shift @ARGV || "./" ;
-my $create_test_data = 0;
-my $debug            = 0;
+my $create_test_data = 1;
+my $debug            = 1;
 
 
 # test if script is in path
@@ -42,7 +42,7 @@ my @files ;
 opendir(DATA, $test_data_path) || die "Error: no test data dirctory: $test_data_path!\n";
 
 while(my $file = readdir DATA) {
-	push @files , $file if ($file =~ /.+\.mg-biom-merge/)
+	push @files , $file if ($file =~ /.+\.mg-biom-merge$/)
 }
 
 closedir DATA;
@@ -58,19 +58,19 @@ foreach my $file (@files){
 	# cluster function
 	my @cf = ("ward", "single", "complete","mcquitty", "median", "centroid") ;
 	# distance function
-	my @dm = ( "bray-curtis", "euclidean" , "maximum", "manhattan", "canberra", "minkowski", "difference" );
+	my @df = ( "bray-curtis", "euclidean" , "maximum", "manhattan", "canberra", "minkowski", "difference" );
 	
 	# loop through existing profiles/parameters, retrieve profiles and merge them
 	foreach my $cf (@cf) {
 		foreach my $df (@df){
-			ok(get_data( $file ,$cf , $df) , "object for file $file and value $cf , $df") ;
+			#ok(get_data( $file ,$cf , $df) , "object for file $file and value $cf , $df") ;
 			subtest get_data => sub { get_data( $file ,$cf , $df ) } ;
 		}
 	}
 	
 }
 
-close(IDs);
+
 
 
 
@@ -79,7 +79,7 @@ sub get_data{
 	my $success 		= undef ;
 	
 	# create test data
-	system("$script --input $file --format biom --cluster $cf --distance $df > $test_data_path/$file.$cf.$df.$script") if ($create_test_data); 
+	#system("$script --input $file --format biom --cluster $cf --distance $df > $test_data_path/$file.$cf.$df.$script") if ($create_test_data); 
 	
 	
 	
@@ -87,34 +87,36 @@ sub get_data{
 	#  mg-compare-heatmap [ --help, --input <input file or stdin>, --format <cv: 'text' or 'biom'>, --name <boolean>, --cluster <cv: ward, single, complete,
 	#  mcquitty, median, centroid>, --distance <cv: bray-curtis, euclidean, maximum, manhattan, canberra, minkowski, difference>, --normalize <boolean> ]
 
-
+	if ($debug){
+            diag("$script --input $test_data_path/$file --format biom --cluster $cf --distance $df\n");
+	}     
+	
 		
 		if($create_test_data){
-		    system("$script --input $file --format biom --cluster $cf --distance $df > $test_data_path/$file.$cf.$df.$script") unless (-f "$test_data_path/$file.$cf.$df.$script");
+		    system("$script --input $test_data_path/$file --format biom --cluster $cf --distance $df > $test_data_path/$file.$cf.$df.$script") ; #unless (-f "$test_data_path/$file.$cf.$df.$script");
 		}
 		
-		
-        
-     
-	
-	my $txt = `$script --input $file --format biom --cluster $cf --distance $df` ;
+	my $out = `$script --input $test_data_path/$file --format biom --cluster $cf --distance $df > $test_out_path/$file.$cf.$df.$script` ;
+
+	ok(-f "$test_out_path/$file", "got data for file $file and value $cf , $df");
 
 	if ($debug){
-	    print "$script $list";
-	    print $txt , "\n";
+	    #print "$script --input $file --format biom --cluster $cf --distance $df";
+	    print $out , "\n";
 	}
+
+	my $txt = '' ;
+	open(FILE , "$test_out_path/$file.$cf.$df.$script") ;
+	while (my $t = <FILE> ) {
+	    $txt .= $t ;
+	}
+	close(FILE) ;
 
 	# check if txt is json
 	eval{
 		my $o = $json->decode($txt) ;
-		# print Dumper $o ;
-		
-				
-		# dump into file
-		open(OUT , ">$test_out_path/$prefix.$value.$script") or die "Can't write to $test_out_path/$prefix.$value.$script" ;
-		print OUT $json->encode($o) ;
-		close(OUT) ;
-		
+		diag(Dumper $o) if ($debug) ;
+		diag($txt) if ($debug);
 	};
 		
 	ok(!$@ , 'Valid return structure') if ($txt);
@@ -130,7 +132,7 @@ sub get_data{
 	# 	$success = 1;
 	# };
 	
-	ok(!`diff $test_data_path/$prefix.$value.$script $test_out_path/$prefix.$value.$script` , 'Output identical to precomputed data');
+	ok(!`diff $test_data_path/$file.$cf.$df.$script $test_out_path/$file.$cf.$df.$script` , 'Output identical to precomputed data');
 	
 
 }
