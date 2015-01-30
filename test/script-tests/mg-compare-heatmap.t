@@ -98,7 +98,7 @@ sub get_data{
 		
 	my $out = `$script --input $test_data_path/$file --format biom --cluster $cf --distance $df > $test_out_path/$file.$cf.$df.$script` ;
 
-	ok(-f "$test_out_path/$file", "got data for file $file and value $cf , $df");
+	ok(-f "$test_out_path/$file.$cf.$df.$script", "got data for file $file and value $cf , $df");
 
 	if ($debug){
 	    #print "$script --input $file --format biom --cluster $cf --distance $df";
