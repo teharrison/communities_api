@@ -59,8 +59,9 @@ while ( @list >= 3){
 	
 	# loop through existing profiles/parameters, retrieve profiles and merge them
 	foreach my $evalue ("5","10") {
-		ok(get_data(\@triple,$evalue,$source) , "object for id ". join(" " , @triple ) ." and value $evalue") ;
-		subtest get_data => sub { get_data(\@triple,$evalue) } ;
+	    # ok(get_data(\@triple,$evalue,$source) , "object for id ". join(" " , @triple ) ." and value $evalue") ;
+	    diag("Testing parameter id ". join(" " , @triple ) ." and value $evalue");
+	    subtest get_data => sub { get_data(\@triple,$evalue) } ;
 	}
 	
 }
@@ -144,8 +145,8 @@ sub get_data{
 	# else{
 	# 	$success = 1;
 	# };
-	
-	ok(!`diff $test_data_path/$prefix.$value.$script $test_out_path/$prefix.$value.$script` , 'Output identical to precomputed data');
-	
+	unless(`diff $test_data_path/$prefix.$value.$script $test_out_path/$prefix.$value.$script`){
+	    ok(!`diff $test_data_path/$prefix.$value.$script $test_out_path/$prefix.$value.$script` , 'Output identical to precomputed data');
+	};
 
 }
