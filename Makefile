@@ -57,7 +57,6 @@ build-scripts:
 	-rm -rf tools
 	git submodule init tools
 	git submodule update tools
-	cd tools; git pull origin master
 	cp tools/tools/lib/* lib/.
 	cp tools/tools/bin/mg-* scripts/.
 	cp tools/tools/bin/jsonviewer.py scripts/mg-jsonviewer.py
@@ -65,6 +64,9 @@ build-scripts:
 	generate_commandline -template $(TOP_DIR)/template/communities.template -config config/commandline.conf -outdir api-scripts
 	cp api-scripts/* scripts/.
 	@echo "done building command line scripts"
+
+update-tools:
+	cd tools; git pull origin master
 
 build-docs:
 	api2html -url $(SERVICE_URL) -site_name "Communities API" -outfile docs/Communities_API.html
